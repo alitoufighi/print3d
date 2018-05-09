@@ -146,18 +146,17 @@ def print_it():
     if request.method == 'POST':
         try:
             req = request.json
-            if 'cd' in req:
-                gcode_file_address = req['cd']
+            gcode_file_address = req['cd']
             action = req['action']
-            status = {'status': 'success', 'status_code': 200}
+            # status = {'status': 'success', 'status_code': 200}
             percentage = 0
 
             if action == 'print':
-                try:
-                    printer.start_printing_thread(gcode_dir=gcode_file_address)
-                except Exception as e:
-                    print('ERROR:', e)
-                    status = {'status': str(e), 'status_code': 500}
+                # try:
+                printer.start_printing_thread(gcode_dir=gcode_file_address)
+                # except Exception as e:
+                #     print('ERROR:', e)
+                #     status = {'status': str(e), 'status_code': 500}
             elif action == 'stop':
                 printer.stop_printing()
             elif action == 'resume':
@@ -166,15 +165,13 @@ def print_it():
                 printer.pause_printing()
             elif action == 'percentage':
                 percentage = printer.get_percentage()
+            else:
+                raise 
 
-            return Response({
-                'status': status['status'],
-                'percentage': percentage,
-                'status_code': status['status_code']
-            })
+            return Response(status=200, {'percentage': percentage})
         except Exception as e:
             print('ERROR:', e)
-            return Response(status=501)
+            return Response(status=500)
 
 @app.route('/api/wifi', methods=['GET, POST'])
 def wifi():
