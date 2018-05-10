@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, url_for, Response, json
 from utils import Machine, Utils
 from os.path import isfile
+from flask import jsonify
+
 
 app = Flask(__name__)
 printer = Machine()
@@ -57,7 +59,7 @@ def usb_list():
             print('it wasn\'t file!')
             data = printer.get_connected_usb() if req['cd'] == '' else printer.get_usb_files(req['cd'])
             print('the files:', data)
-            return Response({'data': data, 'type': 'dir'}, status=200)
+            return jsonify(data = 'data', type = 'dir', status=200)
         except Exception as e:
             print("exception:", e)
             return Response(status=500)
@@ -168,7 +170,7 @@ def print_it():
             else:
                 raise 
 
-            return Response(status=200, {'percentage': percentage})
+            return jsonify(status=200, percentage = percentage)
         except Exception as e:
             print('ERROR:', e)
             return Response(status=500)
@@ -185,5 +187,5 @@ def wifi():
 
 if __name__ == '__main__':
     print('let\'s go')
-    subprocess.Popen(["chromium-browser"," --noerrdialog","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
+    subprocess.Popen(["chromium-browser"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
