@@ -32,6 +32,35 @@ def temperatures():
         }
         return jsonify(data), 200
 
+@app.route('/api/wifi', methods=['OPTIONS', 'POST'])
+def wifi():
+    """
+    OPTIONS:
+    {
+        list: String[]
+    }
+
+    POST:
+    {
+        ssid: String,
+        password: String
+    }
+    {
+        status: 'success' | 'failure'
+    }
+    """
+    try:
+        if request.method == 'OPTIONS':
+            return jsonify({'list': Utils.wifi_list()}), 200
+        elif request.method == 'POST':
+            un = request.json['ssid']
+            pw = request.json['password']
+            return jsonify({'status': Utils.wifi_con(un, pw)})
+    except Exception as e:
+        print('error in wifi:', e)
+        return Response(status=500)
+
+
 
 @app.route('/api/move_axis', methods=['POST'])
 def move_axis():
@@ -271,33 +300,6 @@ def print_it():
             print('ERROR:', e)
             return Response(status=500)
 
-@app.route('/api/wifi', methods=['GET, POST'])
-def wifi():
-    """
-    GET:
-    {
-        list: String[]
-    }
-
-    POST:
-    {
-        ssid: String,
-        password: String
-    }
-    {
-        status: 'success' | 'failure'
-    }
-    """
-    try:
-        if request.method == 'GET':
-            return jsonify({'list': Utils.wifi_list()}), 200
-        elif request.method == 'POST':
-            un = request.json['ssid']
-            pw = request.json['password']
-            return jsonify({'status': Utils.wifi_con(un, pw)})
-    except Exception as e:
-        print('error in wifi:', e)
-        return Response(status=500)
 
 @app.route('/api/ip', methods=['POST'])
 def ip_list():

@@ -583,7 +583,7 @@ class Machine:
         usually is 250000 because of machine-settings-database.db default
         """
         # print("I'm new.")
-        self.base_path = '/media/imans77'
+        self.base_path = '/media/pi'
         self.machine_baudrate = machine_baudrate
         self.machine_port = machine_port
         self.machine_serial = None

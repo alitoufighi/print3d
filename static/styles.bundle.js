@@ -436,6 +436,22 @@ exports.push([module.i, "/* You can add global styles to this file, and also imp
 
 /***/ }),
 
+/***/ "../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"sourceMap\":false}!../../../../material-design-icons/iconfont/material-icons.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__("../../../../css-loader/lib/url/escape.js");
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + escape(__webpack_require__("../../../../material-design-icons/iconfont/MaterialIcons-Regular.eot")) + "); /* For IE6-8 */\n  src: local('Material Icons'),\n       local('MaterialIcons-Regular'),\n       url(" + escape(__webpack_require__("../../../../material-design-icons/iconfont/MaterialIcons-Regular.woff2")) + ") format('woff2'),\n       url(" + escape(__webpack_require__("../../../../material-design-icons/iconfont/MaterialIcons-Regular.woff")) + ") format('woff'),\n       url(" + escape(__webpack_require__("../../../../material-design-icons/iconfont/MaterialIcons-Regular.ttf")) + ") format('truetype');\n}\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;  /* Preferred icon size */\n  display: inline-block;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n\n  /* Support for IE. */\n  -webkit-font-feature-settings: 'liga';\n          font-feature-settings: 'liga';\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"sourceMap\":false}!../../../../primeng/resources/primeng.min.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -570,6 +586,61 @@ module.exports = function escape(url) {
     return url
 }
 
+
+/***/ }),
+
+/***/ "../../../../material-design-icons/iconfont/MaterialIcons-Regular.eot":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.e79bfd88537def476913.eot";
+
+/***/ }),
+
+/***/ "../../../../material-design-icons/iconfont/MaterialIcons-Regular.ttf":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.a37b0c01c0baf1888ca8.ttf";
+
+/***/ }),
+
+/***/ "../../../../material-design-icons/iconfont/MaterialIcons-Regular.woff":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.012cf6a10129e2275d79.woff";
+
+/***/ }),
+
+/***/ "../../../../material-design-icons/iconfont/MaterialIcons-Regular.woff2":
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "MaterialIcons-Regular.570eb83859dc23dd0eec.woff2";
+
+/***/ }),
+
+/***/ "../../../../material-design-icons/iconfont/material-icons.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"sourceMap\":false}!../../../../material-design-icons/iconfont/material-icons.css");
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__("../../../../style-loader/addStyles.js")(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../css-loader/index.js??ref--7-1!../../postcss-loader/lib/index.js??postcss!./material-icons.css", function() {
+			var newContent = require("!!../../css-loader/index.js??ref--7-1!../../postcss-loader/lib/index.js??postcss!./material-icons.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 
@@ -873,7 +944,8 @@ function updateLink(linkElement, obj) {
 __webpack_require__("../../../../../src/styles.css");
 __webpack_require__("../../../../../src/assets/fonts/mat-icon-font/material-icons.css");
 __webpack_require__("../../../../../src/assets/fonts/iran-fonts/index.css");
-module.exports = __webpack_require__("../../../../primeng/resources/primeng.min.css");
+__webpack_require__("../../../../primeng/resources/primeng.min.css");
+module.exports = __webpack_require__("../../../../material-design-icons/iconfont/material-icons.css");
 
 
 /***/ })
