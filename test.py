@@ -186,4 +186,4 @@ def wifi():
 if __name__ == '__main__':
     print('let\'s go')
     subprocess.Popen(["chromium-browser"," --noerrdialog","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
-    app.run(debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
