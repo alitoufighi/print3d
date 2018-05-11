@@ -4,7 +4,6 @@ from os.path import isfile
 from flask import jsonify
 import subprocess
 
-
 app = Flask(__name__)
 printer = Machine()
 
@@ -13,6 +12,24 @@ printer = Machine()
 def hello():
     # TODO: Should be changed to route all the remainig path to this
     return render_template('index.html')
+
+@app.route('/api/temperatures', methods=['GET', 'POST'])
+def temperatures():
+    if request.method == 'GET':
+        printer.refresh_temp()
+        bed_temp = printer.get_bed_temp()
+        ext_temp = printer.get_extruder_temp()
+        data = {
+            'bed': {
+                'cur': bed_temp['current'],
+                'goal': bed_temp['point']
+            },
+            'ext': {
+                'cur': ext_temp['current'],
+                'goal': ext_temp['point']
+            }
+        }
+        return jsonify(data), 401
 
 
 @app.route('/api/move_axis', methods=['POST'])
@@ -81,7 +98,7 @@ def usb_list():
             req = request.json
             file_addr = req['cd']
             if file_addr.endswith('.gcode') and isfile(printer.base_path + '/' + file_addr):
-                return Response({'status': 'success', 'data': file_addr, 'type': 'file'})
+                return jsonify({'status': 'success', 'data': file_addr, 'type': 'file'})
             print('it wasn\'t file!')
             data = printer.get_connected_usb() if req['cd'] == '' else printer.get_usb_files(req['cd'])
             print('the files:', data)
