@@ -203,6 +203,31 @@ def bed_leveling():
 
 @app.route('/api/print', methods=['POST'])
 def print_it():
+    """
+    POST:
+    {
+        action: 'print' | 'stop' | 'pause' | 'resume' | 'percentage' | 'unfinished'
+        cd: String,
+        line: Number (Optional)
+    }
+    
+    default response:
+    {
+        status: 'success' | 'failure'
+        percentage: Number
+    }
+    unfinished response:
+    {
+        status: 'success' | 'failure'
+        unfinished: {
+            exist: True | False,
+            (if exist:)
+            cd: String,
+            line: Number
+        }
+    }
+
+    """
     if request.method == 'POST':
         try:
             req = request.json
@@ -226,13 +251,22 @@ def print_it():
             elif action == 'percentage':
                 percentage = printer.get_percentage()
             elif action == 'unfinished':
-                # TODO: should be completed
-                pass
-                # return the json as explained
+                cfup = printer.check_for_unfinished_print()
+                if cfup[0] === True:
+                    return jsonify({
+                        'status': 'success',
+                        'unfinished': {
+                            'exist': cfup[0],
+                            'cd': cfup[1][0],
+                            'line': cfup[1][1]
+                        }
+                    }), 200
+                else:
+                    return jsonify({'status': 'succes', 'unfinished': {'exist': False, 'cd': ''}}), 200
             else:
                 raise 
 
-            return jsonify(status=200, percentage = percentage)
+            return jsonify({'status': 'success', 'percentage': percentage}), 200
         except Exception as e:
             print('ERROR:', e)
             return Response(status=500)
@@ -263,6 +297,21 @@ def wifi():
             return jsonify({'status': Utils.wifi_con(un, pw)})
     except Exception as e:
         print('error in wifi:', e)
+        return Response(status=500)
+
+@app.route('/api/ip', methods=['POST'])
+def ip_list():
+    """
+    POST:
+    {
+        ips: String[]
+    }
+    """
+    try:
+        if request.method == 'POST':
+            return jsonify({'ips': Utils.get_ip_list()}), 200
+    except Exception as e:
+        print('error in getting ips:', e)
         return Response(status=500)
 
 @app.route('/', defaults={'path': ''})

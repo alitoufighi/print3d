@@ -1118,6 +1118,12 @@ class Utils():
         return '127.0.0.1' if ip == '0.0.0.0' else ip
 
     @staticmethod
+    def get_ip_list():
+    	# return ['192.168.0.0', '192.168.0.1']
+    	ips = os.popen('sudo hostname -I').read()
+    	return ips.split()
+
+    @staticmethod
     def wifi_con(un, pw):
         try:
             os.system('nmcli n on')
