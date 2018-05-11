@@ -11,11 +11,19 @@ printer = Machine()
 
 @app.route('/')
 def hello():
+    # TODO: Should be changed to route all the remainig path to this
     return render_template('index.html')
 
 
 @app.route('/api/move_axis', methods=['POST'])
 def move_axis():
+    """
+    POST:
+    {
+        axis: 'X' | 'Y' | 'Z' | 'All',
+        value: Number
+    }
+    """
     if request.method == 'POST':
         try:
             data = request.json
@@ -27,6 +35,12 @@ def move_axis():
 
 @app.route('/api/home', methods=['POST'])
 def home_machine():
+    """
+    POST:
+    {
+        axis: 'X' | 'Y' | 'Z' | 'All'
+    }
+    """
     if request.method == 'POST':
         try:
             axis = request.json['axis']
@@ -51,16 +65,27 @@ def release_motor():
 
 @app.route('/api/directory', methods=['POST'])
 def usb_list():
+    """
+    POST:
+    {
+        cd: String
+    }
+    {
+        data: String[],
+        type: 'dir' | 'file',
+        status: 'success' | 'failure'
+    }
+    """
     if request.method == 'POST':
         try:
             req = request.json
             file_addr = req['cd']
             if file_addr.endswith('.gcode') and isfile(printer.base_path + '/' + file_addr):
-                return Response({'data': file_addr, 'type': 'file'})
+                return Response({'status': 'success', 'data': file_addr, 'type': 'file'})
             print('it wasn\'t file!')
             data = printer.get_connected_usb() if req['cd'] == '' else printer.get_usb_files(req['cd'])
             print('the files:', data)
-            return jsonify(data = 'data', type = 'dir', status=200)
+            return jsonify(status='success', data = 'data', type = 'dir')
         except Exception as e:
             print("exception:", e)
             return Response(status=500)
@@ -68,6 +93,12 @@ def usb_list():
 
 @app.route('/api/fan_speed', methods=['POST'])
 def fan_speed():
+    """
+    POST:
+    {
+        status: 'ON' | 'Half' | 'OFF'
+    }
+    """
     if request.method == 'POST':
         try:
             status = request.json['status']
@@ -78,50 +109,52 @@ def fan_speed():
             return Response(status=500)
 
 
-@app.route('/api/set_hotend_temp', methods=['POST'])
-def set_hot_end_temp():
+@app.route('/api/heat', methods=['POST'])
+def heat():
+    """
+    POST
+    {
+        field: 'hotend' | 'bed',
+        action: 'heat' | 'cooldown',
+        value: Number
+    }
+    {
+        status: 'success' | 'failure'
+    }
+    """
     try:
-        value = request.json['value']
-        printer.set_hotend_temp(value)
-        return Response(status=200)
+        data = request.json
+        if data['field'] == 'hotend':
+            if data['action'] == 'heat':
+                printer.set_hotend_temp(data['value'])
+            elif data['action'] == 'cooldown':
+                printer.cooldown_hotend()
+            else:
+                raise
+        elif data['field'] == 'bed':
+            if data['action'] == 'heat':
+                printer.set_bed_temp(data['value'])
+            elif data['action'] == 'cooldown':
+                printer.cooldown_bed()
+            else:
+                raise
+        else:
+            raise
+
+        return Response({'status': 'success'}, status=200)
     except Exception as e:
-        print("ERROR:", e)
-        return Response(status=500)
-
-
-@app.route('/api/cooldown_hotend', methods=['POST'])
-def cool_down_hot_end():
-    try:
-        printer.cooldown_hotend()
-        return Response(status=200)
-    except Exception as e:
-        print("ERROR:", e)
-        return Response(status=500)
-
-
-@app.route('/api/set_bed_temp', methods=['POST'])
-def set_bed_temp():
-    try:
-        value = request.json['value']
-        printer.set_bed_temp(value)
-        return Response(status=200)
-    except Exception as e:
-        print("ERROR:", e)
-        return Response(status=500)
-
-
-@app.route('/api/cooldown_bed', methods=['POST'])
-def cool_down_bed():
-    try:
-        printer.cooldown_bed()
-        return Response(status=200)
-    except Exception as e:
-        print("ERROR:", e)
-        return Response(status=500)
+        print("Error in heating:", e)
+        return Response({'status': 'failure'}, status=500)
 
 
 @app.route('/api/extrude', methods=['POST'])
 def extrude():
+    """
+    POST:
+    {
+        value: Number
+    }
+    """
     if request.method == 'POST':
         try:
             data = request.json
@@ -134,6 +167,12 @@ def extrude():
 
 @app.route('/api/bedleveling', methods=['POST'])
 def bed_leveling():
+    """
+    POST:
+    {
+        stage: 1 | 2 | 3 | 4    
+    }
+    """
     if request.method == 'POST':
         try:
             stage = request.json['stage']
@@ -168,6 +207,10 @@ def print_it():
                 printer.pause_printing()
             elif action == 'percentage':
                 percentage = printer.get_percentage()
+            elif action == 'unfinished':
+                # TODO: should be completed
+                pass
+                # return the json as explained
             else:
                 raise 
 
@@ -178,6 +221,21 @@ def print_it():
 
 @app.route('/api/wifi', methods=['GET, POST'])
 def wifi():
+    """
+    GET:
+    {
+        list: String[]
+    }
+
+    POST:
+    {
+        ssid: String,
+        password: String
+    }
+    {
+        status: 'success' | 'failure'
+    }
+    """
     if request.method == 'GET':
         return Response({'list': Utils.wifi_list()})
     elif request.method == 'POST':

@@ -1125,7 +1125,7 @@ class Utils():
             return 'success'
         except Exception as e:
             print('ERROR:', e)
-            return 'failed'
+            return 'failure'
 
     @staticmethod
     def wifi_list():
