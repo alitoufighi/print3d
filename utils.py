@@ -1122,15 +1122,16 @@ class Utils():
         try:
             os.system('nmcli n on')
             os.system('nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw))
-            return 'SUCCESS'
+            return 'success'
         except Exception as e:
             print('ERROR:', e)
-            return 'FAILED'
+            return 'failed'
 
     @staticmethod
     def wifi_list():
         try:
-            x = os.popen('sudo iw dev wlp2s0 scan | grep SSID').read()
+            # is not always wlp2s0. on raspberry: wlan0
+            x = os.popen('sudo iw dev wlan0 scan | grep SSID').read()
             y = [m.split() for m in x.split('\n')]
             res = []
             for item in y[:-2]:
