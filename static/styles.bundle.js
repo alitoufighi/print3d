@@ -429,7 +429,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 exports.i(__webpack_require__("../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/lib/index.js?{\"ident\":\"postcss\",\"sourceMap\":false}!../../../material/prebuilt-themes/indigo-pink.css"), "");
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n\n.mat-dialog-container {\n  padding: 15px !important;\n  background-color: darkred;\n  border-radius: 20px !important;\n}\n", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n.mat-dialog-container {\n  padding: 15px !important;\n  background-color: darkred;\n  border-radius: 20px !important;\n}\n\nmat-progress-spinner, mat-progress-spinner svg {\n  width: 250px !important;\n  height: 250px !important;\n}\n\n.simple-text {\n  font-size: 1.4em !important;\n}\n\n.little-text {\n  font-size: 1em !important;\n}\n", ""]);
 
 // exports
 

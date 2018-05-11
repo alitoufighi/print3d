@@ -79,6 +79,7 @@ var AppComponent = (function () {
                 changes: [
                     'temps',
                     'percentage',
+                    'printTime',
                 ]
             },
         ];
@@ -159,12 +160,14 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__print_page_print_page_component__ = __webpack_require__("../../../../../src/app/print-page/print-page.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__settings_page_settings_page_component__ = __webpack_require__("../../../../../src/app/settings-page/settings-page.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -197,6 +200,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_14__tools_page_move_axis_move_axis_component__["a" /* MoveAxisComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__print_page_print_page_component__["a" /* PrintPageComponent */],
                 __WEBPACK_IMPORTED_MODULE_17__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__settings_page_settings_page_component__["a" /* SettingsPageComponent */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_5__app_routing__["a" /* routing */],
@@ -216,7 +220,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_17__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
             ],
             providers: [__WEBPACK_IMPORTED_MODULE_8__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_10__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_16__services_data_service__["a" /* DataService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]],
         })
     ], AppModule);
     return AppModule;
@@ -239,6 +243,8 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tools_page_homize_homize_component__ = __webpack_require__("../../../../../src/app/tools-page/homize/homize.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tools_page_move_axis_move_axis_component__ = __webpack_require__("../../../../../src/app/tools-page/move-axis/move-axis.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__print_page_print_page_component__ = __webpack_require__("../../../../../src/app/print-page/print-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__settings_page_settings_page_component__ = __webpack_require__("../../../../../src/app/settings-page/settings-page.component.ts");
+
 
 
 
@@ -256,6 +262,7 @@ var APP_ROUTES = [
     { path: 'homize', component: __WEBPACK_IMPORTED_MODULE_5__tools_page_homize_homize_component__["a" /* HomizeComponent */] },
     { path: 'move', component: __WEBPACK_IMPORTED_MODULE_6__tools_page_move_axis_move_axis_component__["a" /* MoveAxisComponent */] },
     { path: 'print', component: __WEBPACK_IMPORTED_MODULE_7__print_page_print_page_component__["a" /* PrintPageComponent */] },
+    { path: 'settings', component: __WEBPACK_IMPORTED_MODULE_8__settings_page_settings_page_component__["a" /* SettingsPageComponent */] },
 ];
 var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule */].forRoot(APP_ROUTES);
 
@@ -270,7 +277,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 3%;\r\n  margin: 4%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 3%;\r\n  margin: 3%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n", ""]);
 
 // exports
 
@@ -283,7 +290,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/main-page/main-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-1\" pItem [height]=\"'50px'\" fxFlex=\"15%\">Item 1</div>-->\r\n  <!--<div class=\"item item-2\" fxFlex=\"20%\" fxFlexOrder=\"3\">Item 2</div>-->\r\n  <!--<div class=\"item item-3\" fxFlex>Item 3</div>-->\r\n<!--</div>-->\r\n\r\n<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-4\" fxFlex fxFlexOffset=\"50px\"  fxFlexOffset.xs=\"0\">Item 4</div>-->\r\n  <!--<div class=\"item item-5\" fxFlex=\"200px\">Item 5</div>-->\r\n<!--</div>-->\r\n<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Bed</div>\r\n        <span class=\"little-text\">فعلی: °{{bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{bed.goal}}</span>\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\">2</div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Extrude</div>\r\n        <span class=\"little-text\">فعلی: °{{ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{ext.goal}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--<div class=\"container\">-->\r\n  <!--</div>-->\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" class=\"middle-part\">\r\n      <div class=\"item full-item\" fxFlex=\"100\">\r\n        <!--<br><br><br><br>-->\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" style=\"opacity: 0.4;\">\r\n        <img src=\"{{elements.settings?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">تنظیمات</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSelectUsbPage()\">\r\n        <img src=\"{{elements.print?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">پرینت</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.tools?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">ابزار</div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-1\" pItem [height]=\"'50px'\" fxFlex=\"15%\">Item 1</div>-->\r\n  <!--<div class=\"item item-2\" fxFlex=\"20%\" fxFlexOrder=\"3\">Item 2</div>-->\r\n  <!--<div class=\"item item-3\" fxFlex>Item 3</div>-->\r\n<!--</div>-->\r\n\r\n<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-4\" fxFlex fxFlexOffset=\"50px\"  fxFlexOffset.xs=\"0\">Item 4</div>-->\r\n  <!--<div class=\"item item-5\" fxFlex=\"200px\">Item 5</div>-->\r\n<!--</div>-->\r\n<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Bed</div>\r\n        <span class=\"little-text\">فعلی: °{{bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{bed.goal}}</span>\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\">IP to connect: 127.0.0.1:8000</div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Extrude</div>\r\n        <span class=\"little-text\">فعلی: °{{ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{ext.goal}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--<div class=\"container\">-->\r\n  <!--</div>-->\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" class=\"middle-part\">\r\n      <div class=\"item full-item\" fxFlex=\"100\">\r\n        <!--<br><br><br><br>-->\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSettingsPage()\">\r\n        <img src=\"{{elements.settings?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">تنظیمات</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSelectUsbPage()\">\r\n        <img src=\"{{elements.print?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">پرینت</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.tools?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">ابزار</div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -299,6 +306,8 @@ module.exports = "<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n   
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -315,10 +324,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var MainPageComponent = (function () {
-    function MainPageComponent(httpService, snackBar, progressService, router, dataService) {
+    function MainPageComponent(httpService, dialog, progressService, router, dataService) {
         this.httpService = httpService;
-        this.snackBar = snackBar;
+        this.dialog = dialog;
         this.progressService = progressService;
         this.router = router;
         this.dataService = dataService;
@@ -351,6 +362,44 @@ var MainPageComponent = (function () {
     }
     MainPageComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.dataService.checkUnfinishedProject()
+            .then(function (res) {
+            if (res && res === true) {
+                var rmDialog = _this.dialog.open(__WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
+                    width: '450px',
+                    data: {
+                        usage: __WEBPACK_IMPORTED_MODULE_8__shared_enum_dialogUsage__["a" /* DialogUsage */].UnfinishedPrinting,
+                    }
+                });
+                rmDialog.afterClosed().subscribe(function (status) {
+                    if (status) {
+                        return Promise.resolve({
+                            cd: _this.dataService.gcodePrintingFileDirectory,
+                        });
+                    }
+                });
+            }
+        })
+            .then(function (res) {
+            if (res && res['cd']) {
+                _this.progressService.enable();
+                _this.httpService.post('print', { cd: res['cd'], action: 'print' }).subscribe(function (data) {
+                    if (data['status'] === 'success') {
+                        _this.progressService.disable();
+                        _this.router.navigate(["/print"]);
+                    }
+                    else {
+                        console.error('problem occurred!', data);
+                    }
+                }, function (err) {
+                    _this.progressService.disable();
+                    console.error('network problems supposedly!', err);
+                });
+            }
+        })
+            .catch(function (rej) {
+            console.error('about unfinished project: ', rej);
+        });
         this.dataService.temps.subscribe(function (data) {
             _this.bed = data.bed;
             _this.ext = data.ext;
@@ -362,13 +411,16 @@ var MainPageComponent = (function () {
     MainPageComponent.prototype.goToToolsPage = function () {
         this.router.navigate(['/tools']);
     };
+    MainPageComponent.prototype.goToSettingsPage = function () {
+        this.router.navigate(["/settings"]);
+    };
     MainPageComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-main-page',
             template: __webpack_require__("../../../../../src/app/main-page/main-page.component.html"),
             styles: [__webpack_require__("../../../../../src/app/main-page/main-page.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["j" /* MatSnackBar */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["c" /* MatDialog */],
             __WEBPACK_IMPORTED_MODULE_3__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */],
             __WEBPACK_IMPORTED_MODULE_6__services_data_service__["a" /* DataService */]])
     ], MainPageComponent);
@@ -387,7 +439,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* SELECT USB */\r\nbody {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\nmat-progress-spinner {\r\n  left: 5px;\r\n}\r\n\r\n.value-percent {\r\n  position: relative;\r\n  top: -69px;\r\n  left: -23px;\r\n  font-size: 2em;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.short-padding {\r\n  padding: 10px;\r\n  background-color: red;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active, .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* SELECT USB */\r\nbody {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.print-buttons {\r\n  padding: 20px !important;\r\n  max-width: 70% !important;\r\n  max-height: 125px !important;\r\n  margin: 3px;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\nmat-progress-spinner {\r\n  left: 20%;\r\n  bottom: -50px;\r\n}\r\n\r\n.limit-height {\r\n  max-height: 100px;\r\n}\r\n\r\n.value-percent {\r\n  position: relative;\r\n  top: -139px;\r\n  left: 11px;\r\n  font-size: 7em;\r\n  font-weight: bold;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.short-padding {\r\n  padding: 10px;\r\n  background-color: red;\r\n}\r\n", ""]);
 
 // exports
 
@@ -400,7 +452,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/print-page/print-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"little-text\">فعلی: °{{temps.bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"little-text\">فعلی: °{{temps.ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">\n        <mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\">{{printPercent}}</div>\n        <!--<img src=\"{{elements.usb?.imageUrl}}\" alt=\"\">-->\n        <!--<div class=\"simple-text\">{{usbs.length > i ? usbs[i].substring(0, 12) : 'Empty'}}</div>-->\n      </div>\n      <!--<div fxFlex=\"1%\"></div>-->\n      <!--<div class=\"item full-item item-button\" fxFlex=\"24%\"-->\n           <!--(click)=\"addDir(usbs.length > (i + 1) ? usbs[i + 1] : '')\" [ngClass]=\"{'disable-like-button': usbs.length <= (i + 1)}\">-->\n        <!--<img src=\"{{elements.usb?.imageUrl}}\" alt=\"\">-->\n        <!--<div class=\"simple-text\">{{usbs.length > (i + 1) ? usbs[i + 1].substring(0, 12) : 'Empty'}}</div>-->\n      <!--</div>-->\n      <!--<div fxFlex=\"1%\"></div>-->\n      <!--<div class=\"item full-item item-button\" fxFlex=\"24%\"-->\n           <!--(click)=\"addDir(usbs.length > (i + 2) ? usbs[i + 2] : '')\" [ngClass]=\"{'disable-like-button': usbs.length <= (i + 2)}\">-->\n        <!--<img src=\"{{elements.usb?.imageUrl}}\" alt=\"\">-->\n        <!--<div class=\"simple-text\">{{usbs.length > (i + 2) ? usbs[i + 2].substring(0, 12) : 'Empty'}}</div>-->\n      <!--</div>-->\n      <!--<div fxFlex=\"1%\"></div>-->\n      <!--<div class=\"item full-item item-button\" fxFlex=\"24%\"-->\n           <!--(click)=\"addDir(usbs.length > (i + 3) ? usbs[i + 3] : '')\" [ngClass]=\"{'disable-like-button': usbs.length <= (i + 3)}\">-->\n        <!--<img src=\"{{elements.usb?.imageUrl}}\" alt=\"\">-->\n        <!--<div class=\"simple-text\">{{usbs.length > (i + 3) ? usbs[i + 3].substring(0, 12) : 'Empty'}}</div>-->\n      <!--</div>-->\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <!--<div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goBackToHomePage()\">-->\n        <!--<img src=\"{{elements.return?.imageUrl}}\">-->\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\n        <!--<div class=\"simple-text\">بازگشت</div>-->\n      <!--</div>-->\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"36%\" fxFlex=\"23%\" (click)=\"beforePrint('stop')\">\n        <img src=\"{{elements.stop?.imageUrl}}\">\n        <!--<i class=\"material-icons iconic-font\">keyboard_arrow_left</i>-->\n        <div class=\"simple-text\">توقف کامل</div>\n      </div>\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"23%\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n        <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n        <!--<i class=\"material-icons iconic-font\">keyboard_arrow_right</i>-->\n        <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n      </div>\n\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"little-text\">فعلی: °{{temps.bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <div class=\"simple-text\">زمان پرینت:</div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"little-text\">فعلی: °{{temps.ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\"\n                 (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\"\n                 (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">توقف کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\"\n                 (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\"\n                 (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">توقف کامل</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n      <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n        <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n        <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n      <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n    <!--</div>-->\n  <!--</div>-->\n</div>\n"
 
 /***/ }),
 
@@ -416,6 +468,7 @@ module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -425,6 +478,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -487,6 +541,28 @@ var PrintPageComponent = (function () {
         });
         this.dataService.percentage.subscribe(function (data) {
             _this.printPercent = data;
+            if (_this.printPercent === 100) {
+                _this.onFinishPrinting();
+            }
+        });
+        this.dataService.printTime.subscribe(function (data) {
+            _this.printTime = _this.dataService.stringizedTime(data);
+        });
+    };
+    PrintPageComponent.prototype.onFinishPrinting = function () {
+        var _this = this;
+        this.dataService.changeInterval('printTime', false);
+        this.dataService.changeInterval('percentage', false);
+        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
+            width: '500px',
+            data: {
+                usage: __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__["a" /* DialogUsage */].FinishPrinting,
+            }
+        });
+        rmDialog.afterClosed().subscribe(function (status) {
+            if (status) {
+                _this.goBackToHomePage();
+            }
         });
     };
     PrintPageComponent.prototype.beforePrint = function (action) {
@@ -494,7 +570,10 @@ var PrintPageComponent = (function () {
         if (action === void 0) { action = 'percentage'; }
         if (action === 'stop') {
             var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
-                width: '400px',
+                width: '450px',
+                data: {
+                    usage: __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__["a" /* DialogUsage */].StopPrinting,
+                }
             });
             rmDialog.afterClosed().subscribe(function (status) {
                 if (status) {
@@ -514,7 +593,14 @@ var PrintPageComponent = (function () {
                 console.log('OK');
                 _this.printingStatus = PrintStatus[action];
                 if (_this.printingStatus === PrintStatus.stop) {
+                    _this.dataService.setUpBasic('printTime');
                     _this.goBackToHomePage();
+                }
+                else if (_this.printingStatus === PrintStatus.pause) {
+                    _this.dataService.changeInterval('printTime', false);
+                }
+                else if (_this.printingStatus === PrintStatus.resume) {
+                    _this.dataService.changeInterval('printTime', true);
                 }
             }
             else {
@@ -575,10 +661,10 @@ module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectUsbComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -595,9 +681,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var SelectUsbComponent = (function () {
-    function SelectUsbComponent(httpService, snackBar, progressService, router) {
+    function SelectUsbComponent(httpService, dataService, progressService, router) {
         this.httpService = httpService;
-        this.snackBar = snackBar;
+        this.dataService = dataService;
         this.progressService = progressService;
         this.router = router;
         this.usbs = ['jfsidjfslijfseliofa', 'my name is iman sahebi', 'c.gcode', 'd', 'this is a long file.gcode', 'f'];
@@ -605,28 +691,28 @@ var SelectUsbComponent = (function () {
         this.i = 0;
         this.elements = {
             left: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/left.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/left.png',
             },
             right: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/right.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/right.png',
             },
             up: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
             },
             return: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
             },
             usb: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/usb.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/usb.png',
             },
             folder: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/folder.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/folder.png',
             },
             gcodeFile: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/file.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/file.png',
             },
             none: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/none.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/none.png',
             },
         };
     }
@@ -667,6 +753,7 @@ var SelectUsbComponent = (function () {
                 _this.cd = currentDir;
                 console.log('data received:', data);
                 if (data && data.type == 'file') {
+                    _this.dataService.gcodePrintingFileDirectory = _this.cd;
                     _this.httpService.post('print', { 'cd': _this.cd, 'action': 'print' }, true).subscribe(function (data) {
                         if (data.status === 'success') {
                             _this.progressService.disable();
@@ -675,6 +762,9 @@ var SelectUsbComponent = (function () {
                         else {
                             console.error('problem occurred!', data);
                         }
+                    }, function (err) {
+                        _this.progressService.disable();
+                        console.error('go to print page has problems: ', err);
                     });
                 }
                 else {
@@ -703,7 +793,7 @@ var SelectUsbComponent = (function () {
         }
     };
     SelectUsbComponent.prototype.getShortString = function (text, length) {
-        if (length === void 0) { length = 15; }
+        if (length === void 0) { length = 11; }
         var gcode = '.gcode';
         var dots = '...';
         if (text.length < length) {
@@ -733,8 +823,8 @@ var SelectUsbComponent = (function () {
             template: __webpack_require__("../../../../../src/app/select-usb/select-usb.component.html"),
             styles: [__webpack_require__("../../../../../src/app/select-usb/select-usb.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["j" /* MatSnackBar */],
-            __WEBPACK_IMPORTED_MODULE_3__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_5__services_data_service__["a" /* DataService */],
+            __WEBPACK_IMPORTED_MODULE_2__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */]])
     ], SelectUsbComponent);
     return SelectUsbComponent;
 }());
@@ -773,6 +863,7 @@ var DataService = (function () {
             'temps',
             'percentage',
         ];
+        this.firstTouch = true;
         this.temps = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({
             bed: {
                 cur: 0,
@@ -783,10 +874,40 @@ var DataService = (function () {
                 goal: 10,
             },
         });
-        this.firstTouch = true;
-        this.percentage = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](60);
+        // currentPercentage = 0;
+        this.percentage = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
+        this.currentPrintTime = 0;
+        this.printTime = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
+        this.gcodePrintingFileDirectory = 'some/default/directory';
         this.setTemps();
+        // setInterval(() => {
+        //   this.percentage.next(this.currentPercentage ++);
+        // }, 50)
     }
+    DataService.prototype.setUpBasic = function (name) {
+        if (name === 'percentage') {
+            this.percentage.next(0);
+        }
+        else if (name === 'printTime') {
+            this.currentPrintTime = 0;
+            this.printTime.next(0);
+        }
+    };
+    DataService.prototype.checkUnfinishedProject = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.httpService.post('print', { action: 'unfinished' }, true).subscribe(function (data) {
+                if (data['status'] === 'success') {
+                    if (data['unfinished'] && data['unfinished']['exist']) {
+                        _this.gcodePrintingFileDirectory = data['unfinished']['cd'];
+                        resolve(true);
+                    }
+                }
+            }, function (err) {
+                reject(false);
+            });
+        });
+    };
     DataService.prototype.changeInterval = function (name, activate) {
         if (activate === void 0) { activate = true; }
         if (!activate) {
@@ -796,7 +917,10 @@ var DataService = (function () {
             else if (name === 'percentage') {
                 clearInterval(this.percentageInterval);
             }
-            this.changeInterval(this[name]);
+            else if (name === 'printTime') {
+                clearInterval(this.printTimeInterval);
+            }
+            // this.changeInterval(this[name]) // Don't know what it was doing exactly :|
         }
         else {
             if (name === 'temps') {
@@ -804,6 +928,9 @@ var DataService = (function () {
             }
             else if (name === 'percentage') {
                 this.setPercentage();
+            }
+            else if (name === 'printTime') {
+                this.setPrintTime();
             }
         }
     };
@@ -841,6 +968,33 @@ var DataService = (function () {
                 console.error('percentage error', err);
             });
         }, 5000);
+    };
+    DataService.prototype.setPrintTime = function () {
+        var _this = this;
+        this.printTimeInterval = setInterval(function () {
+            // let's consider it a number for now, then we'll deal with the date
+            _this.currentPrintTime++;
+            _this.printTime.next(_this.currentPrintTime);
+        }, 1000);
+    };
+    DataService.prototype.stringizedTime = function (t) {
+        var days, hours, minutes, seconds;
+        days = Math.floor(t / 86400);
+        t -= days * 86400;
+        hours = Math.floor(t / 3600) % 24;
+        t -= hours * 3600;
+        minutes = Math.floor(t / 60) % 60;
+        t -= minutes * 60;
+        seconds = t % 60;
+        return [
+            days,
+            '-',
+            (hours > 9 ? hours : ('0' + hours)),
+            ':',
+            (minutes > 9 ? minutes : ('0' + minutes)),
+            ':',
+            (seconds > 9 ? seconds : ('0' + seconds))
+        ].join(' ');
     };
     DataService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
@@ -972,6 +1126,86 @@ var ProgressService = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/settings-page/settings-page.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings-page/settings-page.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\" style=\"text-align: center;\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"wifiPage()\">\n        <img class=\"no-border-rad\" style=\"max-height: 110px\" src=\"{{elements.wifi?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">Wifi</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goBackToHomePage()\">\n        <img src=\"{{elements.return?.imageUrl}}\">\n        <div class=\"simple-text\">بازگشت</div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings-page/settings-page.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SettingsPageComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SettingsPageComponent = (function () {
+    function SettingsPageComponent(router) {
+        this.router = router;
+        this.elements = {
+            wifi: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/wifi.png',
+            },
+            return: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+            },
+        };
+    }
+    SettingsPageComponent.prototype.ngOnInit = function () {
+    };
+    SettingsPageComponent.prototype.wifiPage = function () {
+        this.router.navigate(["/wifi"]);
+    };
+    SettingsPageComponent.prototype.goBackToHomePage = function () {
+        this.router.navigate(["/home"]);
+    };
+    SettingsPageComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-settings-page',
+            template: __webpack_require__("../../../../../src/app/settings-page/settings-page.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/settings-page/settings-page.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]])
+    ], SettingsPageComponent);
+    return SettingsPageComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/confirm/confirm.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -980,7 +1214,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "mat-card {\r\n  padding: 10px;\r\n  background-color: darkgrey;\r\n}\r\n\r\n.sub-title {\r\n  font-size: 0.8em;\r\n}\r\n\r\n.page {\r\n  font-family: iranyekan, sans-serif;\r\n  padding: 15px;\r\n  margin: 10px;\r\n}\r\n\r\n.center {\r\n  text-align: center;\r\n}\r\n\r\nmat-card-title {\r\n  font-family: iranyekan, sans-serif;\r\n  font-size: 1.5em !important;\r\n  text-align: center;\r\n  position: relative;\r\n  left: 114px;\r\n}\r\n", ""]);
+exports.push([module.i, "mat-card {\r\n  padding: 10px;\r\n  background-color: darkgrey;\r\n}\r\n\r\n.stop-header {\r\n  font-size: 1.7em;\r\n  left: -20px;\r\n  position: relative;\r\n}\r\n\r\n.sub-title {\r\n  font-size: 1.4em;\r\n}\r\n\r\n.page {\r\n  font-family: iranyekan, sans-serif;\r\n  padding: 15px;\r\n  margin: 10px;\r\n}\r\n\r\n.center {\r\n  text-align: center;\r\n}\r\n\r\nmat-card-title {\r\n  font-family: iranyekan, sans-serif;\r\n  font-size: 1.5em !important;\r\n  text-align: center;\r\n  position: relative;\r\n  left: 114px;\r\n}\r\n\r\n.finish-header {\r\n  direction: rtl;\r\n  left: -173px;\r\n  position: relative;\r\n  font-size: 2em;\r\n}\r\n\r\n.finish-content {\r\n  margin-top: -20px;\r\n}\r\n\r\n.right-content {\r\n  direction: rtl;\r\n  text-align: right;\r\n}\r\n\r\n.left-content {\r\n  direction: ltr;\r\n  text-align: left;\r\n}\r\n", ""]);
 
 // exports
 
@@ -993,7 +1227,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared/confirm/confirm.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card class=\"center\">\n  <mat-card-header class=\"content\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
+module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\nپرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
 
 /***/ }),
 
@@ -1004,6 +1238,8 @@ module.exports = "<mat-card class=\"center\">\n  <mat-card-header class=\"conten
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1018,12 +1254,24 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 
 
+
+
 var ConfirmComponent = (function () {
-    function ConfirmComponent(dialogRef, data) {
+    function ConfirmComponent(dialogRef, data, dataService) {
         this.dialogRef = dialogRef;
         this.data = data;
+        this.dataService = dataService;
     }
     ConfirmComponent.prototype.ngOnInit = function () {
+        this.usage = this.data && this.data['usage'];
+        if (this.usage === __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__["a" /* DialogUsage */].FinishPrinting) {
+            this.printInfo = {
+                dir: this.dataService.gcodePrintingFileDirectory,
+                time: this.dataService.stringizedTime(this.dataService.currentPrintTime),
+            };
+        }
+        else if (this.usage === __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__["a" /* DialogUsage */].UnfinishedPrinting) {
+        }
         // data = (this.data && this.data.name) ? this.data.name : null;
     };
     ConfirmComponent.prototype.remove = function (answer) {
@@ -1036,11 +1284,27 @@ var ConfirmComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/shared/confirm/confirm.component.css")]
         }),
         __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatDialogRef */], Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_3__services_data_service__["a" /* DataService */]])
     ], ConfirmComponent);
     return ConfirmComponent;
 }());
 
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/enum/dialogUsage.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DialogUsage; });
+var DialogUsage;
+(function (DialogUsage) {
+    DialogUsage[DialogUsage["StopPrinting"] = 0] = "StopPrinting";
+    DialogUsage[DialogUsage["FinishPrinting"] = 1] = "FinishPrinting";
+    DialogUsage[DialogUsage["UnfinishedPrinting"] = 2] = "UnfinishedPrinting";
+})(DialogUsage || (DialogUsage = {}));
+;
 
 
 /***/ }),
@@ -1076,7 +1340,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n  max-height: 215px !important;\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger:nth-child(2) {\r\n  /* THE BIG BLUE SIMPLE BACKGROUND :D */\r\n  /*margin-bottom: 20px;*/\r\n  /*background-color: #005E7C;*/\r\n\r\n  /*box-shadow: 0 20px 15px -10px blue;*/\r\n  /*opacity: 0.6;*/\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.shaped-text {\r\n  border: 11px solid black;\r\n  border-radius: 100px;\r\n  padding: 1px;\r\n  font-size: 6em;\r\n  background-color: #FFC593;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n  max-height: 215px !important;\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger:nth-child(2) {\r\n  /* THE BIG BLUE SIMPLE BACKGROUND :D */\r\n  /*margin-bottom: 20px;*/\r\n  /*background-color: #005E7C;*/\r\n\r\n  /*box-shadow: 0 20px 15px -10px blue;*/\r\n  /*opacity: 0.6;*/\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.shaped-text {\r\n  border: 11px solid black;\r\n  border-radius: 100px;\r\n  padding: 1px;\r\n  font-size: 6em !important;\r\n  background-color: #FFC593;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
 
 // exports
 
@@ -1206,7 +1470,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tools-page/move-axis/move-axis.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">X: {{axis.X}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Y: {{axis.Y}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Z: {{axis.Z}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div style=\"margin-bottom: 10px;\"></div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n        <!--<div class=\"simple-text\">X</div>-->\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <!--<div class=\"container\">-->\r\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\r\n      <!--&lt;!&ndash;<div fxFlex=\"80%\" fxFlexOffset=\"10%\">&ndash;&gt;-->\r\n\r\n      <!--&lt;!&ndash;</div>&ndash;&gt;-->\r\n      <!--<div fxFlex=\"13%\" fxFlexOffset=\"24%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">-->\r\n        <!--<i class=\"material-icons move-icon\">arrow_back</i>-->\r\n      <!--</div>-->\r\n      <!--<div fxFlex=\"13%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">-->\r\n        <!--<i class=\"material-icons move-icon\">arrow_downward</i>-->\r\n      <!--</div>-->\r\n      <!--<div fxFlex=\"13%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">-->\r\n        <!--&lt;!&ndash;<i class=\"material-icons move-icon\">arrow_forward</i>&ndash;&gt;-->\r\n        <!--&lt;!&ndash;<img src=\"{{elements.right?.imageUrl}}\" alt=\"\">&ndash;&gt;-->\r\n      <!--</div>-->\r\n      <!--<div fxFlex=\"13%\" fxFlexOffset=\"8%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">-->\r\n        <!--<i class=\"material-icons move-icon\">arrow_downward</i>-->\r\n      <!--</div>-->\r\n    <!--</div>-->\r\n  <!--</div>-->\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\r\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\r\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <mat-slider [max]=\"50\" [min]=\"0\" [step]=\"1\" [thumb-label]=\"true\"\r\n                  (change)=\"changeSlider($event)\" style=\"width: 60%\"></mat-slider>\r\n      <!--<div class=\"item full-item item-button-bigger\" fxFlexOffset=\"12%\" fxFlex=\"23%\">-->\r\n      <!--<img src=\"{{elements.return?.imageUrl}}\">-->\r\n      <!--<i class=\"material-icons iconic-font\">keyboard_arrow_left</i>-->\r\n      <!--<div class=\"simple-text\">عقب</div>-->\r\n      <!--</div>-->\r\n      <!--<div class=\"item full-item item-button-bigger\" fxFlex=\"23%\">-->\r\n      <!--<img src=\"{{elements.return?.imageUrl}}\">-->\r\n      <!--<i class=\"material-icons iconic-font\">keyboard_arrow_right</i>-->\r\n      <!--<div class=\"simple-text\">جلو</div>-->\r\n      <!--</div>-->\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">X: {{axis.X}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Y: {{axis.Y}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Z: {{axis.Z}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div style=\"margin-bottom: 5px;\"></div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n        <!--<div class=\"simple-text\">X</div>-->\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\r\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\r\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <mat-slider [max]=\"50\" [min]=\"0\" [step]=\"1\" [thumb-label]=\"true\"\r\n                  (change)=\"changeSlider($event)\" style=\"width: 60%\"></mat-slider>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1323,7 +1587,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tools-page/tools-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\" (click)=\"goToPage(elements.home?.routeTo)\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.home?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.home?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.heat?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.move?.routeTo)\">\n        <img src=\"{{elements.move?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.move?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.ext?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.ext?.title}}</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToPage(elements.return?.routeTo)\">\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.return?.title}}</div>\n      </div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlexOffset=\"26%\" fxFlex=\"24%\">\n        <img src=\"{{elements.bed?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.bed?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.fan?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.fan?.title}}</div>\n      </div>\n\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.home?.routeTo)\">\n        <img src=\"{{elements.home?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.home?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.heat?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.move?.routeTo)\">\n        <img src=\"{{elements.move?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.move?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.ext?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.ext?.title}}</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToPage(elements.return?.routeTo)\">\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.return?.title}}</div>\n      </div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlexOffset=\"26%\" fxFlex=\"24%\">\n        <img src=\"{{elements.bed?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.bed?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.fan?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.fan?.title}}</div>\n      </div>\n\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
