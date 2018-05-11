@@ -7,14 +7,15 @@ import subprocess
 app = Flask(__name__)
 printer = Machine()
 
-
-@app.route('/')
-def hello():
-    # TODO: Should be changed to route all the remainig path to this
-    return render_template('index.html')
-
-@app.route('/api/temperatures', methods=['GET', 'POST'])
+@app.route('/api/temperatures', methods=['GET'])
 def temperatures():
+    """
+    GET:
+    {
+        bed: {cur: Number, goal: Number},
+        ext: {cur: Number, goal: Number}
+    }
+    """
     if request.method == 'GET':
         printer.refresh_temp()
         bed_temp = printer.get_bed_temp()
@@ -29,7 +30,7 @@ def temperatures():
                 'goal': ext_temp['point']
             }
         }
-        return jsonify(data), 401
+        return jsonify(data), 200
 
 
 @app.route('/api/move_axis', methods=['POST'])
@@ -98,11 +99,11 @@ def usb_list():
             req = request.json
             file_addr = req['cd']
             if file_addr.endswith('.gcode') and isfile(printer.base_path + '/' + file_addr):
-                return jsonify({'status': 'success', 'data': file_addr, 'type': 'file'})
+                return jsonify({'status': 'success', 'data': file_addr, 'type': 'file'}), 200
             print('it wasn\'t file!')
             data = printer.get_connected_usb() if req['cd'] == '' else printer.get_usb_files(req['cd'])
             print('the files:', data)
-            return jsonify(status='success', data = 'data', type = 'dir')
+            return jsonify({'status':'success', 'data': data, 'type': 'dir'}), 200
         except Exception as e:
             print("exception:", e)
             return Response(status=500)
@@ -158,10 +159,10 @@ def heat():
         else:
             raise
 
-        return Response({'status': 'success'}, status=200)
+        return jsonify({'status': 'success'}), 200
     except Exception as e:
         print("Error in heating:", e)
-        return Response({'status': 'failure'}, status=500)
+        return jsonify({'status': 'failure'}), 500
 
 
 @app.route('/api/extrude', methods=['POST'])
@@ -253,15 +254,25 @@ def wifi():
         status: 'success' | 'failure'
     }
     """
-    if request.method == 'GET':
-        return Response({'list': Utils.wifi_list()})
-    elif request.method == 'POST':
-        un = request.json['ssid']
-        pw = request.json['password']
-        return Response(Utils.wifi_con(un, pw))
+    try:
+        if request.method == 'GET':
+            return jsonify({'list': Utils.wifi_list()}), 200
+        elif request.method == 'POST':
+            un = request.json['ssid']
+            pw = request.json['password']
+            return jsonify({'status': Utils.wifi_con(un, pw)})
+    except Exception as e:
+        print('error in wifi:', e)
+        return Response(status=500)
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def hello(path):
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
     print('let\'s go')
     subprocess.Popen(["chromium-browser","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
+
