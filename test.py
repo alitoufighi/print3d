@@ -179,10 +179,10 @@ def print_it():
 @app.route('/api/wifi', methods=['GET, POST'])
 def wifi():
     if request.method == 'GET':
-        return Response(Utils.wifi_list())
+        return Response({'list': Utils.wifi_list()})
     elif request.method == 'POST':
-        un = request.json['un']
-        pw = request.json['pw']
+        un = request.json['ssid']
+        pw = request.json['password']
         return Response(Utils.wifi_con(un, pw))
 
 
