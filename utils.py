@@ -583,7 +583,7 @@ class Machine:
         usually is 250000 because of machine-settings-database.db default
         """
         # print("I'm new.")
-        self.base_path = '/media/pi'
+        self.base_path = '/media/imans77'
         self.machine_baudrate = machine_baudrate
         self.machine_port = machine_port
         self.machine_serial = None
@@ -1045,14 +1045,16 @@ class Machine:
         """
         sub_dir = self.base_path + '/' + sub_dir
         files = os.listdir(sub_dir)
-        all_files_in_folder = []
+        folders, gcodes = [], []
         for name in files:
             if name.endswith('.gcode') :
-                all_files_in_folder.append(str(name))
+                gcodes.append(str(name))
             if os.path.isdir(os.path.join(sub_dir, name)):
-                all_files_in_folder.append(str(name))
+                folders.append(str(name))
 
-        return all_files_in_folder
+        for g in gcodes:
+        	folders.append(g)
+        return folders
 
     ''' print '''
     def start_printing_thread(self,gcode_dir,line=0):

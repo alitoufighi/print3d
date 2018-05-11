@@ -252,7 +252,7 @@ def print_it():
                 percentage = printer.get_percentage()
             elif action == 'unfinished':
                 cfup = printer.check_for_unfinished_print()
-                if cfup[0] === True:
+                if cfup[0] == True:
                     return jsonify({
                         'status': 'success',
                         'unfinished': {
@@ -322,6 +322,6 @@ def hello(path):
 
 if __name__ == '__main__':
     print('let\'s go')
-    subprocess.Popen(["chromium-browser","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
+    subprocess.Popen(["chromium-browser","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "--hide-scrollbars", "http://0.0.0.0"])
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
 
