@@ -675,10 +675,10 @@ class Machine:
                         '''retrun temp'''
                         data = self.machine_serial.readline().decode('utf-8')
                         splited = data.split(' ')
-                        self.extruder_temp['current'] = float(splited[1][2:])
-                        self.extruder_temp['point'] = float(splited[2][1:])
-                        self.bed_temp['current'] = float(splited[3][2:])
-                        self.bed_temp['point'] = float(splited[4][1:])
+                        self.extruder_temp['current'] = int(splited[1][2:])
+                        self.extruder_temp['point'] = int(splited[2][1:])
+                        self.bed_temp['current'] = int(splited[3][2:])
+                        self.bed_temp['point'] = int(splited[4][1:])
                         print (self.extruder_temp)
                         first_done = True
 
@@ -687,8 +687,8 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = float(splited[0][2:])
-                            self.bed_temp['current'] = float(splited[2][2:])
+                            self.extruder_temp['current'] = int(splited[0][2:])
+                            self.bed_temp['current'] = int(splited[2][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
 
@@ -697,7 +697,7 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = float(splited[0][2:])
+                            self.extruder_temp['current'] = int(splited[0][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
 
