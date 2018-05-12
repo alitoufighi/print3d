@@ -728,6 +728,7 @@ class Machine:
         self.__pause_flag = False
         command = None
         z_pos_offset = 0
+        e_pos_offset = 0
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
 
@@ -808,7 +809,20 @@ class Machine:
 
                 elif command.find('M0') == 0:
                     pass
-
+                
+                elif command.find('G1') == 0:
+                    Eresulte = command.find('E')
+                    if Eresulte != -1:
+                        '''get the last e before the machine trun off'''
+                        if e_pos_offset == 0 and line_to_go != 0:
+                            e_pos_offset = float(command[Eresulte + 1:])
+                        '''get the current e position of file'''
+                        e_pos = float(command[Eresulte + 1:])
+                        if line_to_go != 0:
+                            e_pos = e_pos - e_pos_offset
+                        command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
+                    self.append_gcode(command)
+                    
                 elif command.find('G0') == 0:
                     Zresulte = command.find('Z')
                     if Zresulte != -1:
