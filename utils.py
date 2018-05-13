@@ -22,7 +22,7 @@ class Machine:
         usually is 250000 because of machine-settings-database.db default
         """
         # print("I'm new.")
-        self.base_path = '/media/imans77'
+        self.base_path = '/media/pi'
         self.machine_baudrate = machine_baudrate
         self.machine_port = machine_port
         self.machine_serial = None
@@ -136,7 +136,7 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = float(splited[0][2:])
+                            self.extruder_temp['current'] = int(splited[0][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
 
@@ -167,6 +167,7 @@ class Machine:
         self.__pause_flag = False
         command = None
         z_pos_offset = 0
+        e_pos_offset = 0
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
 
@@ -176,7 +177,7 @@ class Machine:
 
         ''' read files lines'''
         for line in gcode_file:
-            lines.append(line[:-2])
+            lines.append(line)#[:-2])
 
         '''hibernate mode'''
         if line_to_go != 0:
@@ -247,7 +248,20 @@ class Machine:
 
                 elif command.find('M0') == 0:
                     pass
-
+                
+                elif command.find('G1') == 0:
+                    Eresulte = command.find('E')
+                    if Eresulte != -1:
+                        '''get the last e before the machine trun off'''
+                        if e_pos_offset == 0 and line_to_go != 0:
+                            e_pos_offset = float(command[Eresulte + 1:])
+                        '''get the current e position of file'''
+                        e_pos = float(command[Eresulte + 1:])
+                        if line_to_go != 0:
+                            e_pos = e_pos - e_pos_offset
+                        command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
+                    self.append_gcode(command)
+                    
                 elif command.find('G0') == 0:
                     Zresulte = command.find('Z')
                     if Zresulte != -1:
@@ -567,9 +581,12 @@ class Utils():
     @staticmethod
     def wifi_con(un, pw):
         try:
-            os.system('nmcli n on')
-            os.system('nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw))
-            return 'success'
+            os.popen('nmcli n on')
+            answer = os.popen('nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw)).read()
+            if answer.find('successfully')
+            	return 'success'
+            else:
+            	raise
         except Exception as e:
             print('ERROR:', e)
             return 'failure'

@@ -32,6 +32,39 @@ def temperatures():
         }
         return jsonify(data), 200
 
+@app.route('/api/wifi', methods=['OPTIONS', 'POST'])
+def wifi():
+    """
+    OPTIONS:
+    {
+        list: String[]
+    }
+
+    POST:
+    {
+        ssid: String,
+        password: String
+    }
+    {
+        status: 'success' | 'failure'
+    }
+    """
+    try:
+        if request.method == 'OPTIONS':
+            return jsonify({'list': Utils.wifi_list()}), 200
+        elif request.method == 'POST':
+            un = request.json['ssid']
+            pw = request.json['password']
+            ans = Utils.wifi_con(un, pw)
+            if ans == 'success':
+                return jsonify({'status': 'success'}), 200
+            else:
+                raise
+    except Exception as e:
+        print('error in wifi:', e)
+        return Response(status=500)
+
+
 
 @app.route('/api/move_axis', methods=['POST'])
 def move_axis():
@@ -269,7 +302,7 @@ def print_it():
                         }
                     }), 200
                 else:
-                    return jsonify({'status': 'succes', 'unfinished': {'exist': False, 'cd': ''}}), 200
+                    return jsonify({'status': 'success', 'unfinished': {'exist': False, 'cd': ''}}), 200
             else:
                 raise 
 
@@ -278,33 +311,6 @@ def print_it():
             print('ERROR:', e)
             return Response(status=500)
 
-@app.route('/api/wifi', methods=['OPTIONS, POST'])
-def wifi():
-    """
-    OPTIONS:
-    {
-        list: String[]
-    }
-
-    POST:
-    {
-        ssid: String,
-        password: String
-    }
-    {
-        status: 'success' | 'failure'
-    }
-    """
-    try:
-        if request.method == 'OPTIONS':
-            return jsonify({'list': Utils.wifi_list()}), 200
-        elif request.method == 'POST':
-            un = request.json['ssid']
-            pw = request.json['password']
-            return jsonify({'status': Utils.wifi_con(un, pw)})
-    except Exception as e:
-        print('error in wifi:', e)
-        return Response(status=500)
 
 @app.route('/api/ip', methods=['POST'])
 def ip_list():
@@ -316,7 +322,9 @@ def ip_list():
     """
     try:
         if request.method == 'POST':
-            return jsonify({'ips': Utils.get_ip_list()}), 200
+            ips = Utils.get_ip_list()
+            print('list of ips:' ips)
+            return jsonify({'ips': ips}), 200
     except Exception as e:
         print('error in getting ips:', e)
         return Response(status=500)
@@ -329,6 +337,6 @@ def hello(path):
 
 if __name__ == '__main__':
     print('let\'s go')
-    subprocess.Popen(["chromium-browser","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "--hide-scrollbars", "http://0.0.0.0"])
+    subprocess.Popen(["chromium-browser","--hide-scrollbars","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "--hide-scrollbars", "http://0.0.0.0"])
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
 
