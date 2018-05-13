@@ -1,11 +1,12 @@
 from flask import Flask, request, render_template, url_for, Response, json
-from utils import Machine, Utils
+from utils import Machine, Utils, Extra
 from os.path import isfile
 from flask import jsonify
 import subprocess
 
 app = Flask(__name__)
 printer = Machine()
+extra = Extra()
 
 @app.route('/api/temperatures', methods=['GET'])
 def temperatures():
@@ -17,20 +18,24 @@ def temperatures():
     }
     """
     if request.method == 'GET':
-        printer.refresh_temp()
-        bed_temp = printer.get_bed_temp()
-        ext_temp = printer.get_extruder_temp()
-        data = {
-            'bed': {
-                'cur': bed_temp['current'],
-                'goal': bed_temp['point']
-            },
-            'ext': {
-                'cur': ext_temp['current'],
-                'goal': ext_temp['point']
+        try:
+            printer.refresh_temp()
+            bed_temp = printer.get_bed_temp()
+            ext_temp = printer.get_extruder_temp()
+            data = {
+                'bed': {
+                    'cur': bed_temp['current'],
+                    'goal': bed_temp['point']
+                },
+                'ext': {
+                    'cur': ext_temp['current'],
+                    'goal': ext_temp['point']
+                }
             }
-        }
-        return jsonify(data), 200
+            return jsonify(data), 200
+        except Exception as e:
+            print('error in getting temps: ', e)
+            return Response(status=500)
 
 @app.route('/api/wifi', methods=['OPTIONS', 'POST'])
 def wifi():
@@ -66,15 +71,29 @@ def wifi():
 
 
 
-@app.route('/api/move_axis', methods=['POST'])
+@app.route('/api/move_axis', methods=['OPTIONS', 'POST'])
 def move_axis():
     """
+    OPTIONS:
+    {
+        access: Boolean (it needs homing first!)
+    }
+
     POST:
     {
         axis: 'X' | 'Y' | 'Z' | 'All',
         value: Number
     }
     """
+    if request.method == 'OPTIONS':
+        try:
+            if extra.checkHomeAxisAccess():
+                return jsonify({'access': True}), 200
+            else:
+                return jsonify({'access': False}), 200
+        except Exception as e:
+            print('error in gaining access for moving', e)
+            return Response(status=500)
     if request.method == 'POST':
         try:
             data = request.json
@@ -95,8 +114,8 @@ def home_machine():
     if request.method == 'POST':
         try:
             axis = request.json['axis']
-            print(axis)
             printer.Home_machine(axis)
+            extra.addHomeAxis(axis)
             return Response(status=200)
         except Exception as e:
             print("ERROR:", e)

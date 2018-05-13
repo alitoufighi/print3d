@@ -146,7 +146,7 @@ class Machine:
                         self.__Gcodes_return.pop(0)
                         first_done = False
             except Exception as ex:
-                print('kir2', ex)
+                print('error in gcode handler!', ex)
                 self.Gcode_handler_error_logs.append(ex)
                 if len(self.Gcode_handler_error_logs) > 9:
                     break
@@ -303,8 +303,8 @@ class Machine:
         try:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
-        except Exception as kir:
-            print('kir', kir)
+        except Exception as e:
+            print('error in reading file lines: ', e)
             pass
 
     def append_gcode(self,gcode,gcode_return=0):
@@ -575,7 +575,6 @@ class Utils():
     @staticmethod
     def get_ip_list():
     	# return ['192.168.0.0', '192.168.0.1']
-    	import time
     	time.sleep(1)
     	ips = os.popen('sudo hostname -I').read()
     	return ips.split()
@@ -590,7 +589,7 @@ class Utils():
             else:
             	raise
         except Exception as e:
-            print('ERROR:', e)
+            print('error in connecting to wifi:', e)
             return 'failure'
 
     @staticmethod
@@ -610,5 +609,21 @@ class Utils():
                     res.append(w)
             return res
         except Exception as e:
-            print('ERROR:', e)
+            print('ERROR in getting wifi list: ', e)
             return None
+
+
+class Extra():
+	def __init__(self):
+		self.homed_axis = []
+
+	def addHomeAxis(self, axis):
+		if axis != 'All' and axis not in self.homed_axis:
+			self.homed_axis.append(axis)
+		elif axis == 'All':
+			homed_axis = ['X', 'Y', 'Z']
+
+	def checkHomeAxisAccess(self):
+		if 'X' in self.homed_axis and 'Y' in self.homed_axis and 'Z' in self.homed_axis:
+			return True
+		return False
