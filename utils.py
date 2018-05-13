@@ -575,6 +575,8 @@ class Utils():
     @staticmethod
     def get_ip_list():
     	# return ['192.168.0.0', '192.168.0.1']
+    	import time
+    	time.sleep(1)
     	ips = os.popen('sudo hostname -I').read()
     	return ips.split()
 
@@ -583,7 +585,7 @@ class Utils():
         try:
             os.popen('nmcli n on')
             answer = os.popen('nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw)).read()
-            if answer.find('successfully')
+            if answer.find('successfully'):
             	return 'success'
             else:
             	raise

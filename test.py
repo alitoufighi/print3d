@@ -59,7 +59,7 @@ def wifi():
             if ans == 'success':
                 return jsonify({'status': 'success'}), 200
             else:
-                raise
+                return jsonify({'status': 'failure'})
     except Exception as e:
         print('error in wifi:', e)
         return Response(status=500)
@@ -323,7 +323,7 @@ def ip_list():
     try:
         if request.method == 'POST':
             ips = Utils.get_ip_list()
-            print('list of ips:' ips)
+            print('list of ips:', ips)
             return jsonify({'ips': ips}), 200
     except Exception as e:
         print('error in getting ips:', e)
@@ -337,6 +337,6 @@ def hello(path):
 
 if __name__ == '__main__':
     print('let\'s go')
-    subprocess.Popen(["chromium-browser","--hide-scrollbars","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "--hide-scrollbars", "http://0.0.0.0"])
+    subprocess.Popen(["chromium-browser","--disk-cache-dir=/dev/null","--disk-catch-size=1","--hide-scrollbars","--overscroll-history-navigation=0","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
 
