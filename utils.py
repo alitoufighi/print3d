@@ -737,7 +737,7 @@ class Machine:
 
         ''' read files lines'''
         for line in gcode_file:
-            lines.append(line[:-2])
+            lines.append(line)#[:-2])
 
         '''hibernate mode'''
         if line_to_go != 0:
