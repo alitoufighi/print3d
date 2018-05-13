@@ -82,6 +82,12 @@ var AppComponent = (function () {
                     'printTime',
                 ]
             },
+            {
+                pageName: 'tools-page',
+                changes: [
+                    'temps',
+                ]
+            },
         ];
         this.showProgressing = false;
         this.color = 'primary';
@@ -150,23 +156,39 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_routing__ = __webpack_require__("../../../../../src/app/app.routing.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_flex_layout__ = __webpack_require__("../../../flex-layout/esm5/flex-layout.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__tools_page_tools_page_component__ = __webpack_require__("../../../../../src/app/tools-page/tools-page.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__tools_page_homize_homize_component__ = __webpack_require__("../../../../../src/app/tools-page/homize/homize.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__tools_page_move_axis_move_axis_component__ = __webpack_require__("../../../../../src/app/tools-page/move-axis/move-axis.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__print_page_print_page_component__ = __webpack_require__("../../../../../src/app/print-page/print-page.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__settings_page_settings_page_component__ = __webpack_require__("../../../../../src/app/settings-page/settings-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ngx_material_keyboard_core__ = __webpack_require__("../../../../@ngx-material-keyboard/core/esm5/ngx-material-keyboard-core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/esm5/animations.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__tools_page_tools_page_component__ = __webpack_require__("../../../../../src/app/tools-page/tools-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__tools_page_homize_homize_component__ = __webpack_require__("../../../../../src/app/tools-page/homize/homize.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__tools_page_move_axis_move_axis_component__ = __webpack_require__("../../../../../src/app/tools-page/move-axis/move-axis.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__print_page_print_page_component__ = __webpack_require__("../../../../../src/app/print-page/print-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__settings_page_settings_page_component__ = __webpack_require__("../../../../../src/app/settings-page/settings-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__settings_page_wifi_wifi_component__ = __webpack_require__("../../../../../src/app/settings-page/wifi/wifi.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__tools_page_extrude_extrude_component__ = __webpack_require__("../../../../../src/app/tools-page/extrude/extrude.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__tools_page_bedleveling_bedleveling_component__ = __webpack_require__("../../../../../src/app/tools-page/bedleveling/bedleveling.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__base_template_base_template_component__ = __webpack_require__("../../../../../src/app/base-template/base-template.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_fan_fan_component__ = __webpack_require__("../../../../../src/app/shared/fan/fan.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__shared_heat_heat_component__ = __webpack_require__("../../../../../src/app/shared/heat/heat.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
+
+
+
+
 
 
 
@@ -195,31 +217,48 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_3__main_page_main_page_component__["a" /* MainPageComponent */],
                 __WEBPACK_IMPORTED_MODULE_4__select_usb_select_usb_component__["a" /* SelectUsbComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__tools_page_tools_page_component__["a" /* ToolsPageComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__tools_page_homize_homize_component__["a" /* HomizeComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__tools_page_move_axis_move_axis_component__["a" /* MoveAxisComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__print_page_print_page_component__["a" /* PrintPageComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__settings_page_settings_page_component__["a" /* SettingsPageComponent */],
+                __WEBPACK_IMPORTED_MODULE_13__tools_page_tools_page_component__["a" /* ToolsPageComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__tools_page_homize_homize_component__["a" /* HomizeComponent */],
+                __WEBPACK_IMPORTED_MODULE_15__tools_page_move_axis_move_axis_component__["a" /* MoveAxisComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__print_page_print_page_component__["a" /* PrintPageComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__settings_page_settings_page_component__["a" /* SettingsPageComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__settings_page_wifi_wifi_component__["a" /* WifiComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__tools_page_extrude_extrude_component__["a" /* ExtrudeComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__tools_page_bedleveling_bedleveling_component__["a" /* BedlevelingComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__base_template_base_template_component__["a" /* BaseTemplateComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__shared_fan_fan_component__["a" /* FanComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__shared_heat_heat_component__["a" /* HeatComponent */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_5__app_routing__["a" /* routing */],
-                __WEBPACK_IMPORTED_MODULE_11__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_12__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_9__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_10__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_21__angular_forms__["c" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_flex_layout__["a" /* FlexLayoutModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["k" /* MatSnackBarModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["g" /* MatProgressBarModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["h" /* MatProgressSpinnerModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["f" /* MatIconModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["i" /* MatSliderModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["b" /* MatCardModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["d" /* MatDialogModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["q" /* MatSnackBarModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["l" /* MatProgressBarModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["m" /* MatProgressSpinnerModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["i" /* MatIconModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["h" /* MatFormFieldModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["j" /* MatInputModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["n" /* MatSelectModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["k" /* MatOptionModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["o" /* MatSliderModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["c" /* MatCardModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["f" /* MatDialogModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["b" /* MatButtonModule */],
+                __WEBPACK_IMPORTED_MODULE_8__ngx_material_keyboard_core__["a" /* MatKeyboardModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["d" /* MatCheckboxModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["r" /* MatTabsModule */],
             ],
             entryComponents: [
-                __WEBPACK_IMPORTED_MODULE_17__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__shared_heat_heat_component__["a" /* HeatComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__shared_fan_fan_component__["a" /* FanComponent */],
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_8__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_10__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_16__services_data_service__["a" /* DataService */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_9__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_11__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_17__services_data_service__["a" /* DataService */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]],
         })
     ], AppModule);
@@ -244,6 +283,9 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tools_page_move_axis_move_axis_component__ = __webpack_require__("../../../../../src/app/tools-page/move-axis/move-axis.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__print_page_print_page_component__ = __webpack_require__("../../../../../src/app/print-page/print-page.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__settings_page_settings_page_component__ = __webpack_require__("../../../../../src/app/settings-page/settings-page.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__settings_page_wifi_wifi_component__ = __webpack_require__("../../../../../src/app/settings-page/wifi/wifi.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__tools_page_extrude_extrude_component__ = __webpack_require__("../../../../../src/app/tools-page/extrude/extrude.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__tools_page_bedleveling_bedleveling_component__ = __webpack_require__("../../../../../src/app/tools-page/bedleveling/bedleveling.component.ts");
 
 
 
@@ -253,6 +295,10 @@ var AppModule = (function () {
 
 
 
+
+
+
+// import {HeatComponent} from './shared/heat/heat.component';
 var APP_ROUTES = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */] },
@@ -261,10 +307,88 @@ var APP_ROUTES = [
     { path: 'tools', component: __WEBPACK_IMPORTED_MODULE_4__tools_page_tools_page_component__["a" /* ToolsPageComponent */] },
     { path: 'homize', component: __WEBPACK_IMPORTED_MODULE_5__tools_page_homize_homize_component__["a" /* HomizeComponent */] },
     { path: 'move', component: __WEBPACK_IMPORTED_MODULE_6__tools_page_move_axis_move_axis_component__["a" /* MoveAxisComponent */] },
+    { path: 'extrude', component: __WEBPACK_IMPORTED_MODULE_10__tools_page_extrude_extrude_component__["a" /* ExtrudeComponent */] },
+    // {path: 'heat', component: HeatComponent},
+    { path: 'bedleveling', component: __WEBPACK_IMPORTED_MODULE_11__tools_page_bedleveling_bedleveling_component__["a" /* BedlevelingComponent */] },
     { path: 'print', component: __WEBPACK_IMPORTED_MODULE_7__print_page_print_page_component__["a" /* PrintPageComponent */] },
     { path: 'settings', component: __WEBPACK_IMPORTED_MODULE_8__settings_page_settings_page_component__["a" /* SettingsPageComponent */] },
+    { path: 'wifi', component: __WEBPACK_IMPORTED_MODULE_9__settings_page_wifi_wifi_component__["a" /* WifiComponent */] },
 ];
 var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule */].forRoot(APP_ROUTES);
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/base-template/base-template.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".main-page-div {\r\n  position: relative;\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  text-align: center;\r\n  height: 432px;\r\n  width: 750px;\r\n}\r\n\r\n/* FOR TOP PART */\r\n.top-part {\r\n  background-color: #58DADA;\r\n  font-family: iranyekan, sans-serif;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.top-part * {\r\n  padding: 2%;\r\n}\r\n\r\n.title-normal {\r\n  font-size: 1.2em;\r\n}\r\n\r\n.title-elevated {\r\n  font-size: 1.2em;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* FOR MAIN PART */\r\n.main-part {\r\n  max-height: 175px !important;\r\n}\r\n\r\n.item {\r\n  padding: 0 2%;\r\n  margin: 3%;\r\n}\r\n\r\n.disabled-item {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disabled-item:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.item img {\r\n  border-radius: 100px;\r\n  max-width: 110%;\r\n}\r\n\r\n.item div {\r\n\r\n}\r\n\r\n.elevating-item:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.return-special {\r\n  max-width: 80%;\r\n}\r\n\r\n/* FOR TEXTS */\r\n.text {\r\n  font-family: iranyekan, sans-serif;\r\n  text-align: center;\r\n}\r\n\r\n.text-rtl {\r\n  direction: rtl;\r\n}\r\n\r\n.text-ltr {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  font-size: 12px;\r\n}\r\n\r\n.normal-text {\r\n  font-size: 1.8em;\r\n}\r\n\r\n.bigger-text {\r\n  font-size: 2.8em;\r\n  font-weight: bold;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/base-template/base-template.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div fxFlex=\"26%\" fxFlexOffset=\"0%\" class=\"title-elevated\">\n        <span>1</span>\n      </div>\n      <div fxFlex=\"44%\" fxFlexOffset=\"2%\" class=\"title-normal\">\n        <span>Connected to: Iman</span>\n      </div>\n      <div fxFlex=\"26%\" fxFlexOffset=\"2%\" class=\"title-elevated\">\n        <span>3</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"24%\" class=\"item elevating-item\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">Text 1</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item disabled-item\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">Text 2</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">Text 3</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\">\n        <img src=\"{{elements.ext_in?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl bigger-text\">In</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"24%\" class=\"item elevating-item return-special\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">بازگشت</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item disabled-item\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">Text 6</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">Text 7</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\">\n        <img src=\"{{elements.ext_out?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl bigger-text\">Out</div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/base-template/base-template.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BaseTemplateComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var BaseTemplateComponent = (function () {
+    function BaseTemplateComponent() {
+        this.elements = {
+            return: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+            },
+            ext_in: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
+            },
+            ext_out: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/down.png',
+            },
+        };
+    }
+    BaseTemplateComponent.prototype.ngOnInit = function () {
+    };
+    BaseTemplateComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-base-template',
+            template: __webpack_require__("../../../../../src/app/base-template/base-template.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/base-template/base-template.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], BaseTemplateComponent);
+    return BaseTemplateComponent;
+}());
+
 
 
 /***/ }),
@@ -290,7 +414,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/main-page/main-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-1\" pItem [height]=\"'50px'\" fxFlex=\"15%\">Item 1</div>-->\r\n  <!--<div class=\"item item-2\" fxFlex=\"20%\" fxFlexOrder=\"3\">Item 2</div>-->\r\n  <!--<div class=\"item item-3\" fxFlex>Item 3</div>-->\r\n<!--</div>-->\r\n\r\n<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-4\" fxFlex fxFlexOffset=\"50px\"  fxFlexOffset.xs=\"0\">Item 4</div>-->\r\n  <!--<div class=\"item item-5\" fxFlex=\"200px\">Item 5</div>-->\r\n<!--</div>-->\r\n<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Bed</div>\r\n        <span class=\"little-text\">فعلی: °{{bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{bed.goal}}</span>\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\">IP to connect: 127.0.0.1:8000</div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Extrude</div>\r\n        <span class=\"little-text\">فعلی: °{{ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{ext.goal}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--<div class=\"container\">-->\r\n  <!--</div>-->\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" class=\"middle-part\">\r\n      <div class=\"item full-item\" fxFlex=\"100\">\r\n        <!--<br><br><br><br>-->\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSettingsPage()\">\r\n        <img src=\"{{elements.settings?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">تنظیمات</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSelectUsbPage()\">\r\n        <img src=\"{{elements.print?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">پرینت</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.tools?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">ابزار</div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-1\" pItem [height]=\"'50px'\" fxFlex=\"15%\">Item 1</div>-->\r\n  <!--<div class=\"item item-2\" fxFlex=\"20%\" fxFlexOrder=\"3\">Item 2</div>-->\r\n  <!--<div class=\"item item-3\" fxFlex>Item 3</div>-->\r\n<!--</div>-->\r\n\r\n<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n     <!--fxLayout.xs=\"column\"-->\r\n     <!--fxLayoutAlign=\"center\"-->\r\n     <!--fxLayoutGap=\"10px\"-->\r\n     <!--fxLayoutGap.xs=\"0\">-->\r\n  <!--<div class=\"item item-4\" fxFlex fxFlexOffset=\"50px\"  fxFlexOffset.xs=\"0\">Item 4</div>-->\r\n  <!--<div class=\"item item-5\" fxFlex=\"200px\">Item 5</div>-->\r\n<!--</div>-->\r\n<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Bed</div>\r\n        <span class=\"little-text\">فعلی: °{{bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{bed.goal}}</span>\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\" *ngIf=\"dataService.ipList.length > 0\">\r\n        <span class=\"simple-text\">IP to connect:</span>\r\n        <div class=\"little-text\" *ngFor=\"let ip of dataService.ipList\">{{ip}}</div>\r\n      </div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\" *ngIf=\"dataService.ipList.length <= 0\">\r\n        <span>Not Connected!</span>\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        <div class=\"simple-text\">دمای Extrude</div>\r\n        <span class=\"little-text\">فعلی: °{{ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{ext.goal}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--<div class=\"container\">-->\r\n  <!--</div>-->\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" class=\"middle-part\">\r\n      <div class=\"item full-item\" fxFlex=\"100\">\r\n        <!--<br><br><br><br>-->\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSettingsPage()\">\r\n        <img src=\"{{elements.settings?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">تنظیمات</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToSelectUsbPage()\">\r\n        <img src=\"{{elements.print?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">پرینت</div>\r\n      </div>\r\n      <div fxFlex=\"8%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"28%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.tools?.imageUrl}}\" alt=\"\">\r\n        <div class=\"simple-text\">ابزار</div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -375,6 +499,7 @@ var MainPageComponent = (function () {
                     if (status) {
                         return Promise.resolve({
                             cd: _this.dataService.gcodePrintingFileDirectory,
+                            line: _this.dataService.gcodeUnfinishedLine,
                         });
                     }
                 });
@@ -383,7 +508,11 @@ var MainPageComponent = (function () {
             .then(function (res) {
             if (res && res['cd']) {
                 _this.progressService.enable();
-                _this.httpService.post('print', { cd: res['cd'], action: 'print' }).subscribe(function (data) {
+                _this.httpService.post('print', {
+                    cd: res['cd'],
+                    line: res['line'] || 0,
+                    action: 'print'
+                }).subscribe(function (data) {
                     if (data['status'] === 'success') {
                         _this.progressService.disable();
                         _this.router.navigate(["/print"]);
@@ -420,7 +549,7 @@ var MainPageComponent = (function () {
             template: __webpack_require__("../../../../../src/app/main-page/main-page.component.html"),
             styles: [__webpack_require__("../../../../../src/app/main-page/main-page.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["c" /* MatDialog */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["e" /* MatDialog */],
             __WEBPACK_IMPORTED_MODULE_3__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */],
             __WEBPACK_IMPORTED_MODULE_6__services_data_service__["a" /* DataService */]])
     ], MainPageComponent);
@@ -439,7 +568,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active, .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* SELECT USB */\r\nbody {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.print-buttons {\r\n  padding: 20px !important;\r\n  max-width: 70% !important;\r\n  max-height: 125px !important;\r\n  margin: 3px;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\nmat-progress-spinner {\r\n  left: 20%;\r\n  bottom: -50px;\r\n}\r\n\r\n.limit-height {\r\n  max-height: 100px;\r\n}\r\n\r\n.value-percent {\r\n  position: relative;\r\n  top: -139px;\r\n  left: 11px;\r\n  font-size: 7em;\r\n  font-weight: bold;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.short-padding {\r\n  padding: 10px;\r\n  background-color: red;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active, .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* SELECT USB */\r\nbody {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.print-buttons {\r\n  padding: 20px !important;\r\n  max-width: 70% !important;\r\n  max-height: 125px !important;\r\n  margin: 2px;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\nmat-progress-spinner {\r\n  left: 20%;\r\n  bottom: -50px;\r\n}\r\n\r\n.limit-height {\r\n  max-height: 100px;\r\n}\r\n\r\n.value-percent {\r\n  position: relative;\r\n  top: -139px;\r\n  left: 11px;\r\n  font-size: 7em;\r\n  font-weight: bold;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.short-padding {\r\n  padding: 10px;\r\n  background-color: red;\r\n}\r\n", ""]);
 
 // exports
 
@@ -620,7 +749,7 @@ var PrintPageComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/print-page/print-page.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["c" /* MatDialog */]])
+            __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["e" /* MatDialog */]])
     ], PrintPageComponent);
     return PrintPageComponent;
 }());
@@ -637,7 +766,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 1.15em !important;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
 
 // exports
 
@@ -686,7 +815,7 @@ var SelectUsbComponent = (function () {
         this.dataService = dataService;
         this.progressService = progressService;
         this.router = router;
-        this.usbs = ['jfsidjfslijfseliofa', 'my name is iman sahebi', 'c.gcode', 'd', 'this is a long file.gcode', 'f'];
+        this.usbs = ['temp1', 'temp2', 'temp3', 'temp4', 'temp5', 'temp6'];
         this.cd = '';
         this.i = 0;
         this.elements = {
@@ -723,7 +852,12 @@ var SelectUsbComponent = (function () {
             console.log('post to dir:', _this.cd);
             _this.httpService.post('directory', { 'cd': _this.cd }, true).subscribe(function (data) {
                 _this.progressService.disable();
-                _this.usbs = data.data;
+                if (data.data.length === 0 || (data.data.length === 1 && data.data[0] === '')) {
+                    _this.usbs = [];
+                }
+                else {
+                    _this.usbs = data.data;
+                }
             }, function (err) {
                 _this.progressService.disable();
                 console.log("server didn't send usbs", err);
@@ -879,6 +1013,9 @@ var DataService = (function () {
         this.currentPrintTime = 0;
         this.printTime = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
         this.gcodePrintingFileDirectory = 'some/default/directory';
+        this.gcodeUnfinishedLine = 0;
+        this.connectedWifi = '';
+        this.ipList = [];
         this.setTemps();
         // setInterval(() => {
         //   this.percentage.next(this.currentPercentage ++);
@@ -893,6 +1030,19 @@ var DataService = (function () {
             this.printTime.next(0);
         }
     };
+    DataService.prototype.setIpList = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.httpService.post('ip', true).subscribe(function (data) {
+                if (data && data['ips']) {
+                    _this.ipList = data['ips'];
+                    resolve(true);
+                }
+            }, function (err) {
+                reject(false);
+            });
+        });
+    };
     DataService.prototype.checkUnfinishedProject = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -900,8 +1050,28 @@ var DataService = (function () {
                 if (data['status'] === 'success') {
                     if (data['unfinished'] && data['unfinished']['exist']) {
                         _this.gcodePrintingFileDirectory = data['unfinished']['cd'];
+                        _this.gcodeUnfinishedLine = data['unfinished']['line'];
                         resolve(true);
                     }
+                }
+            }, function (err) {
+                reject(false);
+            });
+        });
+    };
+    DataService.prototype.setHeat = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.httpService.post('heat', {
+                field: data['kind'] === 'bed' ? 'bed' : 'hotend',
+                action: data['goal'] === 0 ? 'cooldown' : 'heat',
+                value: data['goal']
+            }).subscribe(function (data) {
+                if (data['status'] === 'success') {
+                    resolve(true);
+                }
+                else {
+                    reject(false);
                 }
             }, function (err) {
                 reject(false);
@@ -1041,6 +1211,12 @@ var HttpService = (function () {
             return this.http.get(this.serverAddress + url, { observe: 'response' });
         return this.http.get(this.serverAddress + url, { observe: 'response' }).map(function (data) { return data.body; });
     };
+    HttpService.prototype.options = function (url, map) {
+        if (map === void 0) { map = this.defaultMap; }
+        if (!map)
+            return this.http.options(this.serverAddress + url, { observe: 'response' });
+        return this.http.options(this.serverAddress + url, { observe: 'response' }).map(function (data) { return data.body; });
+    };
     HttpService.prototype.put = function (url, values, map) {
         if (map === void 0) { map = this.defaultMap; }
         if (!map)
@@ -1134,7 +1310,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 2.6%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
 
 // exports
 
@@ -1206,6 +1382,135 @@ var SettingsPageComponent = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/settings-page/wifi/wifi.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button {\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  /*-webkit-border-radius: 100px;*/\r\n  /*-moz-border-radius: 100px;*/\r\n  /*border-radius: 100px;*/\r\n  border-radius: 15px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  /*-webkit-border-radius: 100px;*/\r\n  /*-moz-border-radius: 100px;*/\r\n  /*border-radius: 100px;*/\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.extra-fonts {\r\n  font-size: 1.2em;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings-page/wifi/wifi.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page-div\" style=\"height: 430px;\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"25%\">\n        <span class=\"simple-text\">1</span>\n      </div>\n      <div fxFlex=\"5%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"40%\">\n        <span class=\"simple-text\">{{dataService.connectedWifi ? ('Connected to: ' + dataService.connectedWifi) : 'App is Offline!'}}</span>\n      </div>\n      <div fxFlex=\"5%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"25%\">\n        <span class=\"simple-text\">3</span>\n      </div>\n    </div>\n  </div>\n  <div style=\"margin-bottom: 20px;\"></div>\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div fxFlex=\"30%\" class=\"extra-fonts\">\n        <mat-form-field>\n          <mat-select placeholder=\"SSID\" [(value)]=\"selectedWifi\">\n            <mat-option *ngFor=\"let wifi of wifis\" [value]=\"wifi\">{{wifi}}</mat-option>\n          </mat-select>\n        </mat-form-field>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\" class=\"extra-fonts\">\n        <mat-form-field>\n          <input matInput matKeyboard\n                 placeholder=\"Password\" type=\"{{isPassVisible ? 'text' : 'password'}}\" [(ngModel)]=\"password\">\n        </mat-form-field>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\" (click)=\"submitWifi()\">\n        <button mat-raised-button color=\"primary\" class=\"extra-fonts\"\n                style=\"padding: 10px 40px;\">Connect</button>\n      </div>\n    </div>\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"\">\n      <div fxFlex=\"40%\" fxFlexOffset=\"29%\">\n        <mat-checkbox class=\"extra-fonts\" style=\"color: #626914;\" [(ngModel)]=\"isPassVisible\">Show Password</mat-checkbox>\n      </div>\n    </div>\n    <div style=\"margin-bottom: 50px;\"></div>\n    <div class=\"container t\">\n      <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n        <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goBackToSettingsPage()\">\n          <img src=\"{{elements.return?.imageUrl}}\">\n          <div class=\"simple-text\">بازگشت</div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings-page/wifi/wifi.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WifiComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var WifiComponent = (function () {
+    function WifiComponent(dataService, httpService, snackBar, router, progressService) {
+        this.dataService = dataService;
+        this.httpService = httpService;
+        this.snackBar = snackBar;
+        this.router = router;
+        this.progressService = progressService;
+        this.wifis = ['rahim', 'karim', 'reza'];
+        this.selectedWifi = '';
+        this.password = '';
+        this.isPassVisible = false;
+        this.elements = {
+            return: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+            }
+        };
+    }
+    WifiComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.httpService.options("wifi", true).subscribe(function (data) {
+            _this.wifis = data['list'];
+        }, function (err) {
+            _this.snackBar.open("Cannot get list of wifis", null, {
+                duration: 2000
+            });
+        });
+    };
+    WifiComponent.prototype.submitWifi = function () {
+        var _this = this;
+        // console.log(this.selectedWifi, this.password);
+        this.progressService.enable();
+        this.httpService.post("wifi", {
+            ssid: this.selectedWifi,
+            password: this.password,
+        }, true).subscribe(function (data) {
+            if (data && data['status'] === 'success') {
+                _this.dataService.connectedWifi = _this.selectedWifi;
+                _this.password = '';
+                _this.dataService.setIpList().then(function (res) {
+                    _this.progressService.disable();
+                    _this.snackBar.open('دستگاه با موفقیت به وای فای متصل شد.', null, {
+                        duration: 2000,
+                    });
+                }).catch(function (rej) {
+                    _this.progressService.disable();
+                    _this.snackBar.open('خطای اتصال به وای فای', null, {
+                        duration: 2000
+                    });
+                });
+            }
+            else if (data && data['status'] === 'failure') {
+            }
+        }, function (err) {
+            console.error('connection problem!', err);
+        });
+    };
+    WifiComponent.prototype.goBackToSettingsPage = function () {
+        this.router.navigate(["/settings"]);
+    };
+    WifiComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-wifi',
+            template: __webpack_require__("../../../../../src/app/settings-page/wifi/wifi.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/settings-page/wifi/wifi.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_material__["p" /* MatSnackBar */], __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_6__services_progress_service__["a" /* ProgressService */]])
+    ], WifiComponent);
+    return WifiComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/confirm/confirm.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1227,7 +1532,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared/confirm/confirm.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\nپرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
+module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\nپرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
 
 /***/ }),
 
@@ -1284,7 +1589,7 @@ var ConfirmComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/shared/confirm/confirm.component.css")]
         }),
         __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_3__services_data_service__["a" /* DataService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["g" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_3__services_data_service__["a" /* DataService */]])
     ], ConfirmComponent);
     return ConfirmComponent;
 }());
@@ -1309,6 +1614,170 @@ var DialogUsage;
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/fan/fan.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/fan/fan.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  fan works!\n</p>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/fan/fan.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FanComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FanComponent = (function () {
+    function FanComponent() {
+    }
+    FanComponent.prototype.ngOnInit = function () {
+    };
+    FanComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-fan',
+            template: __webpack_require__("../../../../../src/app/shared/fan/fan.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/shared/fan/fan.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FanComponent);
+    return FanComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/heat/heat.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".main-part {\r\n  height: 110px !important;\r\n}\r\n\r\n.preferred-heat {\r\n  font-size: 3em;\r\n  border: 2px solid black;\r\n  background-color: #FFC593;\r\n  padding: 15px 10px;\r\n}\r\n\r\n.item {\r\n  margin-bottom: 0 !important;\r\n}\r\n\r\n.item img {\r\n  border-radius: 0;\r\n  max-width: 60%;\r\n  margin-left: 20px;\r\n}\r\n\r\n.little-text {\r\n  font-size: 1em !important;\r\n}\r\n\r\n.submit {\r\n  padding: 14px 5px;\r\n  background-color: #FFDD93;\r\n  border: 2px solid grey;\r\n  text-align: center;\r\n  box-shadow: 0px 5px 17px -8px rgba(0, 0, 0, 0.2), 2px -2px 3px 2px rgba(0, 0, 0, 0.14), 12px -5px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.submit-text {\r\n  font-size: 1.3em !important;\r\n  font-weight: bold;\r\n  font-family: iranyekan, sans-serif;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/heat/heat.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"start start\">\r\n  <div fxFlex=\"100\" role=\"no-btn\" style=\"display: inline-block\">\r\n    <button mat-icon-button (click)=\"remove(false)\">\r\n      <mat-icon aria-label=\"no\">clear</mat-icon>\r\n    </button>\r\n  </div>\r\n</div>\r\n<mat-card>\r\n  <mat-card-content>\r\n    <mat-tab-group>\r\n\r\n\r\n      <mat-tab label=\"Bed\">\r\n        <div class=\"container\">\r\n          <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\" style=\"margin-top: 20px;\">\r\n            <div class=\"text text-ltr normal-text\" style=\"text-align: left !important;\">Preferred:</div>\r\n            <div fxFlex=\"30%\" fxFlexOffset=\"7%\" class=\"\" (click)=\"changeValue(30, true)\">\r\n              <span class=\"preferred-heat item elevating-item\">30°</span>\r\n            </div>\r\n            <div fxFlex=\"30%\" fxFlexOffset=\"5%\" class=\"\" (click)=\"changeValue(40, true)\">\r\n              <span class=\"preferred-heat item elevating-item\">40°</span>\r\n            </div>\r\n            <div fxFlex=\"30%\" fxFlexOffset=\"5%\" class=\"\" (click)=\"changeValue(50, true)\">\r\n              <span class=\"preferred-heat item elevating-item\">50°</span>\r\n            </div>\r\n          </div>\r\n\r\n          <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item submit\" (click)=\"remove(true, 'bed')\">\r\n              <span class=\"preferred-heat-item-elevating-item submit-text\">\r\n                تثبیت با دمای °{{result['goal']}}\r\n              </span>\r\n            </div>\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue(-10, false)\">\r\n              <img src=\"{{elements.left?.imageUrl}}\" alt=\"\">\r\n              <div class=\"text text-ltr little-text\">Cool 10°</div>\r\n            </div>\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue(10, false)\">\r\n              <img src=\"{{elements.right?.imageUrl}}\" alt=\"\">\r\n              <div class=\"text text-ltr little-text\">Heat 10°</div>\r\n            </div>\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue(0, true)\">\r\n              <img src=\"{{elements.cooldown?.imageUrl}}\" alt=\"\">\r\n              <div class=\"text text-ltr little-text\">Cooldown</div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </mat-tab>\r\n\r\n\r\n      <mat-tab label=\"Extruder\">\r\n        <div class=\"container\">\r\n          <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\" style=\"margin-top: 20px;\">\r\n            <div class=\"text text-ltr normal-text\" style=\"text-align: left !important;\">Preferred:</div>\r\n            <div fxFlex=\"30%\" fxFlexOffset=\"7%\" class=\"\" (click)=\"changeValue(180, true)\">\r\n              <span class=\"preferred-heat item elevating-item\">180°</span>\r\n            </div>\r\n            <div fxFlex=\"30%\" fxFlexOffset=\"5%\" class=\"\" (click)=\"changeValue(200, true)\">\r\n              <span class=\"preferred-heat item elevating-item\">200°</span>\r\n            </div>\r\n            <div fxFlex=\"30%\" fxFlexOffset=\"5%\" class=\"\" (click)=\"changeValue(210, true)\">\r\n              <span class=\"preferred-heat item elevating-item\">210°</span>\r\n            </div>\r\n          </div>\r\n\r\n          <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item submit\" (click)=\"remove(true, 'extruder')\">\r\n              <span class=\"preferred-heat-item-elevating-item submit-text\">\r\n                تثبیت با دمای °{{result['goal']}}\r\n              </span>\r\n            </div>\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue(-10, false)\">\r\n              <img src=\"{{elements.left?.imageUrl}}\" alt=\"\">\r\n              <div class=\"text text-ltr little-text\">Cool 10°</div>\r\n            </div>\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue(10, false)\">\r\n              <img src=\"{{elements.right?.imageUrl}}\" alt=\"\">\r\n              <div class=\"text text-ltr little-text\">Heat 10°</div>\r\n            </div>\r\n            <div fxFlex=\"27%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue(0, true)\">\r\n              <img src=\"{{elements.cooldown?.imageUrl}}\" alt=\"\">\r\n              <div class=\"text text-ltr little-text\">Cooldown</div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </mat-tab>\r\n\r\n\r\n    </mat-tab-group>\r\n  </mat-card-content>\r\n</mat-card>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/heat/heat.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HeatComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+var HeatComponent = (function () {
+    function HeatComponent(httpService, dialogRef, data) {
+        this.httpService = httpService;
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.elements = {
+            cooldown: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/cooldown.png',
+            },
+            left: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/left.png',
+            },
+            right: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_3__servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/right.png',
+            },
+        };
+        this.result = {
+            status: true,
+            kind: 'bed',
+            goal: 0
+        };
+    }
+    HeatComponent.prototype.ngOnInit = function () {
+    };
+    HeatComponent.prototype.changeValue = function (value, absolute) {
+        if (absolute === void 0) { absolute = true; }
+        if (absolute)
+            this.result['goal'] = value;
+        else
+            this.result['goal'] += value;
+    };
+    HeatComponent.prototype.remove = function (status, kind) {
+        if (kind === void 0) { kind = 'bed'; }
+        this.result['status'] = status;
+        this.result['kind'] = kind;
+        this.dialogRef.close(this.result);
+    };
+    HeatComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-heat',
+            template: __webpack_require__("../../../../../src/app/shared/heat/heat.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/base-template/base-template.component.css"), __webpack_require__("../../../../../src/app/shared/heat/heat.component.css")]
+        }),
+        __param(2, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__angular_material__["a" /* MAT_DIALOG_DATA */])),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["g" /* MatDialogRef */], Object])
+    ], HeatComponent);
+    return HeatComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/servermatch.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1326,6 +1795,219 @@ var ServerMatch = (function () {
     }
     ServerMatch.STATIC = '/static/';
     return ServerMatch;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/tools-page/bedleveling/bedleveling.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.stage-buttons {\r\n  font-size: 4em !important;\r\n  border: 5px solid black;\r\n  font-weight: bold;\r\n  padding: 20px !important;\r\n  background-color: #FFC593;\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/tools-page/bedleveling/bedleveling.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlexOffset=\"30%\" fxFlex=\"24%\" (click)=\"levelStage(1)\">\n        <div class=\"simple-text stage-buttons\">1</div>\n      </div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"levelStage(2)\">\n        <div class=\"simple-text stage-buttons\">2</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part bottom-part\">\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goBackToToolsPage()\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.return?.title}}</div>\n      </div>\n      <div class=\"item full-item item-button\" fxFlexOffset=\"4%\" fxFlex=\"24%\" (click)=\"levelStage(3)\">\n        <div class=\"simple-text stage-buttons\">3</div>\n      </div>\n      <div class=\"item full-item item-button\" fxFlexOffset=\"5%\" fxFlex=\"24%\" (click)=\"levelStage(4)\">\n        <div class=\"simple-text stage-buttons\">4</div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/tools-page/bedleveling/bedleveling.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BedlevelingComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var BedlevelingComponent = (function () {
+    function BedlevelingComponent(httpService, progressService, router, snackBar) {
+        this.httpService = httpService;
+        this.progressService = progressService;
+        this.router = router;
+        this.snackBar = snackBar;
+        this.elements = {
+            stage: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_5__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
+            },
+            return: {
+                title: 'بازگشت',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_5__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+            }
+        };
+    }
+    BedlevelingComponent.prototype.ngOnInit = function () {
+    };
+    BedlevelingComponent.prototype.levelStage = function (stage) {
+        var _this = this;
+        this.progressService.enable();
+        this.httpService.post('bedleveling', { stage: stage }, true).subscribe(function (data) {
+            _this.progressService.disable();
+            _this.snackBar.open('Successfully leveled!', null, {
+                duration: 1500,
+            });
+        }, function (err) {
+            _this.progressService.disable();
+            console.error('connection refused!', err);
+        });
+    };
+    BedlevelingComponent.prototype.goBackToToolsPage = function () {
+        this.router.navigate(["/tools"]);
+    };
+    BedlevelingComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-bedleveling',
+            template: __webpack_require__("../../../../../src/app/tools-page/bedleveling/bedleveling.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/tools-page/bedleveling/bedleveling.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__services_progress_service__["a" /* ProgressService */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_4__angular_material__["p" /* MatSnackBar */]])
+    ], BedlevelingComponent);
+    return BedlevelingComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/tools-page/extrude/extrude.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".top-part {\r\n  margin-bottom: 5px !important;\r\n}\r\n\r\n.little-text-alignment {\r\n  margin-top: -40px;\r\n  margin-left: 5px;\r\n}\r\n\r\n.slider {\r\n  width: 90%;\r\n  position: relative;\r\n}\r\n\r\n.slider-offset {\r\n  left: 10px;\r\n}\r\n\r\n.slider-feedrate {\r\n  /*left: -5px;*/\r\n  left: 0;\r\n}\r\n\r\n.return-special {\r\n  /*max-width: 23% !important;*/\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/tools-page/extrude/extrude.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div fxFlex=\"26%\" fxFlexOffset=\"0%\" class=\"title-elevated\">\n        <span>1</span>\n      </div>\n      <div fxFlex=\"44%\" fxFlexOffset=\"2%\" class=\"title-normal\">\n        <span class=\"text text-rtl\">مقدار تزریق‌شده: {{injected}}</span>\n      </div>\n      <div fxFlex=\"26%\" fxFlexOffset=\"2%\" class=\"title-elevated\">\n        <span>3</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"75%\" class=\"\">\n        <div class=\"text text-ltr normal-text slider slider-offset\" style=\"width: 100%\">Offset</div>\n        <mat-slider [max]=\"10\" [min]=\"1\" [step]=\"1\" [thumb-label]=\"true\"\n                    [(ngModel)]=\"value\" class=\"slider slider-offset\"></mat-slider>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\" (click)=\"makeExtrude(false)\">\n        <img src=\"{{elements.ext_in?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-ltr bigger-text little-text-alignment\">&nbsp;In</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"20%\" class=\"item elevating-item return-special\" (click)=\"goBackToToolsPage()\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">بازگشت</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"49%\" fxFlexOffset=\"2%\" class=\"\">\n        <div class=\"text text-ltr normal-text\">Feed Rate</div>\n        <mat-slider [max]=\"2500\" [min]=\"500\" [step]=\"500\" [thumb-label]=\"true\"\n                    [(ngModel)]=\"feedrate\" class=\"slider slider-feedrate\"></mat-slider>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\" (click)=\"makeExtrude(true)\">\n        <img src=\"{{elements.ext_out?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-ltr bigger-text little-text-alignment\">Out</div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/tools-page/extrude/extrude.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ExtrudeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var ExtrudeComponent = (function () {
+    function ExtrudeComponent(router, httpService, progressService, snackBar) {
+        this.router = router;
+        this.httpService = httpService;
+        this.progressService = progressService;
+        this.snackBar = snackBar;
+        this.injected = 0;
+        this.value = 2;
+        this.feedrate = 500;
+        this.elements = {
+            ext_in: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
+            },
+            ext_out: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/down.png',
+            },
+            return: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+                title: 'بازگشت',
+            },
+        };
+    }
+    ExtrudeComponent.prototype.ngOnInit = function () {
+    };
+    ExtrudeComponent.prototype.makeExtrude = function (isOut) {
+        var _this = this;
+        if (isOut === void 0) { isOut = false; }
+        this.progressService.enable();
+        this.httpService.post('extrude', {
+            value: isOut ? this.value : -this.value,
+            feedrate: this.feedrate
+        }, true).subscribe(function (data) {
+            _this.progressService.disable();
+            _this.injected += isOut ? _this.value : -_this.value;
+            _this.snackBar.open('با موفقیت انجام شد', null, {
+                duration: 1000
+            });
+        }, function (err) {
+            _this.progressService.disable();
+            console.error('extrude problem:', err);
+        });
+    };
+    ExtrudeComponent.prototype.goBackToToolsPage = function () {
+        this.router.navigate(["/tools"]);
+    };
+    ExtrudeComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-extrude',
+            template: __webpack_require__("../../../../../src/app/tools-page/extrude/extrude.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/base-template/base-template.component.css"), __webpack_require__("../../../../../src/app/tools-page/extrude/extrude.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */],
+            __WEBPACK_IMPORTED_MODULE_4__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_5__angular_material__["p" /* MatSnackBar */]])
+    ], ExtrudeComponent);
+    return ExtrudeComponent;
 }());
 
 
@@ -1440,7 +2122,7 @@ var HomizeComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/tools-page/homize/homize.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */],
-            __WEBPACK_IMPORTED_MODULE_4__angular_material__["j" /* MatSnackBar */]])
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["p" /* MatSnackBar */]])
     ], HomizeComponent);
     return HomizeComponent;
 }());
@@ -1457,7 +2139,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button {\r\n  }\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  /*-webkit-border-radius: 100px;*/\r\n  /*-moz-border-radius: 100px;*/\r\n  /*border-radius: 100px;*/\r\n  border-radius: 15px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  /*-webkit-border-radius: 100px;*/\r\n  /*-moz-border-radius: 100px;*/\r\n  /*border-radius: 100px;*/\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.move-icon {\r\n  font-size: 6em;\r\n  /*border: 1px solid gray;*/\r\n  /*padding: 0 !important;*/\r\n  /*background-color: black;*/\r\n  /*color: white;*/\r\n  /*-webkit-border-radius: 70px;*/\r\n  /*-moz-border-radius: 60px;*/\r\n  /*border-radius: 60px;*/\r\n\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 165px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 6%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button {\r\n  }\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  /*-webkit-border-radius: 100px;*/\r\n  /*-moz-border-radius: 100px;*/\r\n  /*border-radius: 100px;*/\r\n  border-radius: 15px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  /*-webkit-border-radius: 100px;*/\r\n  /*-moz-border-radius: 100px;*/\r\n  /*border-radius: 100px;*/\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.move-icon {\r\n  font-size: 6em;\r\n  /*border: 1px solid gray;*/\r\n  /*padding: 0 !important;*/\r\n  /*background-color: black;*/\r\n  /*color: white;*/\r\n  /*-webkit-border-radius: 70px;*/\r\n  /*-moz-border-radius: 60px;*/\r\n  /*border-radius: 60px;*/\r\n}\r\n\r\n.slider-value {\r\n  width: 90%;\r\n  position: relative;\r\n  left: -25px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -1470,7 +2152,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tools-page/move-axis/move-axis.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">X: {{axis.X}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Y: {{axis.Y}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Z: {{axis.Z}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div style=\"margin-bottom: 5px;\"></div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n        <!--<div class=\"simple-text\">X</div>-->\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\r\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\r\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <mat-slider [max]=\"50\" [min]=\"0\" [step]=\"1\" [thumb-label]=\"true\"\r\n                  (change)=\"changeSlider($event)\" style=\"width: 60%\"></mat-slider>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">X: {{axis.X}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Y: {{axis.Y}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Z: {{axis.Z}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div style=\"margin-bottom: 5px;\"></div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n        <!--<div class=\"simple-text\">X</div>-->\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\r\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\r\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <div fxFlex=\"76%\">\r\n        <mat-slider [max]=\"50\" [min]=\"1\" [step]=\"1\" [thumb-label]=\"true\"\r\n                    [(ngModel)]=\"value\" class=\"slider-value\"></mat-slider>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1503,6 +2185,7 @@ var MoveAxisComponent = (function () {
         this.httpService = httpService;
         this.router = router;
         this.progressService = progressService;
+        this.value = 20;
         this.elements = {
             up: {
                 imageUrl: __WEBPACK_IMPORTED_MODULE_4__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png'
@@ -1542,10 +2225,6 @@ var MoveAxisComponent = (function () {
     MoveAxisComponent.prototype.goToToolsPage = function () {
         this.router.navigate(['/tools']);
     };
-    MoveAxisComponent.prototype.changeSlider = function ($event) {
-        this.value = $event.value;
-        console.log(this.value);
-    };
     MoveAxisComponent.prototype.precisionRound = function (number, precision) {
         var factor = Math.pow(10, precision);
         return Math.round(number * factor) / factor;
@@ -1574,7 +2253,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  margin-bottom: 3px;\r\n  margin-top: 3px;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
 
 // exports
 
@@ -1587,7 +2266,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tools-page/tools-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.home?.routeTo)\">\n        <img src=\"{{elements.home?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.home?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.heat?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.move?.routeTo)\">\n        <img src=\"{{elements.move?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.move?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.ext?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.ext?.title}}</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToPage(elements.return?.routeTo)\">\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.return?.title}}</div>\n      </div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlexOffset=\"26%\" fxFlex=\"24%\">\n        <img src=\"{{elements.bed?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.bed?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.fan?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.fan?.title}}</div>\n      </div>\n\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"little-text\">فعلی: °{{bed.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\" *ngIf=\"dataService.ipList.length > 0\">\n        <span class=\"simple-text\">IP to connect:</span>\n        <div class=\"little-text\" *ngFor=\"let ip of dataService.ipList\">{{ip}}</div>\n      </div>\n      <div class=\"item full-item\" fxFlex=\"44%\" *ngIf=\"dataService.ipList.length <= 0\">\n        <span>Not Connected!</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"little-text\">فعلی: °{{ext.cur}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span class=\"little-text\">هدف: °{{ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.home?.routeTo)\">\n        <img src=\"{{elements.home?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.home?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"openDialog('heat')\">\n        <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.heat?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.move?.routeTo)\">\n        <img src=\"{{elements.move?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.move?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToPage(elements.ext?.routeTo)\">\n        <img src=\"{{elements.ext?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.ext?.title}}</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToPage(elements.return?.routeTo)\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.return?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"releaseMotor()\">\n        <img src=\"{{elements.release_motor?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.release_motor?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToPage(elements.bed?.routeTo)\">\n        <img src=\"{{elements.bed?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.bed?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div class=\"item full-item item-button-bigger disable-like-button\" fxFlex=\"24%\">\n        <img src=\"{{elements.fan?.imageUrl}}\">\n        <div class=\"simple-text\">{{elements.fan?.title}}</div>\n      </div>\n\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1599,6 +2278,12 @@ module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_heat_heat_component__ = __webpack_require__("../../../../../src/app/shared/heat/heat.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_fan_fan_component__ = __webpack_require__("../../../../../src/app/shared/fan/fan.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1611,9 +2296,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+
+
 var ToolsPageComponent = (function () {
-    function ToolsPageComponent(router) {
+    function ToolsPageComponent(router, httpService, snackBar, progressService, dialog, dataService) {
         this.router = router;
+        this.httpService = httpService;
+        this.snackBar = snackBar;
+        this.progressService = progressService;
+        this.dialog = dialog;
+        this.dataService = dataService;
+        this.pageName = 'tools-page';
+        this.bed = {
+            cur: 0,
+            goal: 10,
+        };
+        this.ext = {
+            cur: 0,
+            goal: 10,
+        };
         var TIU = __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png';
         this.elements = {
             home: {
@@ -1641,22 +2346,70 @@ var ToolsPageComponent = (function () {
                 imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
                 routeTo: 'home',
             },
+            release_motor: {
+                title: 'آزادکردن موتور',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
+            },
             bed: {
                 title: 'Bed Leveling',
-                imageUrl: TIU,
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/bed-leveling.png',
                 routeTo: 'bedleveling',
             },
             fan: {
                 title: 'Fans',
-                imageUrl: TIU,
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
                 routeTo: 'setfans',
             }
         };
     }
     ToolsPageComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.dataService.temps.subscribe(function (data) {
+            _this.bed = data.bed;
+            _this.ext = data.ext;
+        });
     };
     ToolsPageComponent.prototype.goToPage = function (route) {
         this.router.navigate(['/' + route]);
+    };
+    ToolsPageComponent.prototype.openDialog = function (kind) {
+        var _this = this;
+        if (kind === void 0) { kind = 'heat'; }
+        var kindComp = (kind === 'heat' ? __WEBPACK_IMPORTED_MODULE_6__shared_heat_heat_component__["a" /* HeatComponent */] : __WEBPACK_IMPORTED_MODULE_7__shared_fan_fan_component__["a" /* FanComponent */]);
+        var rmDialog = this.dialog.open(kindComp, {
+            width: (kind === 'heat' ? '640px' : '450px'),
+            height: (kind === 'heat' ? '420px' : '200px'),
+            data: {}
+        });
+        rmDialog.afterClosed().subscribe(function (data) {
+            _this.progressService.enable();
+            if (data && data['status'] === true) {
+                _this.dataService.setHeat(data)
+                    .then(function (res) {
+                    _this.progressService.disable();
+                    _this.snackBar.open('دما با موفقیت تغییر کرد', null, {
+                        duration: 1700
+                    });
+                })
+                    .catch(function (rej) {
+                    _this.progressService.disable();
+                    console.error('heat problem!', rej);
+                });
+            }
+        });
+    };
+    ToolsPageComponent.prototype.releaseMotor = function () {
+        var _this = this;
+        this.progressService.enable();
+        this.httpService.post('release_motor', true).subscribe(function (data) {
+            _this.progressService.disable();
+            _this.snackBar.open('موتورها با موفقیت آزاد شدند', null, {
+                duration: 2000
+            });
+        }, function (err) {
+            _this.progressService.disable();
+            console.error('connection refused!', err);
+        });
     };
     ToolsPageComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -1664,7 +2417,9 @@ var ToolsPageComponent = (function () {
             template: __webpack_require__("../../../../../src/app/tools-page/tools-page.component.html"),
             styles: [__webpack_require__("../../../../../src/app/tools-page/tools-page.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["p" /* MatSnackBar */], __WEBPACK_IMPORTED_MODULE_5__services_progress_service__["a" /* ProgressService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material__["e" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_8__services_data_service__["a" /* DataService */]])
     ], ToolsPageComponent);
     return ToolsPageComponent;
 }());

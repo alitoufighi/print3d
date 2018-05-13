@@ -170,13 +170,17 @@ def extrude():
     """
     POST:
     {
-        value: Number
+        value: Number,
+        feedrate: Number (Optional)
     }
     """
     if request.method == 'POST':
         try:
             data = request.json
-            printer.extrude(data['value'])
+            if 'feedrate' in data:
+                printer.extrude(data['value'], data['feedrate'])
+            else:
+                printer.extrude(data['value'])
             return Response(status=200)
         except Exception as e:
             print("ERROR:", e)
@@ -207,7 +211,7 @@ def print_it():
     POST:
     {
         action: 'print' | 'stop' | 'pause' | 'resume' | 'percentage' | 'unfinished'
-        cd: String,
+        cd: String, (only if it was print)
         line: Number (Optional)
     }
     
@@ -231,14 +235,17 @@ def print_it():
     if request.method == 'POST':
         try:
             req = request.json
-            gcode_file_address = req['cd']
             action = req['action']
             # status = {'status': 'success', 'status_code': 200}
             percentage = 0
 
             if action == 'print':
                 # try:
-                printer.start_printing_thread(gcode_dir=gcode_file_address)
+                gcode_file_address = req['cd']
+                if 'line' in req:
+                    printer.start_printing_thread(gcode_dir=gcode_file_address, line=req['line'])
+                else:
+                    printer.start_printing_thread(gcode_dir=gcode_file_address)
                 # except Exception as e:
                 #     print('ERROR:', e)
                 #     status = {'status': str(e), 'status_code': 500}
@@ -271,10 +278,10 @@ def print_it():
             print('ERROR:', e)
             return Response(status=500)
 
-@app.route('/api/wifi', methods=['GET, POST'])
+@app.route('/api/wifi', methods=['OPTIONS, POST'])
 def wifi():
     """
-    GET:
+    OPTIONS:
     {
         list: String[]
     }
@@ -289,7 +296,7 @@ def wifi():
     }
     """
     try:
-        if request.method == 'GET':
+        if request.method == 'OPTIONS':
             return jsonify({'list': Utils.wifi_list()}), 200
         elif request.method == 'POST':
             un = request.json['ssid']
