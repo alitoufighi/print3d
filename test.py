@@ -291,7 +291,7 @@ def print_it():
                         }
                     }), 200
                 else:
-                    return jsonify({'status': 'succes', 'unfinished': {'exist': False, 'cd': ''}}), 200
+                    return jsonify({'status': 'success', 'unfinished': {'exist': False, 'cd': ''}}), 200
             else:
                 raise 
 
