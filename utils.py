@@ -49,6 +49,7 @@ class Machine:
         self.print_percentage = 0
         self.__stop_flag = False
         self.__pause_flag = False
+        self.on_the_print_page = False
         self.start_machine_connection()
 
     def get_bed_temp(self):
@@ -170,6 +171,10 @@ class Machine:
         e_pos_offset = 0
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
+        
+        
+        '''      here       '''
+        self.on_the_print_page = True
 
         '''get a backup from gcode file path for hibernate '''
         with open('backup_print_path.bc', 'w') as backup_print:
@@ -310,6 +315,10 @@ class Machine:
                 self.append_gcode('G90')
 
             '''   print done '''
+            
+        '''      here       '''
+        self.on_the_print_page = False
+        
         try:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
