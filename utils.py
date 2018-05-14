@@ -136,7 +136,7 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = int(splited[0][2:])
+                            self.extruder_temp['current'] = float(splited[0][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
 
@@ -146,7 +146,7 @@ class Machine:
                         self.__Gcodes_return.pop(0)
                         first_done = False
             except Exception as ex:
-                print('kir2', ex)
+                print('error in gcode handler!', ex)
                 self.Gcode_handler_error_logs.append(ex)
                 if len(self.Gcode_handler_error_logs) > 9:
                     break
@@ -177,7 +177,7 @@ class Machine:
 
         ''' read files lines'''
         for line in gcode_file:
-            lines.append(line)#[:-2])
+            lines.append(line[:-1])
 
         '''hibernate mode'''
         if line_to_go != 0:
@@ -251,15 +251,25 @@ class Machine:
                 
                 elif command.find('G1') == 0:
                     Eresulte = command.find('E')
+
+                    # find the number in front of 'E' character
+                    if command.find(' ', Eresulte) != -1:
+                    	end = command.find(' ', Eresulte)
+                    elif command.find('\n') != -1:
+                    	end = command.find('\n')
+                    else:
+                    	end = len(command)
+
                     if Eresulte != -1:
                         '''get the last e before the machine trun off'''
                         if e_pos_offset == 0 and line_to_go != 0:
-                            e_pos_offset = float(command[Eresulte + 1:])
+                            e_pos_offset = float(command[Eresulte + 1: end])
                         '''get the current e position of file'''
-                        e_pos = float(command[Eresulte + 1:])
+                        e_pos = float(command[Eresulte + 1: end])
                         if line_to_go != 0:
                             e_pos = e_pos - e_pos_offset
-                        command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
+                        # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
+                        command = command[0: Eresulte + 1] + str(e_pos) + ' ' + command[len(command[0: Eresulte + 1]) + len(str(e_pos)) + 1:]
                     self.append_gcode(command)
                     
                 elif command.find('G0') == 0:
@@ -303,8 +313,8 @@ class Machine:
         try:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
-        except Exception as kir:
-            print('kir', kir)
+        except Exception as e:
+            print('error in reading file lines: ', e)
             pass
 
     def append_gcode(self,gcode,gcode_return=0):
@@ -575,7 +585,6 @@ class Utils():
     @staticmethod
     def get_ip_list():
     	# return ['192.168.0.0', '192.168.0.1']
-    	import time
     	time.sleep(1)
     	ips = os.popen('sudo hostname -I').read()
     	return ips.split()
@@ -590,7 +599,7 @@ class Utils():
             else:
             	raise
         except Exception as e:
-            print('ERROR:', e)
+            print('error in connecting to wifi:', e)
             return 'failure'
 
     @staticmethod
@@ -610,5 +619,21 @@ class Utils():
                     res.append(w)
             return res
         except Exception as e:
-            print('ERROR:', e)
+            print('ERROR in getting wifi list: ', e)
             return None
+
+
+class Extra():
+	def __init__(self):
+		self.homed_axis = []
+
+	def addHomeAxis(self, axis):
+		if axis != 'All' and axis not in self.homed_axis:
+			self.homed_axis.append(axis)
+		elif axis == 'All':
+			self.homed_axis = ['X', 'Y', 'Z']
+
+	def checkHomeAxisAccess(self):
+		if 'X' in self.homed_axis and 'Y' in self.homed_axis and 'Z' in self.homed_axis:
+			return True
+		return False

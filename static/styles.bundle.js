@@ -942,10 +942,10 @@ function updateLink(linkElement, obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("../../../../../src/styles.css");
-__webpack_require__("../../../../../src/assets/fonts/mat-icon-font/material-icons.css");
 __webpack_require__("../../../../../src/assets/fonts/iran-fonts/index.css");
-__webpack_require__("../../../../primeng/resources/primeng.min.css");
-module.exports = __webpack_require__("../../../../material-design-icons/iconfont/material-icons.css");
+__webpack_require__("../../../../../src/assets/fonts/mat-icon-font/material-icons.css");
+__webpack_require__("../../../../material-design-icons/iconfont/material-icons.css");
+module.exports = __webpack_require__("../../../../primeng/resources/primeng.min.css");
 
 
 /***/ })

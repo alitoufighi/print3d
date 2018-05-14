@@ -1,11 +1,12 @@
 from flask import Flask, request, render_template, url_for, Response, json
-from utils import Machine, Utils
+from utils import Machine, Utils, Extra
 from os.path import isfile
 from flask import jsonify
 import subprocess
 
 app = Flask(__name__)
 printer = Machine()
+extra = Extra()
 
 @app.route('/api/temperatures', methods=['GET'])
 def temperatures():
@@ -17,20 +18,24 @@ def temperatures():
     }
     """
     if request.method == 'GET':
-        printer.refresh_temp()
-        bed_temp = printer.get_bed_temp()
-        ext_temp = printer.get_extruder_temp()
-        data = {
-            'bed': {
-                'cur': bed_temp['current'],
-                'goal': bed_temp['point']
-            },
-            'ext': {
-                'cur': ext_temp['current'],
-                'goal': ext_temp['point']
+        try:
+            printer.refresh_temp()
+            bed_temp = printer.get_bed_temp()
+            ext_temp = printer.get_extruder_temp()
+            data = {
+                'bed': {
+                    'cur': bed_temp['current'],
+                    'goal': bed_temp['point']
+                },
+                'ext': {
+                    'cur': ext_temp['current'],
+                    'goal': ext_temp['point']
+                }
             }
-        }
-        return jsonify(data), 200
+            return jsonify(data), 200
+        except Exception as e:
+            print('error in getting temps: ', e)
+            return Response(status=500)
 
 @app.route('/api/wifi', methods=['OPTIONS', 'POST'])
 def wifi():
@@ -66,23 +71,40 @@ def wifi():
 
 
 
-@app.route('/api/move_axis', methods=['POST'])
+@app.route('/api/move_axis', methods=['OPTIONS', 'POST'])
 def move_axis():
     """
+    OPTIONS:
+    {
+        access: Boolean (it needs homing first!)
+    }
+
     POST:
     {
         axis: 'X' | 'Y' | 'Z' | 'All',
         value: Number
     }
     """
+    if request.method == 'OPTIONS':
+        try:
+            if extra.checkHomeAxisAccess():
+                return jsonify({'access': True}), 200
+            else:
+                return jsonify({'access': False}), 200
+        except Exception as e:
+            print('error in gaining access for moving', e)
+            return Response(status=500)
     if request.method == 'POST':
         try:
+            if extra.checkHomeAxisAccess() == False:
+                raise
+
             data = request.json
             printer.move_axis(data['axis'], "Relative", data['value'])
             return Response(status=200)
         except Exception as e:
             print("ERROR:", e)
-            return Response(status=500)
+            return jsonify({'access': False}), 500
 
 @app.route('/api/home', methods=['POST'])
 def home_machine():
@@ -95,8 +117,8 @@ def home_machine():
     if request.method == 'POST':
         try:
             axis = request.json['axis']
-            print(axis)
             printer.Home_machine(axis)
+            extra.addHomeAxis(axis)
             return Response(status=200)
         except Exception as e:
             print("ERROR:", e)
@@ -238,7 +260,7 @@ def bed_leveling():
             return Response(status=500)
 
 
-@app.route('/api/print', methods=['POST'])
+@app.route('/api/print', methods=['DELETE', 'POST'])
 def print_it():
     """
     POST:
@@ -264,6 +286,9 @@ def print_it():
         }
     }
 
+    DELETE:
+    {}{}
+
     """
     if request.method == 'POST':
         try:
@@ -273,8 +298,11 @@ def print_it():
             percentage = 0
 
             if action == 'print':
+                printer.delete_last_print_files()
                 # try:
                 gcode_file_address = req['cd']
+                if printer.base_path in gcode_file_address:
+                    gcode_file_address = gcode_file_address[len(printer.base_path)+1:]
                 if 'line' in req:
                     printer.start_printing_thread(gcode_dir=gcode_file_address, line=req['line'])
                 else:
@@ -284,6 +312,7 @@ def print_it():
                 #     status = {'status': str(e), 'status_code': 500}
             elif action == 'stop':
                 printer.stop_printing()
+                printer.delete_last_print_files()
             elif action == 'resume':
                 printer.resume_printing()
             elif action == 'pause':
@@ -310,6 +339,14 @@ def print_it():
         except Exception as e:
             print('ERROR:', e)
             return Response(status=500)
+
+    elif request.method == 'DELETE':
+        try:
+            printer.delete_last_print_files()
+            return Response(status=200)
+        except Exception as e:
+            return Response(status=500)
+
 
 
 @app.route('/api/ip', methods=['POST'])
