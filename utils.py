@@ -136,7 +136,7 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = int(splited[0][2:])
+                            self.extruder_temp['current'] = float(splited[0][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
 
@@ -177,7 +177,7 @@ class Machine:
 
         ''' read files lines'''
         for line in gcode_file:
-            lines.append(line)#[:-2])
+            lines.append(line[:-1])
 
         '''hibernate mode'''
         if line_to_go != 0:
@@ -251,15 +251,25 @@ class Machine:
                 
                 elif command.find('G1') == 0:
                     Eresulte = command.find('E')
+
+                    # find the number in front of 'E' character
+                    if command.find(' ', Eresulte) != -1:
+                    	end = command.find(' ', Eresulte)
+                    elif command.find('\n') != -1:
+                    	end = command.find('\n')
+                    else:
+                    	end = len(command)
+
                     if Eresulte != -1:
                         '''get the last e before the machine trun off'''
                         if e_pos_offset == 0 and line_to_go != 0:
-                            e_pos_offset = float(command[Eresulte + 1:])
+                            e_pos_offset = float(command[Eresulte + 1: end])
                         '''get the current e position of file'''
-                        e_pos = float(command[Eresulte + 1:])
+                        e_pos = float(command[Eresulte + 1: end])
                         if line_to_go != 0:
                             e_pos = e_pos - e_pos_offset
-                        command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
+                        # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
+                        command = command[0: Eresulte + 1] + str(e_pos) + ' ' + command[len(command[0: Eresulte + 1]) + len(str(e_pos)) + 1:]
                     self.append_gcode(command)
                     
                 elif command.find('G0') == 0:
@@ -621,7 +631,7 @@ class Extra():
 		if axis != 'All' and axis not in self.homed_axis:
 			self.homed_axis.append(axis)
 		elif axis == 'All':
-			homed_axis = ['X', 'Y', 'Z']
+			self.homed_axis = ['X', 'Y', 'Z']
 
 	def checkHomeAxisAccess(self):
 		if 'X' in self.homed_axis and 'Y' in self.homed_axis and 'Z' in self.homed_axis:

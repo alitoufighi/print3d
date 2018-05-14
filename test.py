@@ -96,12 +96,15 @@ def move_axis():
             return Response(status=500)
     if request.method == 'POST':
         try:
+            if extra.checkHomeAxisAccess() == False:
+                raise
+
             data = request.json
             printer.move_axis(data['axis'], "Relative", data['value'])
             return Response(status=200)
         except Exception as e:
             print("ERROR:", e)
-            return Response(status=500)
+            return jsonify({'access': False}), 500
 
 @app.route('/api/home', methods=['POST'])
 def home_machine():
@@ -257,7 +260,7 @@ def bed_leveling():
             return Response(status=500)
 
 
-@app.route('/api/print', methods=['POST'])
+@app.route('/api/print', methods=['DELETE', 'POST'])
 def print_it():
     """
     POST:
@@ -282,6 +285,9 @@ def print_it():
             line: Number
         }
     }
+
+    DELETE:
+    {}{}
 
     """
     if request.method == 'POST':
@@ -329,6 +335,14 @@ def print_it():
         except Exception as e:
             print('ERROR:', e)
             return Response(status=500)
+
+    elif request.method == 'DELETE':
+        try:
+            printer.delete_last_print_files()
+            return Response(status=200)
+        except Exception as e:
+            return Response(status=500)
+
 
 
 @app.route('/api/ip', methods=['POST'])
