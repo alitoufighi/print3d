@@ -223,7 +223,10 @@ class Machine:
         ''' gcode applicator '''
         for x in range(line_to_go, len(lines)):
             '''wait for buffer to be free'''
-            while len(self.__Gcodes_to_run) >= 15:pass#self.machine_settings['printing_buffer']:pass
+            while len(self.__Gcodes_to_run) >= 15:
+                ''' stop printing '''
+                if self.__stop_flag:
+                    break
             signnum = lines[x].find(';')
             if not lines[x]:pass
             elif signnum == -1:
