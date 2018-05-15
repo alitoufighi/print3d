@@ -301,6 +301,8 @@ class Machine:
 
             ''' stop printing '''
             if self.__stop_flag:
+                self.__Gcodes_to_run = []
+                self.__Gcodes_return = []
                 break
 
             ''' pause and resume the printing '''
