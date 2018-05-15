@@ -425,14 +425,14 @@ class Machine:
 
     def set_hotend_temp(self,value):
         if value+self.extruder_temp['point'] > 0:
-            self.append_gcode(gcode='M104 S%d'%(value+self.extruder_temp['point']))
+            self.append_gcode(gcode='M104 S%d'%(value))#+self.extruder_temp['point']))
         else:
             self.append_gcode(gcode='M104 S0')
 
 
     def set_bed_temp(self,value):
         if value+self.bed_temp['point'] > 0 :
-            self.append_gcode(gcode='M140 S%d'%(value+self.bed_temp['point']))
+            self.append_gcode(gcode='M140 S%d'%(value))#+self.bed_temp['point']))
         else:
             self.append_gcode(gcode='M140 S0')
 
