@@ -8,8 +8,28 @@ app = Flask(__name__)
 printer = Machine()
 extra = Extra()
 
+# def middleWare(*args, **kwargs):
+    # return [True, *args]
+
+# TODO: TEMP API -> on the print page
+@app.route('/api/on_print_page', methods=['POST'])
+def on_print_page():
+    if request.method == 'POST':
+        try:
+            if printer.on_the_print_page:
+                return jsonify({'page': 'print'}), 200
+            else:
+                return jsonify({'page': 'other'}), 200
+        except Exception as e:
+            print('error in printing page:', e)
+            return Response(status=500)
+
 @app.route('/api/temperatures', methods=['GET'])
 def temperatures():
+    # TODO: DECORATORS WORK BETTER HERE!
+    # mw = middleWare(request)
+    # if mw[0]:
+        # return jsonify(mw[1])
     """
     GET:
     {
@@ -374,6 +394,12 @@ def hello(path):
 
 if __name__ == '__main__':
     print('let\'s go')
-    subprocess.Popen(["chromium-browser","--disk-cache-dir=/dev/null","--disk-catch-size=1","--hide-scrollbars","--overscroll-history-navigation=0","--incognito","--disable-session-crashed-bubble","--disable-infobars"," --noerrdialog","--no-sandbox","--kiosk", "--disable-translate", "--start-maximized", "http://0.0.0.0"])
+    subprocess.Popen(["chromium-browser", "--disk-cache-dir=/dev/null",
+        "--disk-catch-size=1", "--hide-scrollbars",
+        "--overscroll-history-navigation=0", "--incognito",
+        "--disable-session-crashed-bubble", "--disable-infobars",
+        " --noerrdialog", "--no-sandbox",
+        "--kiosk", "--disable-translate",
+        "--start-maximized", "http://0.0.0.0"])
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
 
