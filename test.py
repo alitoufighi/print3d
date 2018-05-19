@@ -7,7 +7,7 @@ import subprocess
 app = Flask(__name__)
 printer = Machine()
 extra = Extra()
-
+##
 # def middleWare(*args, **kwargs):
     # return [True, *args]
 
