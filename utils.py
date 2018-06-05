@@ -50,6 +50,8 @@ class Machine:
         self.__stop_flag = False
         self.__pause_flag = False
         self.on_the_print_page = False
+        self.__Feedrate_speed_percentage = 100
+        self.__Travel_speed_percentage = 100
         self.start_machine_connection()
 
     def get_bed_temp(self):
@@ -258,30 +260,61 @@ class Machine:
                     pass
                 
                 elif command.find('G1') == 0:
+
+
+                	'''                find and repalce F in Gcode file        '''
+                    Feedrate_speed = command.find('F')
+
+                    if Feedrate_speed != -1:
+
+                    	# find the number in front of 'F' character
+                    	if command.find(' ', Feedrate_speed) != -1:
+                    		end = command.find(' ', Feedrate_speed)
+                    	elif command.find('\n', Feedrate_speed) != -1:
+                    		end = command.find('\n')
+                    	else:
+                    		end = len(command)
+
+                    	last_feedrate = float(command[Feedrate_speed + 1: end]) 
+                    	new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
+     					command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
+     					end = None
+
+
+
+     				'''                  find and replace E in Gcode              '''
                     Eresulte = command.find('E')
 
-                    # find the number in front of 'E' character
-                    if command.find(' ', Eresulte) != -1:
-                    	end = command.find(' ', Eresulte)
-                    elif command.find('\n') != -1:
-                    	end = command.find('\n')
-                    else:
-                    	end = len(command)
-
                     if Eresulte != -1:
+
+                    	# find the number in front of 'E' character
+                    	if command.find(' ', Eresulte) != -1:
+                    		end = command.find(' ', Eresulte)
+                    	elif command.find('\n', Eresulte) != -1:
+                    		end = command.find('\n')
+                    	else:
+                    		end = len(command)
+
                         '''get the last e before the machine trun off'''
                         if e_pos_offset == 0 and line_to_go != 0:
                             e_pos_offset = float(command[Eresulte + 1: end])
                         '''get the current e position of file'''
-                        e_pos = float(command[Eresulte + 1: end])
+                        last_e_pos = float(command[Eresulte + 1: end])
                         if line_to_go != 0:
-                            e_pos = e_pos - e_pos_offset
+                            new_e_pos = last_e_pos - e_pos_offset
                         # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
-                        command = command[0: Eresulte + 1] + str(e_pos) + ' ' + command[len(command[0: Eresulte + 1]) + len(str(e_pos)) + 1:]
+                        command = command[0: Eresulte + 1] + str(new_e_pos) + ' ' + command[len(command[0: Eresulte + 1]) + len(str(last_e_pos)) + 1:]
+                        end = None
+
+
                     self.append_gcode(command)
                     
                 elif command.find('G0') == 0:
+
+
+                	'''         find and replace Z in Gcode               '''
                     Zresulte = command.find('Z')
+
                     if Zresulte != -1:
                         '''get the last z before the machine trun off'''
                         if z_pos_offset == 0 and line_to_go != 0:
@@ -291,6 +324,29 @@ class Machine:
                         if line_to_go != 0:
                             z_pos = z_pos - z_pos_offset
                         command = command[:-(len(command) - (Zresulte + 1))] + str(z_pos)
+
+
+                	'''                find and repalce F in Gcode file        '''
+                    Travel_speed = command.find('F')
+
+                    if Travel_speed != -1:
+
+                    	# find the number in front of 'F' character
+                    	if command.find(' ', Travel_speed) != -1:
+                    		end = command.find(' ', Travel_speed)
+                    	elif command.find('\n', Travel_speed) != -1:
+                    		end = command.find('\n')
+                    	else:
+                    		end = len(command)
+
+                    	last_travel_speed = float(command[Travel_speed + 1: end]) 
+                    	new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
+     					command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
+     					end = None
+
+
+
+
                     self.append_gcode(command)
 
                 else:
@@ -552,6 +608,12 @@ class Machine:
 
     def get_percentage(self):
         return self.print_percentage
+
+    def set_feedrate_speed(self,percentage):
+    	self.__Feedrate_speed_percentage = percentage
+
+    def set_travel_speed(self,percentage):
+    	self.__Travel_speed_percentage = percentage
 
     def check_for_unfinished_print(self):
         """
