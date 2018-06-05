@@ -52,6 +52,7 @@ class Machine:
         self.on_the_print_page = False
         self.__Feedrate_speed_percentage = 100
         self.__Travel_speed_percentage = 100
+        self.__current_Z_position = None
         self.start_machine_connection()
 
     def get_bed_temp(self):
@@ -171,6 +172,7 @@ class Machine:
         command = None
         z_pos_offset = 0
         e_pos_offset = 0
+        self.__current_Z_position = None
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
         
@@ -323,6 +325,7 @@ class Machine:
                         z_pos = float(command[Zresulte + 1:])
                         if line_to_go != 0:
                             z_pos = z_pos - z_pos_offset
+                        self.__current_Z_position = z_pos
                         command = command[:-(len(command) - (Zresulte + 1))] + str(z_pos)
 
 
@@ -617,6 +620,13 @@ class Machine:
 
     def set_travel_speed(self,percentage):
     	self.__Travel_speed_percentage = percentage
+
+    def get_current_Z_position(self):
+    	"""
+    	return Z positon acording to Gcode lines 
+    	never run this if machine is not in 'printing' state 
+    	"""
+    	return self.__current_Z_position
 
     def check_for_unfinished_print(self):
         """
