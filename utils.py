@@ -712,6 +712,7 @@ class Utils():
             return None
 
 
+
 class Extra():
 	def __init__(self):
 		self.homed_axis = []
@@ -726,3 +727,32 @@ class Extra():
 		if 'X' in self.homed_axis and 'Y' in self.homed_axis and 'Z' in self.homed_axis:
 			return True
 		return False
+
+
+class _Time:
+	"""
+	use _Time.start() to start the timer for print 
+	use _Time.read() to read the elapsed time from the start time 
+	at the end use _Time.stop() to stop the timer and read the hole time elapsed 
+	"""
+
+	start_time = None
+
+	@staticmethod
+	def start():
+		_Time.start_time = time.time()
+
+	@staticmethod
+	def read():
+		elapsed_time = time.time() - _Time.start_time
+		return time.strftime("%H:%M", time.gmtime(elapsed_time))
+
+	@staticmethod
+	def stop():
+		elapsed_time = time.time() - _Time.start_time
+		_Time.start_time = None
+		return time.strftime("%H:%M", time.gmtime(elapsed_time))
+
+
+
+
