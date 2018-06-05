@@ -357,6 +357,9 @@ class Machine:
 
             ''' stop printing '''
             if self.__stop_flag:
+
+            	# maybe here is the problem of the stop hanging **
+                
                 self.__Gcodes_to_run = []
                 self.__Gcodes_return = []
                 break
