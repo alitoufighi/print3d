@@ -1,5 +1,5 @@
 """
-this is a layer that connect the HTML gui with the serialport layer
+Machine utils for printer connection 
 programmer = SHB
 company = Persia3DPrinter (http://persia3dprinter.ir/)
 """
