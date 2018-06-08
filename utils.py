@@ -762,7 +762,7 @@ class _Time:
 
 
 
-class raspberry_hardware_info:
+class raspberry_hardware_info:#new
     """    
     thanks to this repository
     https://github.com/gavinlyonsrepo/raspberrypi_tempmon.git
