@@ -11,7 +11,14 @@ import subprocess
 import codecs
 import os
 import psutil
+import sqlite3
 
+class Print_Status:
+    def __init(self, _time, _temp, _filename, _filament_type):
+        self.time = _time
+        self.temp = _temp
+        self.filename = _filename
+        self.filament_type = _filament_type
 
 
 class Machine:
@@ -31,17 +38,30 @@ class Machine:
         self.__Gcodes_to_run = []
         self.__Gcodes_return = []
         #self.machine_settings = pickledb.load('machine-settings-database.db', False)
+
+        self.db = sqlite3.connect('database.db')
+        c = self.db.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS settings (bedleveling_X1 real, bedleveling_X2 real,
+                bedleveling_Y1 real, bedleveling_Y2 real, traveling_feedrate real,
+                bedleveling_Z_ofsset real, bedleveling_Z_move_feedrate real,
+                hibernate_Z_offset real, pause_Z_move_feedrate real,
+                printing_buffer real)'''
+        )
+        # what to do if table is just created now and there is no data inside it?
+        c.execute('SELECT * FROM settings LIMIT 1')
+        settings=c.fetchone()
+
         self.machine_settings ={
             # manual bed leveling setting
-            'bedleveling_X1': 50, 'bedleveling_X2': 180, 'bedleveling_Y1': 50, 'bedleveling_Y2': 180,
-            'traveling_feedrate': 3000,
-            'bedleveling_Z_ofsset': 10, 'bedleveling_Z_move_feedrate': 1500,
+            'bedleveling_X1': settings[0], 'bedleveling_X2': settings[1], 'bedleveling_Y1': settings[1], 'bedleveling_Y2': settings[2],
+            'traveling_feedrate': settings[3],
+            'bedleveling_Z_ofsset': settings[4], 'bedleveling_Z_move_feedrate': settings[5],
             # hibernate setting
-            'hibernate_Z_offset': 5, 'hibernate_Z_move_feedrate': 1500,
+            'hibernate_Z_offset': settings[6], 'hibernate_Z_move_feedrate': settings[7],
             # pause setting
-            'pause_Z_offset': 10, 'pause_Z_move_feedrate': 1500,
+            'pause_Z_offset': settings[8], 'pause_Z_move_feedrate': settings[9],
             # printing buffer
-            'printing_buffer': 15
+            'printing_buffer': settings[10],
         }
         # print('here')
         # print (self.machine_settings.get('printing_buffer'))
@@ -55,7 +75,18 @@ class Machine:
         self.__Feedrate_speed_percentage = 100
         self.__Travel_speed_percentage = 100
         self.__current_Z_position = None
+        self.recent_print_status = self.load_recent_print_status() # is a list of tuples
         self.start_machine_connection()
+
+
+    def load_recent_print_status(self):
+        result=[]
+        c = self.db.cursor()
+        c.execute('SELECT * FROM prints LIMIT 10')
+        prints = c.fetchall()
+        # for print_status in prints:
+        #     result.append(Print_Status(_time=print_status[0], _temp=print_status[1], _filename=print_status[2], _filament_type=print_status[3]))
+        return prints;
 
     def get_bed_temp(self):
         return self.bed_temp
@@ -268,38 +299,38 @@ class Machine:
                 elif command.find('G1') == 0:
 
 
-                	'''                find and repalce F in Gcode file        '''
+                    '''                find and repalce F in Gcode file        '''
                     Feedrate_speed = command.find('F')
 
                     if Feedrate_speed != -1:
 
-                    	# find the number in front of 'F' character
-                    	if command.find(' ', Feedrate_speed) != -1:
-                    		end = command.find(' ', Feedrate_speed)
-                    	elif command.find('\n', Feedrate_speed) != -1:
-                    		end = command.find('\n')
-                    	else:
-                    		end = len(command)
+                        # find the number in front of 'F' character
+                        if command.find(' ', Feedrate_speed) != -1:
+                            end = command.find(' ', Feedrate_speed)
+                        elif command.find('\n', Feedrate_speed) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
 
-                    	last_feedrate = float(command[Feedrate_speed + 1: end]) 
-                    	new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
-     					command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
-     					end = None
+                        last_feedrate = float(command[Feedrate_speed + 1: end]) 
+                        new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
+                        command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
+                        end = None
 
 
 
-     				'''                  find and replace E in Gcode              '''
+                    '''                  find and replace E in Gcode              '''
                     Eresulte = command.find('E')
 
                     if Eresulte != -1:
 
-                    	# find the number in front of 'E' character
-                    	if command.find(' ', Eresulte) != -1:
-                    		end = command.find(' ', Eresulte)
-                    	elif command.find('\n', Eresulte) != -1:
-                    		end = command.find('\n')
-                    	else:
-                    		end = len(command)
+                        # find the number in front of 'E' character
+                        if command.find(' ', Eresulte) != -1:
+                            end = command.find(' ', Eresulte)
+                        elif command.find('\n', Eresulte) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
 
                         '''get the last e before the machine trun off'''
                         if e_pos_offset == 0 and line_to_go != 0:
@@ -318,7 +349,7 @@ class Machine:
                 elif command.find('G0') == 0:
 
 
-                	'''         find and replace Z in Gcode               '''
+                    '''         find and replace Z in Gcode               '''
                     Zresulte = command.find('Z')
 
                     if Zresulte != -1:
@@ -333,23 +364,23 @@ class Machine:
                         command = command[:-(len(command) - (Zresulte + 1))] + str(z_pos)
 
 
-                	'''                find and repalce F in Gcode file        '''
+                    '''                find and repalce F in Gcode file        '''
                     Travel_speed = command.find('F')
 
                     if Travel_speed != -1:
 
-                    	# find the number in front of 'F' character
-                    	if command.find(' ', Travel_speed) != -1:
-                    		end = command.find(' ', Travel_speed)
-                    	elif command.find('\n', Travel_speed) != -1:
-                    		end = command.find('\n')
-                    	else:
-                    		end = len(command)
+                        # find the number in front of 'F' character
+                        if command.find(' ', Travel_speed) != -1:
+                            end = command.find(' ', Travel_speed)
+                        elif command.find('\n', Travel_speed) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
 
-                    	last_travel_speed = float(command[Travel_speed + 1: end]) 
-                    	new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
-     					command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
-     					end = None
+                        last_travel_speed = float(command[Travel_speed + 1: end]) 
+                        new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
+                        command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
+                        end = None
 
 
 
@@ -365,13 +396,13 @@ class Machine:
             ''' stop printing '''
             if self.__stop_flag:
 
-            	# maybe here is the problem of the stop hanging **
+                # maybe here is the problem of the stop hanging **
                 
                 self.__Gcodes_to_run = []
                 self.__Gcodes_return = []
 
                 #    release motors after stop  
-        		self.append_gcode(gcode="M84")
+                self.append_gcode(gcode="M84")
 
                 break
 
@@ -394,6 +425,17 @@ class Machine:
         '''      here       '''
         self.on_the_print_page = False
         
+
+        # HERE THE PRINT IS DONE!
+        # new_print = Print_Status()
+
+        # self.save_print()
+        c = self.db.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS prints,
+            (time REAL, temp REAL, filename TEXT, filament_type TEXT)
+            ''')
+        print_status = ()
+        c.execute('INSERT INTO prints VALUES (?, ?, ?, ?)', print_status)
         try:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
@@ -600,7 +642,7 @@ class Machine:
                 folders.append(str(name))
 
         for g in gcodes:
-        	folders.append(g)
+            folders.append(g)
         return folders
 
     ''' print '''
@@ -624,17 +666,17 @@ class Machine:
         return self.print_percentage
 
     def set_feedrate_speed(self,percentage):
-    	self.__Feedrate_speed_percentage = percentage
+        self.__Feedrate_speed_percentage = percentage
 
     def set_travel_speed(self,percentage):
-    	self.__Travel_speed_percentage = percentage
+        self.__Travel_speed_percentage = percentage
 
     def get_current_Z_position(self):
-    	"""
-    	return Z positon acording to Gcode lines 
-    	never run this if machine is not in 'printing' state 
-    	"""
-    	return self.__current_Z_position
+        """
+        return Z positon acording to Gcode lines 
+        never run this if machine is not in 'printing' state 
+        """
+        return self.__current_Z_position
 
     def check_for_unfinished_print(self):
         """
@@ -681,10 +723,10 @@ class Utils():
 
     @staticmethod
     def get_ip_list():
-    	# return ['192.168.0.0', '192.168.0.1']
-    	time.sleep(1)
-    	ips = os.popen('sudo hostname -I').read()
-    	return ips.split()
+        # return ['192.168.0.0', '192.168.0.1']
+        time.sleep(1)
+        ips = os.popen('sudo hostname -I').read()
+        return ips.split()
 
     @staticmethod
     def wifi_con(un, pw):
@@ -692,9 +734,9 @@ class Utils():
             os.popen('nmcli n on')
             answer = os.popen('nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw)).read()
             if answer.find('successfully'):
-            	return 'success'
+                return 'success'
             else:
-            	raise
+                raise
         except Exception as e:
             print('error in connecting to wifi:', e)
             return 'failure'
@@ -722,44 +764,44 @@ class Utils():
 
 
 class Extra():
-	def __init__(self):
-		self.homed_axis = []
+    def __init__(self):
+        self.homed_axis = []
 
-	def addHomeAxis(self, axis):
-		if axis != 'All' and axis not in self.homed_axis:
-			self.homed_axis.append(axis)
-		elif axis == 'All':
-			self.homed_axis = ['X', 'Y', 'Z']
+    def addHomeAxis(self, axis):
+        if axis != 'All' and axis not in self.homed_axis:
+            self.homed_axis.append(axis)
+        elif axis == 'All':
+            self.homed_axis = ['X', 'Y', 'Z']
 
-	def checkHomeAxisAccess(self):
-		if 'X' in self.homed_axis and 'Y' in self.homed_axis and 'Z' in self.homed_axis:
-			return True
-		return False
+    def checkHomeAxisAccess(self):
+        if 'X' in self.homed_axis and 'Y' in self.homed_axis and 'Z' in self.homed_axis:
+            return True
+        return False
 
 
 class _Time:
-	"""
-	use _Time.start() to start the timer for print 
-	use _Time.read() to read the elapsed time from the start time 
-	at the end use _Time.stop() to stop the timer and read the hole time elapsed 
-	"""
+    """
+    use _Time.start() to start the timer for print 
+    use _Time.read() to read the elapsed time from the start time 
+    at the end use _Time.stop() to stop the timer and read the hole time elapsed 
+    """
 
-	start_time = None
+    start_time = None
 
-	@staticmethod
-	def start():
-		_Time.start_time = time.time()
+    @staticmethod
+    def start():
+        _Time.start_time = time.time()
 
-	@staticmethod
-	def read():
-		elapsed_time = time.time() - _Time.start_time
-		return time.strftime("%H:%M", time.gmtime(elapsed_time))
+    @staticmethod
+    def read():
+        elapsed_time = time.time() - _Time.start_time
+        return time.strftime("%H:%M", time.gmtime(elapsed_time))
 
-	@staticmethod
-	def stop():
-		elapsed_time = time.time() - _Time.start_time
-		_Time.start_time = None
-		return time.strftime("%H:%M", time.gmtime(elapsed_time))
+    @staticmethod
+    def stop():
+        elapsed_time = time.time() - _Time.start_time
+        _Time.start_time = None
+        return time.strftime("%H:%M", time.gmtime(elapsed_time))
 
 
 
