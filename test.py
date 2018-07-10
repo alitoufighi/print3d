@@ -24,9 +24,73 @@ def on_print_page():
             print('error in printing page:', e)
             return Response(status=500)
 
+@app.route('api/unlock', methods=['POST'])
+def unlock():
+    """
+    POST:
+        SENT:
+        {
+            code: UNLOCK_CODE_STR
+        }
+
+        RESPONSE:
+        {
+            status: STATUS_CODE_INT
+        }
+    """
+    try:
+        if(printer.is_locked):
+            if(printer.lock_code == request.json['code']):
+                printer.is_locked = False
+                return Response(status=200)
+            else:
+                return Response(status=403)
+        else:
+            return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
+    except Exception as e:
+        print('Error:', e)
+        return Response(500) # RETURN STATUS CODE TO BE RE-DEFINED
+
+@app.route('api/lock', methods=['POST'])
+def lock():
+    """
+    POST:
+    # TODO: CLARIFY WHAT DID YOU MEAN FROM SENDING A POST REQUEST? WHAT IS THAT CODE YOU MEANT TO BE CHECKED? IS IS SENT IN THIS REQUEST?
+    #
+    """
+    try:
+        if(printer.is_locked == False):
+            printer.is_locked = True
+            return Response(status=200)
+        else:
+            return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
+    except Exception as e:
+        print('Error:', e)
+        return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
+
+@app.route('api/get_time', methods=['GET'])
+def get_time():
+    """
+    GET:
+    {
+        time: String,
+        status: Integer,
+    }
+    """
+    try:
+        time_read = printer.time.read()
+        data = {
+            'time': time_read,
+            'status': 200,
+        }
+        return jsonify(data)
+    except Exception as e:
+        print('Error:', e)
+        return jsonify({'status': 500})
+
 @app.route('/api/temperatures', methods=['GET'])
 def temperatures():
-    # TODO: DECORATORS WORK BETTER HERE!
+    # TODO: DECORATORS WORK BETTER HERE! ALI EDIT: WAIT FOR ME TO THINK MORE ABOUT IT.
     # mw = middleWare(request)
     # if mw[0]:
         # return jsonify(mw[1])
