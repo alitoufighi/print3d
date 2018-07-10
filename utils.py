@@ -37,31 +37,32 @@ class Machine:
         self.machine_serial = None
         self.__Gcodes_to_run = []
         self.__Gcodes_return = []
+        self.time = _Time()
+        self.lock_code = '' # TO BE DISCUSSED
+        self.is_locked = False
         #self.machine_settings = pickledb.load('machine-settings-database.db', False)
 
         self.db = sqlite3.connect('database.db')
         c = self.db.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS settings (bedleveling_X1 real, bedleveling_X2 real,
-                bedleveling_Y1 real, bedleveling_Y2 real, traveling_feedrate real,
-                bedleveling_Z_ofsset real, bedleveling_Z_move_feedrate real,
-                hibernate_Z_offset real, pause_Z_move_feedrate real,
-                printing_buffer real)'''
-        )
+        c.execute('''CREATE TABLE IF NOT EXISTS settings (bedleveling_X1 real, bedleveling_X2 real, bedleveling_Y1 real, bedleveling_Y2 real, traveling_feedrate real, bedleveling_Z_ofsset real, bedleveling_Z_move_feedrate real, hibernate_Z_offset real, pause_Z_move_feedrate real, printing_buffer real)''')
         # what to do if table is just created now and there is no data inside it?
         c.execute('SELECT * FROM settings LIMIT 1')
         settings=c.fetchone()
+        if settings is None:
+            settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15)
 
+         # TODO: SET DEFAULT VALUES IF TABLE DOES NOT EXIST
         self.machine_settings ={
             # manual bed leveling setting
-            'bedleveling_X1': settings[0], 'bedleveling_X2': settings[1], 'bedleveling_Y1': settings[1], 'bedleveling_Y2': settings[2],
-            'traveling_feedrate': settings[3],
-            'bedleveling_Z_ofsset': settings[4], 'bedleveling_Z_move_feedrate': settings[5],
+            'bedleveling_X1': settings[0], 'bedleveling_X2': settings[1], 'bedleveling_Y1': settings[2], 'bedleveling_Y2': settings[3],
+            'traveling_feedrate': settings[4],
+            'bedleveling_Z_ofsset': settings[5], 'bedleveling_Z_move_feedrate': settings[6],
             # hibernate setting
-            'hibernate_Z_offset': settings[6], 'hibernate_Z_move_feedrate': settings[7],
+            'hibernate_Z_offset': settings[7], 'hibernate_Z_move_feedrate': settings[8],
             # pause setting
-            'pause_Z_offset': settings[8], 'pause_Z_move_feedrate': settings[9],
+            'pause_Z_offset': settings[9], 'pause_Z_move_feedrate': settings[10],
             # printing buffer
-            'printing_buffer': settings[10],
+            'printing_buffer': settings[11],
         }
         # print('here')
         # print (self.machine_settings.get('printing_buffer'))
@@ -785,21 +786,25 @@ class _Time:
     use _Time.read() to read the elapsed time from the start time 
     at the end use _Time.stop() to stop the timer and read the hole time elapsed 
     """
+    def __init__(self):
+        self.start_time = time.time()
 
-    start_time = None
+    # start_time = None
 
-    @staticmethod
-    def start():
-        _Time.start_time = time.time()
+    # @staticmethod
+    # def start():
+    #     _Time.start_time = time.time()
+    def restart(self):
+        self.start_time = time.time()
 
-    @staticmethod
-    def read():
-        elapsed_time = time.time() - _Time.start_time
+    # @staticmethod
+    def read(self):
+        elapsed_time = time.time() - self.start_time
         return time.strftime("%H:%M", time.gmtime(elapsed_time))
 
-    @staticmethod
-    def stop():
-        elapsed_time = time.time() - _Time.start_time
+    # @staticmethod
+    def stop(self):
+        elapsed_time = time.time() - self.start_time
         _Time.start_time = None
         return time.strftime("%H:%M", time.gmtime(elapsed_time))
 
