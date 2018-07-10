@@ -8,10 +8,19 @@ app = Flask(__name__)
 printer = Machine()
 extra = Extra()
 
+
+''' disable flask logging '''
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
+
+
 # def middleWare(*args, **kwargs):
     # return [True, *args]
 
 # TODO: TEMP API -> on the print page
+
 @app.route('/api/on_print_page', methods=['POST'])
 def on_print_page():
     if request.method == 'POST':
@@ -24,7 +33,7 @@ def on_print_page():
             print('error in printing page:', e)
             return Response(status=500)
 
-@app.route('api/unlock', methods=['POST'])
+@app.route('/api/unlock', methods=['POST'])
 def unlock():
     """
     POST:
@@ -51,7 +60,7 @@ def unlock():
         print('Error:', e)
         return Response(500) # RETURN STATUS CODE TO BE RE-DEFINED
 
-@app.route('api/lock', methods=['POST'])
+@app.route('/api/lock', methods=['POST'])
 def lock():
     """
     POST:
@@ -68,7 +77,7 @@ def lock():
         print('Error:', e)
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
 
-@app.route('api/get_time', methods=['GET'])
+@app.route('/api/get_time', methods=['GET'])
 def get_time():
     """
     GET:
@@ -458,12 +467,14 @@ def hello(path):
 
 if __name__ == '__main__':
     print('let\'s go')
+    '''
     subprocess.Popen(["chromium-browser", "--disk-cache-dir=/dev/null",
         "--disk-catch-size=1", "--hide-scrollbars",
         "--overscroll-history-navigation=0", "--incognito",
         "--disable-session-crashed-bubble", "--disable-infobars",
         " --noerrdialog", "--no-sandbox",
         "--kiosk", "--disable-translate",
-        "--start-maximized", "http://0.0.0.0"])
+        "--start-maximized", "http://0.0.0.0"])   #** comment for test in laptop /uncomment for test in raspberry pi
+    '''
     app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
 
