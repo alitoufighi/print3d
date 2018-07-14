@@ -38,8 +38,8 @@ class Machine:
         self.__Gcodes_to_run = []
         self.__Gcodes_return = []
         self.time = _Time()
-        self.lock_code = '' # TO BE DISCUSSED
-        self.is_locked = False
+        # self.lock_code = '' # TO BE DISCUSSED
+        self.pin = None # When locked, it will be set, when unlocked, it is None
         #self.machine_settings = pickledb.load('machine-settings-database.db', False)
 
         self.db = sqlite3.connect('database.db')
