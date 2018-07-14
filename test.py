@@ -39,7 +39,7 @@ def unlock():
     POST:
         SENT:
         {
-            code: UNLOCK_CODE_STR
+            pin: var char
         }
 
         RESPONSE:
@@ -49,8 +49,9 @@ def unlock():
     """
     try:
         if(printer.is_locked):
-            if(printer.lock_code == request.json['code']):
-                printer.is_locked = False
+            if(printer.pin == request.json['pin']):
+                # printer.is_locked = False
+                printer.pin = None
                 return Response(status=200)
             else:
                 return Response(status=403)
@@ -64,12 +65,14 @@ def unlock():
 def lock():
     """
     POST:
-    # TODO: CLARIFY WHAT DID YOU MEAN FROM SENDING A POST REQUEST? WHAT IS THAT CODE YOU MEANT TO BE CHECKED? IS IS SENT IN THIS REQUEST?
-    #
+    {
+        pin: var char
+    }
     """
     try:
-        if(printer.is_locked == False):
-            printer.is_locked = True
+        if(printer.pin is None):
+            printer.pin = request.json['pin']
+            # printer.is_locked = True
             return Response(status=200)
         else:
             return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
