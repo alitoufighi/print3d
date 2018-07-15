@@ -1,7 +1,6 @@
-from flask import Flask, request, render_template, url_for, Response, json
+from flask import Flask, request, render_template, url_for, Response, json, jsonify
 from utils import Machine, Utils, Extra
 from os.path import isfile
-from flask import jsonify
 import subprocess
 
 app = Flask(__name__)
@@ -20,9 +19,65 @@ log.setLevel(logging.ERROR)
     # return [True, *args]
 
 # TODO: TEMP API -> on the print page
+@app.route('/api/abs', methods=['GET', 'POST'])
+def ask_before_starting():
+    """
+    POST:
+        Request:
+        {
+            abs: boolean
+        }
+        Response:
+        {
+            status: integer
+        }
+
+    GET:
+        Response:
+        {
+            abs: boolean
+        }
+    """
+    if request.method == 'POST':
+        try:
+            status = request.json['abs']
+            printer.set_abs(status)
+            return Response(status=200)
+        except Exception as e:
+            print('Error:', e)
+            return Response(status=500)
+    elif request.method == 'GET':
+        try:
+            ask_before = printer.get_abs()
+        except Exception as e:
+            print('Error:', e)
+            return Response(status=500)
+
+
+@app.route('/api/get_z', methods=['GET'])
+def get_z():
+    """
+    Response:
+    {
+        z: Integer
+    }
+    """
+    try:
+        z = printer.get_current_Z_position()
+        return jsonify({'z': z}), 200
+    except Exception as e:
+        print('Error:', e)
+        return Response(status=500)
+
 
 @app.route('/api/on_print_page', methods=['POST'])
 def on_print_page():
+    """
+    POST:
+    {
+        
+    }
+    """
     if request.method == 'POST':
         try:
             if printer.on_the_print_page:
@@ -33,30 +88,32 @@ def on_print_page():
             print('error in printing page:', e)
             return Response(status=500)
 
+
 @app.route('/api/unlock', methods=['POST'])
 def unlock():
     """
     POST:
-        SENT:
+        REQUEST:
         {
             pin: var char
         }
 
         RESPONSE:
         {
-            status: STATUS_CODE_INT
+            status: Integer
         }
     """
     try:
-        if(printer.is_locked):
-            if(printer.pin == request.json['pin']):
-                # printer.is_locked = False
-                printer.pin = None
+        if printer.is_locked:
+            pin = printer.fetch_pin()
+            if pin == request.json['pin']:
+                printer.is_locked = False
+                # printer.pin = None
                 return Response(status=200)
             else:
                 return Response(status=403)
         else:
-            return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
+            return Response(status=404)
     except Exception as e:
         print('Error:', e)
         return Response(500) # RETURN STATUS CODE TO BE RE-DEFINED
@@ -66,16 +123,17 @@ def lock():
     """
     POST:
     {
-        pin: var char
     }
     """
     try:
-        if(printer.pin is None):
-            printer.pin = request.json['pin']
-            # printer.is_locked = True
-            return Response(status=200)
+        pin = printer.fetch_pin()
+        if pin is None:
+            return Response(status=404)
         else:
-            return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
+            printer.is_locked = True
+            return Response(status=200)
+        # else:
+        #     return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
     except Exception as e:
         print('Error:', e)
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
@@ -91,14 +149,10 @@ def get_time():
     """
     try:
         time_read = printer.time.read()
-        data = {
-            'time': time_read,
-            'status': 200,
-        }
-        return jsonify(data)
+        return jsonify({'time': time_read}), 200
     except Exception as e:
         print('Error:', e)
-        return jsonify({'status': 500})
+        return Response(status=500)
 
 @app.route('/api/temperatures', methods=['GET'])
 def temperatures():

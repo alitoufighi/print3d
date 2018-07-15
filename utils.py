@@ -36,20 +36,18 @@ class Machine:
         self.machine_port = machine_port
         self.machine_serial = None
         self.__Gcodes_to_run = []
-        self.__Gcodes_return = []
-        self.time = _Time()
-        # self.lock_code = '' # TO BE DISCUSSED
+        self.__Gcodes_return = []\
+        self.is_locked = False
         self.pin = None # When locked, it will be set, when unlocked, it is None
         #self.machine_settings = pickledb.load('machine-settings-database.db', False)
 
         self.db = sqlite3.connect('database.db')
         c = self.db.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS settings (bedleveling_X1 real, bedleveling_X2 real, bedleveling_Y1 real, bedleveling_Y2 real, traveling_feedrate real, bedleveling_Z_ofsset real, bedleveling_Z_move_feedrate real, hibernate_Z_offset real, pause_Z_move_feedrate real, printing_buffer real)''')
-        # what to do if table is just created now and there is no data inside it?
+        c.execute('''CREATE TABLE IF NOT EXISTS settings (bedleveling_X1 real, bedleveling_X2 real, bedleveling_Y1 real, bedleveling_Y2 real, traveling_feedrate real, bedleveling_Z_ofsset real, bedleveling_Z_move_feedrate real, hibernate_Z_offset real, pause_Z_move_feedrate real, printing_buffer real, ABS boolean)''')
         c.execute('SELECT * FROM settings LIMIT 1')
         settings=c.fetchone()
         if settings is None:
-            settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15)
+            settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15, False)
 
          # TODO: SET DEFAULT VALUES IF TABLE DOES NOT EXIST
         self.machine_settings ={
@@ -63,12 +61,16 @@ class Machine:
             'pause_Z_offset': settings[9], 'pause_Z_move_feedrate': settings[10],
             # printing buffer
             'printing_buffer': settings[11],
+            # Ask Before Starting print after hibernate
+            'ABS': settings[12],
+
         }
         # print('here')
+        self.time = None
         # print (self.machine_settings.get('printing_buffer'))
         self.Gcode_handler_error_logs = []
-        self.extruder_temp  = {'current':0,'point':0}
-        self.bed_temp = {'current':0,'point':0}
+        self.extruder_temp  = {'current':0, 'point':0}
+        self.bed_temp = {'current':0, 'point':0}
         self.print_percentage = 0
         self.__stop_flag = False
         self.__pause_flag = False
@@ -78,6 +80,24 @@ class Machine:
         self.__current_Z_position = None
         #self.recent_print_status = self.load_recent_print_status() # is a list of tuples
         self.start_machine_connection()
+
+
+    def fetch_pin(self):
+        c = self.db.cursor()
+        c.execute("SELECT * FROM pin LIMIT 1")
+        pin=c.fetchone()
+        if pin is None:
+            return None
+        return pin
+
+    def set_abs(self, status):
+        c = self.db.cursor()
+        c.execute("UPDATE settings SET ABS=?", (status,))
+
+    def get_abs(self):
+        c = self.db.cursor()
+        c.execute("SELECT ABS FROM settings")
+        return c.fetchone()
 
 
     def load_recent_print_status(self):
@@ -125,9 +145,9 @@ class Machine:
             gcode_handler_thread.start()
 
             return True,None
-        except Exception as ex:
-            print(ex)
-            return False,ex
+        except Exception as e:
+            print(e)
+            return False,e
 
 
     def __Gcode_handler(self):
@@ -654,6 +674,7 @@ class Machine:
     ''' print '''
     def start_printing_thread(self,gcode_dir,line=0):
         print('@@@ printing file dir:', gcode_dir)
+        self.time = Time()
         gcode_dir = self.base_path + '/' + gcode_dir
         read_file_gcode_lines_thread = threading.Thread(target=self.__read_file_gcode_lines,args=(gcode_dir,line,))
         read_file_gcode_lines_thread.start()
@@ -785,7 +806,7 @@ class Extra():
         return False
 
 
-class _Time:
+class Time:
     """
     use _Time.start() to start the timer for print 
     use _Time.read() to read the elapsed time from the start time 
@@ -810,7 +831,7 @@ class _Time:
     # @staticmethod
     def stop(self):
         elapsed_time = time.time() - self.start_time
-        _Time.start_time = None
+        self.start_time = None
         return time.strftime("%H:%M", time.gmtime(elapsed_time))
 
 
