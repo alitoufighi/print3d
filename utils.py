@@ -13,13 +13,6 @@ import os
 import psutil
 import sqlite3
 
-class Print_Status:
-    def __init(self, _time, _temp, _filename, _filament_type):
-        self.time = _time
-        self.temp = _temp
-        self.filename = _filename
-        self.filament_type = _filament_type
-
 
 class Machine:
     def __init__(self, machine_port='/dev/ttyUSB0', machine_baudrate=250000):
@@ -30,7 +23,6 @@ class Machine:
         :param machine_baudrate:
         usually is 250000 because of machine-settings-database.db default
         """
-        # print("I'm new.")
         self.base_path = '/media/shb'#'/media/pi'   '''** change for test in laptop or raspberry pi   '''
         self.machine_baudrate = machine_baudrate
         self.machine_port = machine_port
@@ -38,6 +30,7 @@ class Machine:
         self.__Gcodes_to_run = []
         self.__Gcodes_return = []\
         self.is_locked = False
+        self.printing_file = None # When printing started, it will set to filename
         self.pin = None # When locked, it will be set, when unlocked, it is None
         #self.machine_settings = pickledb.load('machine-settings-database.db', False)
 
@@ -49,9 +42,8 @@ class Machine:
         if settings is None:
             settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15, False)
 
-         # TODO: SET DEFAULT VALUES IF TABLE DOES NOT EXIST
         self.machine_settings ={
-            # manual bed leveling setting
+            # manual bed leveling settings
             'bedleveling_X1': settings[0], 'bedleveling_X2': settings[1], 'bedleveling_Y1': settings[2], 'bedleveling_Y2': settings[3],
             'traveling_feedrate': settings[4],
             'bedleveling_Z_ofsset': settings[5], 'bedleveling_Z_move_feedrate': settings[6],
@@ -63,11 +55,9 @@ class Machine:
             'printing_buffer': settings[11],
             # Ask Before Starting print after hibernate
             'ABS': settings[12],
-
         }
-        # print('here')
+
         self.time = None
-        # print (self.machine_settings.get('printing_buffer'))
         self.Gcode_handler_error_logs = []
         self.extruder_temp  = {'current':0, 'point':0}
         self.bed_temp = {'current':0, 'point':0}
@@ -78,7 +68,7 @@ class Machine:
         self.__Travel_speed_percentage = 100
         self.__Feedrate_speed_percentage = 100
         self.__current_Z_position = None
-        #self.recent_print_status = self.load_recent_print_status() # is a list of tuples
+        # self.recent_print_status = self.load_recent_print_status() # is a list of tuples
         self.start_machine_connection()
 
 
@@ -100,13 +90,21 @@ class Machine:
         return c.fetchone()
 
 
-    def load_recent_print_status(self):
+    def get_recent_print_status(self):
         result=[]
         c = self.db.cursor()
         c.execute('SELECT * FROM prints LIMIT 10')
         prints = c.fetchall()
-        # for print_status in prints:
-        #     result.append(Print_Status(_time=print_status[0], _temp=print_status[1], _filename=print_status[2], _filament_type=print_status[3]))
+
+        for print_status in prints:
+            status = {
+                'time': print_status[0],
+                'temperature': print_status[1],
+                'file_name': print_status[2],
+                'filament_type': print_status[3],
+                'is_finished': print_status[4],
+            }
+            result.append(status)
         return prints;
 
     def get_bed_temp(self):
@@ -133,17 +131,12 @@ class Machine:
             self.machine_serial.open()
             time.sleep(2)
             self.machine_serial.write(b'G00\n')
-            # print('@#')
             while True:
                 text = str(self.machine_serial.readline())
-                # print(text)
                 if text.find('ok') != -1:
                     break
-            # print('overthere')
             gcode_handler_thread = threading.Thread(target=self.__Gcode_handler)
-            #gcode_handler_thread.daemon=True
             gcode_handler_thread.start()
-
             return True,None
         except Exception as e:
             print(e)
@@ -159,12 +152,9 @@ class Machine:
         while True:
             try:
                 if self.__Gcodes_to_run:
-                    # print("GCODES TO RUN:", self.__Gcodes_to_run)
                     print('send to machine', ('%s%s' % (self.__Gcodes_to_run[0], '\n')).encode('utf-8'))
                     self.machine_serial.write((self.__Gcodes_to_run[0] + '\n').encode('utf-8'))
                     if self.__Gcodes_return[0] == 0:
-                        '''nothing to return'''
-                        # print('machine serial', self.machine_serial)
                         while self.machine_serial.readline() != 'ok\n'.encode('utf-8'): pass
                         first_done = True
 
@@ -176,7 +166,6 @@ class Machine:
                         self.extruder_temp['point'] = float(splited[2][1:])
                         self.bed_temp['current'] = float(splited[3][2:])
                         self.bed_temp['point'] = float(splited[4][1:])
-                        #print (self.extruder_temp)
                         first_done = True
 
                     elif self.__Gcodes_return[0] == 2:
@@ -453,18 +442,27 @@ class Machine:
         
 
         # HERE THE PRINT IS DONE!
-        # new_print = Print_Status()
+        new_print = {}
+        new_print['time'] = self.time.read()
+        new_print['temperature'] = self.extruder_temp
+        new_print['file_name'] = self.printing_file
+        new_print['filament_type'] = None # TO BE SET
+        new_print['is_finished'] = self.print_percentage == 100
+        
+        self.printing_file = None
 
-        # self.save_print()
+
         c = self.db.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS prints,
-            (time REAL, temp REAL, filename TEXT, filament_type TEXT)
+        c.execute('''CREATE TABLE IF NOT EXISTS Prints,
+            (time REAL, temperature REAL, file_name TEXT, filament_type TEXT, is_finished Boolean)
             ''')
-        print_status = ()
-        c.execute('INSERT INTO prints VALUES (?, ?, ?, ?)', print_status)
+        print_status = (new_print['time'], new_print['temperature'],
+            new_print['file_name'], new_print['filament_type'], new_print['is_finished'], new_print[])
+        c.execute('INSERT INTO prints VALUES (?, ?, ?, ?, ?)', print_status)
         try:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
+            # self.printing_file = None
         except Exception as e:
             print('error in reading file lines: ', e)
             pass
@@ -672,9 +670,10 @@ class Machine:
         return folders
 
     ''' print '''
-    def start_printing_thread(self,gcode_dir,line=0):
+    def start_printing_thread(self, gcode_dir,line=0):
         print('@@@ printing file dir:', gcode_dir)
         self.time = Time()
+        self.printing_file = gcode_dir
         gcode_dir = self.base_path + '/' + gcode_dir
         read_file_gcode_lines_thread = threading.Thread(target=self.__read_file_gcode_lines,args=(gcode_dir,line,))
         read_file_gcode_lines_thread.start()
@@ -808,31 +807,25 @@ class Extra():
 
 class Time:
     """
-    use _Time.start() to start the timer for print 
-    use _Time.read() to read the elapsed time from the start time 
-    at the end use _Time.stop() to stop the timer and read the hole time elapsed 
+    Initialize object to start the timer for print 
+    use Time.read() to read the elapsed time from the start time 
+    at the end use Time.stop() to stop the timer and read the hole time elapsed 
     """
     def __init__(self):
         self.start_time = time.time()
 
-    # start_time = None
-
-    # @staticmethod
-    # def start():
-    #     _Time.start_time = time.time()
     def restart(self):
         self.start_time = time.time()
 
-    # @staticmethod
+    # return value as milliseconds
     def read(self):
         elapsed_time = time.time() - self.start_time
-        return time.strftime("%H:%M", time.gmtime(elapsed_time))
+        return int(elapsed_time) * 1000
 
-    # @staticmethod
     def stop(self):
         elapsed_time = time.time() - self.start_time
         self.start_time = None
-        return time.strftime("%H:%M", time.gmtime(elapsed_time))
+        return int(elapsed_time) * 1000
 
 
 

@@ -18,7 +18,16 @@ log.setLevel(logging.ERROR)
 # def middleWare(*args, **kwargs):
     # return [True, *args]
 
-# TODO: TEMP API -> on the print page
+
+@app.route('/api/recent_print_status', methods=['GET'])
+def recent_print_status():
+    try:
+        data = printer.get_recent_print_status()
+        return jsonify(data), 200
+    except Exception as e:
+        print('Error:', e)
+        return Response(status=500)
+
 @app.route('/api/abs', methods=['GET', 'POST'])
 def ask_before_starting():
     """
@@ -70,6 +79,7 @@ def get_z():
         return Response(status=500)
 
 
+# TODO: TEMP API -> on the print page
 @app.route('/api/on_print_page', methods=['POST'])
 def on_print_page():
     """
@@ -87,7 +97,6 @@ def on_print_page():
         except Exception as e:
             print('error in printing page:', e)
             return Response(status=500)
-
 
 @app.route('/api/unlock', methods=['POST'])
 def unlock():
@@ -108,7 +117,6 @@ def unlock():
             pin = printer.fetch_pin()
             if pin == request.json['pin']:
                 printer.is_locked = False
-                # printer.pin = None
                 return Response(status=200)
             else:
                 return Response(status=403)
@@ -116,7 +124,7 @@ def unlock():
             return Response(status=404)
     except Exception as e:
         print('Error:', e)
-        return Response(500) # RETURN STATUS CODE TO BE RE-DEFINED
+        return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
 
 @app.route('/api/lock', methods=['POST'])
 def lock():
