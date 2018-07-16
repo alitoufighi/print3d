@@ -872,3 +872,85 @@ class raspberry_hardware_info:#new
     def get_swap_info():
         """ Return swap memory  usage using psutil """
         return psutil.swap_memory()[3]
+
+
+class extended_board:
+    def __init__(self, board_port='/dev/ttyS0', board_baudrate=9600):
+        self.filament_exist = True
+        self.relay1 = False
+        self.relay2 = False
+        self
+
+        try:
+            self.board_serial = serial.Serial(
+                port=self.board_port,
+                baudrate=self.board_baudrate,
+                parity=serial.PARITY_NONE,
+                stopbits=serial.STOPBITS_ONE,
+                bytesize=serial.EIGHTBITS
+            )
+            self.board_serial.close()
+            self.board_serial.open()
+            time.sleep(2)
+            self.board_serial.write(b'0\n')
+            while True:
+                text = str(self.board_serial.readline())
+                if text.find('ok') != -1:
+                    break
+            return True,None
+        except Exception as e:
+            print(e)
+            return False,e
+
+
+    def check_filament_status(self):
+        """
+        check filament 
+        is exist return true 
+        not exist return false and the printer most pause 
+        if return None it means its in the last situation 
+
+
+        """
+        if inWaiting() > 0: 
+            text = str(self.board_serial.readline())
+            if text.find('F'):
+                self.filament_exist = True
+                self.board_serial.write(b'ok\n')
+                return True
+
+            else if text.find('N'):
+                self.filament_exist = False
+                self.board_serial.write(b'ok\n')
+                return False 
+
+        else : return None
+
+
+    def relay_status(self,relay_num,status):
+        """
+        
+        set the relay on or off 
+        we have 2 relay 
+
+        after sending the data it will wait for  an 'ok' to recive frome board 
+
+
+
+        """
+        if relay_num == 1 : 
+            if status:
+                self.board_serial.write(b'O1\n')
+            else:
+                self.board_serial.write(b'L1\n')
+        
+        else if relay_num == 2 : 
+            if status:
+                self.board_serial.write(b'O2\n')
+            else:
+                self.board_serial.write(b'L2\n')
+
+        while True:
+            text = str(self.board_serial.readline())
+            if text.find('ok') != -1:
+                return
