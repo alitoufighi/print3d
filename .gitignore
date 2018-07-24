@@ -3,4 +3,7 @@ __pycache__/
 *.pyc
 backup_print.bc
 backup_print_path.bc
-*.db
+database.db
+*.map
+static/
+*.html

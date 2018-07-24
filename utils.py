@@ -10,12 +10,14 @@ import threading
 import subprocess
 import codecs
 import os
-import psutil
+# import psutil
 import sqlite3
+
+BASE_PATH = '/media/alitou' # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
 
 
 class Machine:
-    def __init__(self, machine_port='/dev/ttyUSB0', machine_baudrate=250000):
+    def __init__(self, machine_port='/dev/ttyUSB1', machine_baudrate=250000):
         """
         :param machine_port:
         for linux base boards something like  '/dev/ttyUSB0'
@@ -23,26 +25,49 @@ class Machine:
         :param machine_baudrate:
         usually is 250000 because of machine-settings-database.db default
         """
-        self.base_path = '/media/shb'#'/media/pi'   '''** change for test in laptop or raspberry pi   '''
+        self.base_path = BASE_PATH
         self.machine_baudrate = machine_baudrate
         self.machine_port = machine_port
         self.machine_serial = None
         self.__Gcodes_to_run = []
-        self.__Gcodes_return = []\
+        self.__Gcodes_return = []
         self.is_locked = False
-        self.printing_file = None # When printing started, it will set to filename
-        self.pin = None # When locked, it will be set, when unlocked, it is None
-        #self.machine_settings = pickledb.load('machine-settings-database.db', False)
+        self.printing_file = None  # When printing started, it will set to filename
+        self.pin = None  # When locked, it will be set, when unlocked, it is None
 
-        self.db = sqlite3.connect('database.db')
-        c = self.db.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS settings (bedleveling_X1 real, bedleveling_X2 real, bedleveling_Y1 real, bedleveling_Y2 real, traveling_feedrate real, bedleveling_Z_ofsset real, bedleveling_Z_move_feedrate real, hibernate_Z_offset real, pause_Z_move_feedrate real, printing_buffer real, ABS boolean)''')
-        c.execute('SELECT * FROM settings LIMIT 1')
-        settings=c.fetchone()
+        db = sqlite3.connect('database.db', check_same_thread=False, isolation_level=None)
+        self.dbcursor = db.cursor()
+        # settings_keys = ('bedleveling_X1', 'bedleveling_X2',
+        #                  'bedleveling_Y1', 'bedleveling_Y2',
+        #                  'traveling_feedrate', 'bedleveling_Z_ofsset',
+        #                  'bedleveling_Z_move_feedrate', 'hibernate_Z_offset',
+        #                  'hibernate_Z_move_feedrate', 'pause_Z_offset',
+        #                  'pause_Z_move_feedrate', 'printing_buffer',
+        #                  'ABS', 'pin')
+
+        self.dbcursor.execute('''CREATE TABLE IF NOT EXISTS Settings
+        (bedleveling_X1 real, bedleveling_X2 real,
+        bedleveling_Y1 real, bedleveling_Y2 real,
+        traveling_feedrate real, bedleveling_Z_ofsset real,
+        bedleveling_Z_move_feedrate real, hibernate_Z_offset real,
+        hibernate_Z_move_feedrate real, pause_Z_offset real,
+        pause_Z_move_feedrate real, printing_buffer real,
+        ABS boolean, pin real)''')
+
+        self.dbcursor.execute('SELECT * FROM Settings LIMIT 1')
+        settings=self.dbcursor.fetchone()
         if settings is None:
-            settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15, False)
+            settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15, False, None,)
+            self.dbcursor.execute("""INSERT INTO Settings
+                                  (bedleveling_X1, bedleveling_X2,
+                                  bedleveling_Y1, bedleveling_Y2,
+                                  traveling_feedrate, bedleveling_Z_ofsset,
+                                  bedleveling_Z_move_feedrate, hibernate_Z_offset,
+                                  hibernate_Z_move_feedrate, pause_Z_offset,
+                                  pause_Z_move_feedrate, printing_buffer, ABS, pin)
+                                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", settings)
 
-        self.machine_settings ={
+        self.machine_settings = {
             # manual bed leveling settings
             'bedleveling_X1': settings[0], 'bedleveling_X2': settings[1], 'bedleveling_Y1': settings[2], 'bedleveling_Y2': settings[3],
             'traveling_feedrate': settings[4],
@@ -59,8 +84,8 @@ class Machine:
 
         self.time = None
         self.Gcode_handler_error_logs = []
-        self.extruder_temp  = {'current':0, 'point':0}
-        self.bed_temp = {'current':0, 'point':0}
+        self.extruder_temp = {'current': 0, 'point': 0}
+        self.bed_temp = {'current': 0, 'point': 0}
         self.print_percentage = 0
         self.__stop_flag = False
         self.__pause_flag = False
@@ -68,33 +93,37 @@ class Machine:
         self.__Travel_speed_percentage = 100
         self.__Feedrate_speed_percentage = 100
         self.__current_Z_position = None
-        # self.recent_print_status = self.load_recent_print_status() # is a list of tuples
+        
         self.start_machine_connection()
 
+    def set_pin(self, pin):
+        try:
+            self.dbcursor.execute('UPDATE Settings SET pin = ?', (pin,))
+            print(pin)
+            return True
+        except Exception as e:
+            print('Error:', e)
+            return False
 
     def fetch_pin(self):
-        c = self.db.cursor()
-        c.execute("SELECT * FROM pin LIMIT 1")
-        pin=c.fetchone()
+        print(self.is_locked)
+        self.dbcursor.execute('SELECT pin FROM Settings LIMIT 1')
+        pin = self.dbcursor.fetchone()[0]
         if pin is None:
             return None
-        return pin
+        return int(pin)
 
     def set_abs(self, status):
-        c = self.db.cursor()
-        c.execute("UPDATE settings SET ABS=?", (status,))
+        self.dbcursor.execute("UPDATE Settings SET ABS=?", (status,))
 
     def get_abs(self):
-        c = self.db.cursor()
-        c.execute("SELECT ABS FROM settings")
-        return c.fetchone()
-
+        self.dbcursor.execute("SELECT ABS FROM Settings LIMIT 1")
+        return self.dbcursor.fetchone()[0]
 
     def get_recent_print_status(self):
         result=[]
-        c = self.db.cursor()
-        c.execute('SELECT * FROM prints LIMIT 10')
-        prints = c.fetchall()
+        self.dbcursor.execute('SELECT * FROM Prints LIMIT 10')
+        prints = self.dbcursor.fetchall()
 
         for print_status in prints:
             status = {
@@ -105,7 +134,7 @@ class Machine:
                 'is_finished': print_status[4],
             }
             result.append(status)
-        return prints;
+        return result
 
     def get_bed_temp(self):
         return self.bed_temp
@@ -141,7 +170,6 @@ class Machine:
         except Exception as e:
             print(e)
             return False,e
-
 
     def __Gcode_handler(self):
         """
@@ -218,8 +246,7 @@ class Machine:
         self.__current_Z_position = None
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
-        
-        
+
         '''      here       '''
         self.on_the_print_page = True
 
@@ -266,7 +293,6 @@ class Machine:
             self.append_gcode('G1 -Z%f F%f'%(self.machine_settings['hibernate_Z_offset'],self.machine_settings['hibernate_Z_move_feedrate']))
             self.append_gcode('G90')
 
-
         ''' gcode applicator '''
         for x in range(line_to_go, len(lines)):
             '''wait for buffer to be free'''
@@ -274,7 +300,6 @@ class Machine:
                 ''' stop printing when it is wainting in buffer'''
                 if self.__stop_flag:
                     break
-
 
             signnum = lines[x].find(';')
             if not lines[x]:pass
@@ -308,7 +333,6 @@ class Machine:
                 
                 elif command.find('G1') == 0:
 
-
                     '''                find and repalce F in Gcode file        '''
                     Feedrate_speed = command.find('F')
 
@@ -327,8 +351,6 @@ class Machine:
                         command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
                         end = None
                         print('G1 F%f'%( new_feedrate))
-
-
 
                     '''                  find and replace E in Gcode              '''
                     Eresulte = command.find('E')
@@ -357,11 +379,9 @@ class Machine:
                         end = None
                         print('G1 E%f'%(last_e_pos))
 
-
                     self.append_gcode(command)
                     
                 elif command.find('G0') == 0:
-
 
                     '''         find and replace Z in Gcode               '''
                     Zresulte = command.find('Z')
@@ -376,7 +396,6 @@ class Machine:
                             z_pos = z_pos - z_pos_offset
                         self.__current_Z_position = z_pos
                         command = command[:-(len(command) - (Zresulte + 1))] + str(z_pos)
-
 
                     '''                find and repalce F in Gcode file        '''
                     Travel_speed = command.find('F')
@@ -396,9 +415,6 @@ class Machine:
                         command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
                         end = None
                         print('travel speed %f and old one %f'%(new_travel_speed,last_travel_speed))
-
-
-
 
                     self.append_gcode(command)
 
@@ -425,40 +441,30 @@ class Machine:
             if self.__pause_flag:
 
                 self.append_gcode('G91')
-                self.append_gcode('G1 Z%f F%f'%(self.machine_settings['pause_Z_offset'],self.machine_settings['pause_Z_move_feedrate']))
+                self.append_gcode('G1 Z%f F%f' % (self.machine_settings['pause_Z_offset'],
+                                                self.machine_settings['pause_Z_move_feedrate']))
                 self.append_gcode('G28 X Y')
                 self.append_gcode('G90')
 
                 while self.__pause_flag:pass
 
                 self.append_gcode('G91')
-                self.append_gcode('G1 Z-%f F%f'%(self.machine_settings['pause_Z_offset'],self.machine_settings['pause_Z_move_feedrate']))
+                self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
+                                                 self.machine_settings['pause_Z_move_feedrate']))
                 self.append_gcode('G90')
 
-            '''   print done '''
+            """  print done """
             
         '''      here       '''
-        self.on_the_print_page = False
-        
-
-        # HERE THE PRINT IS DONE!
-        new_print = {}
+        new_print = dict()
         new_print['time'] = self.time.read()
         new_print['temperature'] = self.extruder_temp
         new_print['file_name'] = self.printing_file
         new_print['filament_type'] = None # TO BE SET
         new_print['is_finished'] = self.print_percentage == 100
-        
-        self.printing_file = None
 
+        self.finalize_print(new_print)
 
-        c = self.db.cursor()
-        c.execute('''CREATE TABLE IF NOT EXISTS Prints,
-            (time REAL, temperature REAL, file_name TEXT, filament_type TEXT, is_finished Boolean)
-            ''')
-        print_status = (new_print['time'], new_print['temperature'],
-            new_print['file_name'], new_print['filament_type'], new_print['is_finished'], new_print[])
-        c.execute('INSERT INTO prints VALUES (?, ?, ?, ?, ?)', print_status)
         try:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
@@ -466,6 +472,17 @@ class Machine:
         except Exception as e:
             print('error in reading file lines: ', e)
             pass
+
+    def finalize_print(self, new_print):
+        self.on_the_print_page = False
+        self.printing_file = None
+
+        self.dbcursor.execute('''CREATE TABLE IF NOT EXISTS Prints\
+                    (time REAL, temperature REAL, file_name TEXT, filament_type TEXT, is_finished Boolean)\
+                    ''')
+        print_status = (new_print['time'], new_print['temperature'],
+                        new_print['file_name'], new_print['filament_type'], new_print['is_finished'])
+        self.dbcursor.execute('INSERT INTO Prints VALUES (?, ?, ?, ?, ?)', print_status)
 
     def append_gcode(self,gcode,gcode_return=0):
         """
@@ -484,9 +501,7 @@ class Machine:
         self.__Gcodes_return.append(gcode_return)
         print('Gcodes to Run:', self.__Gcodes_to_run)
 
-
-
-################################### Methodes for controll printer
+# Methods to control printer
 
     def Home_machine(self,axis='All'):
         """
@@ -496,22 +511,20 @@ class Machine:
         X Y Z All
         :return:
         """
-        # print(axis)
-        if axis== 'All':
+        if axis == 'All':
             self.append_gcode(gcode='G28 X Y Z')
-        elif axis== 'X':
+        elif axis == 'X':
             self.append_gcode(gcode='G28 X')
-        elif axis== 'Y':
+        elif axis == 'Y':
             self.append_gcode(gcode='G28 Y')
-        elif axis== 'Z':
+        elif axis == 'Z':
             self.append_gcode(gcode='G28 Z')
 
-    def Release_motors(self):
+    def release_motors(self):
         self.append_gcode(gcode="M84")
 
     def fan_status(self,status='ON'):
         """
-
         :param status:
         ON for 255 speed for fan
         Half for 127 speed for fan
@@ -527,7 +540,6 @@ class Machine:
 
     def move_axis(self,axis,positioning_mode,value):
         """
-
         :param axis:
         X
         Y
@@ -543,7 +555,7 @@ class Machine:
             self.append_gcode(gcode='G91')
         elif positioning_mode == 'Absolute':
             self.append_gcode(gcode='G90')
-        gcode = 'G1 %s%f'%(axis,value)
+        gcode = 'G1 %s%f' % (axis,value)
         self.append_gcode(gcode=gcode)
 
     def extrude(self,value,feedrate=1000):
@@ -566,20 +578,18 @@ class Machine:
 
     def set_hotend_temp(self,value):
         if value+self.extruder_temp['point'] > 0:
-            self.append_gcode(gcode='M104 S%d'%(value))#+self.extruder_temp['point']))
+            self.append_gcode(gcode='M104 S%d' % value)  # +self.extruder_temp['point']))
         else:
             self.append_gcode(gcode='M104 S0')
 
-
     def set_bed_temp(self,value):
         if value+self.bed_temp['point'] > 0 :
-            self.append_gcode(gcode='M140 S%d'%(value))#+self.bed_temp['point']))
+            self.append_gcode(gcode='M140 S%d' % value)  # +self.bed_temp['point']))
         else:
             self.append_gcode(gcode='M140 S0')
 
     def bedleveling_manual(self,stage):
         """
-
         :param stage:
         1 2 3 4
         |-------------------|
@@ -593,81 +603,42 @@ class Machine:
         """
         if stage == 1:
             self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f'%(self.machine_settings['bedleveling_Z_ofsset'],self.machine_settings['bedleveling_Z_move_feedrate'])
+            gcode = 'G1 Z%f F%f' % (self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f'%(self.machine_settings['bedleveling_X1'],self.machine_settings['bedleveling_Y1'],self.machine_settings['traveling_feedrate'])
+            gcode = 'G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X1'], self.machine_settings['bedleveling_Y1'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
         if stage == 2:
-            self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f'%(self.machine_settings['bedleveling_Z_ofsset'],self.machine_settings['bedleveling_Z_move_feedrate'])
+            self.append_gcode(gcode = 'G91')
+            gcode = 'G1 Z%f F%f'%(self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f'%(self.machine_settings['bedleveling_X2'],self.machine_settings['bedleveling_Y1'],self.machine_settings['traveling_feedrate'])
+            gcode ='G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X2'], self.machine_settings['bedleveling_Y1'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
         if stage == 3:
             self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f'%(self.machine_settings['bedleveling_Z_ofsset'],self.machine_settings['bedleveling_Z_move_feedrate'])
+            gcode = 'G1 Z%f F%f' % (self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f'%(self.machine_settings['bedleveling_X1'],self.machine_settings['bedleveling_Y2'],self.machine_settings['traveling_feedrate'])
+            gcode ='G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X1'], self.machine_settings['bedleveling_Y2'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
         if stage == 4:
             self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f'%(self.machine_settings['bedleveling_Z_ofsset'],self.machine_settings['bedleveling_Z_move_feedrate'])
+            gcode = 'G1 Z%f F%f' % (self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f'%(self.machine_settings['bedleveling_X2'],self.machine_settings['bedleveling_Y2'],self.machine_settings['traveling_feedrate'])
+            gcode ='G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X2'], self.machine_settings['bedleveling_Y2'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
     def refresh_temp(self):
         self.append_gcode('M105',1)
-
-    """ directories """
-    def get_connected_usb(self):
-        """
-        select a usb
-        :return:
-        first is any usb connected or not
-        second the exception or the directories of usb
-        """
-        sub_usb_dir = subprocess.Popen(['ls', self.base_path], stdout=subprocess.PIPE).communicate()[0]
-        sub_usb_dir = sub_usb_dir[:-1]
-        if sub_usb_dir == '':
-            return None
-            # return False,'No usb found.'
-        else:
-            sub_usb_dir=sub_usb_dir.split(b'\n')
-            sub_usb_dir = [x.decode('utf-8') for x in sub_usb_dir]
-            return sub_usb_dir
-
-    def get_usb_files(self,sub_dir):
-        """
-        :param sub_dir:
-        the name if the usb taken from 'get connected usb '
-        or the sub foldr name
-        :return:
-        all founded files and folders names
-        """
-        sub_dir = self.base_path + '/' + sub_dir
-        files = os.listdir(sub_dir)
-        folders, gcodes = [], []
-        for name in files:
-            if name.endswith('.gcode') :
-                gcodes.append(str(name))
-            if os.path.isdir(os.path.join(sub_dir, name)):
-                folders.append(str(name))
-
-        for g in gcodes:
-            folders.append(g)
-        return folders
 
     ''' print '''
     def start_printing_thread(self, gcode_dir,line=0):
@@ -681,6 +652,7 @@ class Machine:
 
     def stop_printing(self):
         self.__stop_flag = True
+        self.on_the_print_page = False
 
     def pause_printing(self):
         self.__pause_flag = True
@@ -719,9 +691,9 @@ class Machine:
             print (backup_line)
             backup_print.close()
             backup_print_path.close()
-            return True,[backup_file_path, backup_line]
+            return True, [backup_file_path, backup_line]
         except:
-            return False,None
+            return False, None
 
     def delete_last_print_files(self):
         try:
@@ -729,7 +701,6 @@ class Machine:
             os.remove('backup_print_path.bc')
         except:
             pass
-
 
     ''' recent activites '''
     def check_last_print(self):
@@ -762,7 +733,7 @@ class Utils():
             if answer.find('successfully'):
                 return 'success'
             else:
-                raise
+                raise Exception
         except Exception as e:
             print('error in connecting to wifi:', e)
             return 'failure'
@@ -778,8 +749,9 @@ class Utils():
                 w = ''
                 for i in range(1, len(item)):
                     w += str(item[i])
-                    if i != len(item) - 1:
-                        w += ' '
+                    # if i != len(item) - 1:
+                    #     w += ' '
+                    w += ' ' if i != len(item)-1 else ''
                 if w != '':
                     res.append(w)
             return res
@@ -787,6 +759,46 @@ class Utils():
             print('ERROR in getting wifi list: ', e)
             return None
 
+    """ directories """
+    @staticmethod
+    def get_connected_usb():
+        """
+        select a usb
+        :return:
+        first is any usb connected or not
+        second the exception or the directories of usb
+        """
+        sub_usb_dir = subprocess.Popen(['ls', BASE_PATH], stdout=subprocess.PIPE).communicate()[0]
+        sub_usb_dir = sub_usb_dir[:-1]
+        if sub_usb_dir == '':
+            return None
+            # return False,'No usb found.'
+        else:
+            sub_usb_dir = sub_usb_dir.split(b'\n')
+            sub_usb_dir = [x.decode('utf-8') for x in sub_usb_dir]
+            return sub_usb_dir
+
+    @staticmethod
+    def get_usb_files(sub_dir):
+        """
+        :param sub_dir:
+        the name if the usb taken from 'get connected usb '
+        or the sub foldr name
+        :return:
+        all founded files and folders names
+        """
+        sub_dir = BASE_PATH + '/' + sub_dir
+        files = os.listdir(sub_dir)
+        folders, gcodes = [], []
+        for name in files:
+            if name.endswith('.gcode'):
+                gcodes.append(str(name))
+            if os.path.isdir(os.path.join(sub_dir, name)):
+                folders.append(str(name))
+
+        for g in gcodes:
+            folders.append(g)
+        return folders
 
 
 class Extra():
@@ -820,66 +832,62 @@ class Time:
     # return value as milliseconds
     def read(self):
         elapsed_time = time.time() - self.start_time
-        return int(elapsed_time) * 1000
+        return int(elapsed_time)
 
     def stop(self):
         elapsed_time = time.time() - self.start_time
         self.start_time = None
-        return int(elapsed_time) * 1000
+        return int(elapsed_time)
 
 
+class RaspberryHardwareInfo: #new
+    pass
+    # """
+    # thanks to this repository
+    # https://github.com/gavinlyonsrepo/raspberrypi_tempmon.git
+    # """
+    # @staticmethod
+    # def get_cpu_tempfunc():
+    #     """ Return CPU temperature """
+    #     result = 0
+    #     mypath = "/sys/class/thermal/thermal_zone0/temp"
+    #     with open(mypath, 'r') as mytmpfile:
+    #         for line in mytmpfile:
+    #             result = line
+    #
+    #     result = float(result)/1000
+    #     result = round(result, 1)
+    #     return result
+    #
+    # @staticmethod
+    # def get_gpu_tempfunc():
+    #     """ Return GPU temperature as a character string"""
+    #     res = os.popen('/opt/vc/bin/vcgencmd measure_temp').readline()
+    #     return float(res.replace("temp=", ""))
+    #
+    # @staticmethod
+    # def get_cpu_use():
+    #     """ Return CPU usage using psutil"""
+    #     return psutil.cpu_percent()
+    #
+    # @staticmethod
+    # def get_ram_info():
+    #     """ Return RAM usage using psutil """
+    #     return psutil.virtual_memory()[2]
+    #
+    # @staticmethod
+    # def get_swap_info():
+    #     """ Return swap memory  usage using psutil """
+    #     return psutil.swap_memory()[3]
 
 
-
-
-
-
-class raspberry_hardware_info:#new
-    """    
-    thanks to this repository
-    https://github.com/gavinlyonsrepo/raspberrypi_tempmon.git
-    """
-    @staticmethod
-    def get_cpu_tempfunc():
-        """ Return CPU temperature """
-        result = 0
-        mypath = "/sys/class/thermal/thermal_zone0/temp"
-        with open(mypath, 'r') as mytmpfile:
-            for line in mytmpfile:
-                result = line
-
-        result = float(result)/1000
-        result = round(result, 1)
-        return result
-
-    @staticmethod
-    def get_gpu_tempfunc():
-        """ Return GPU temperature as a character string"""
-        res = os.popen('/opt/vc/bin/vcgencmd measure_temp').readline()
-        return float(res.replace("temp=", ""))
-
-    @staticmethod
-    def get_cpu_use():
-        """ Return CPU usage using psutil"""
-        return psutil.cpu_percent()
-
-    @staticmethod
-    def get_ram_info():
-        """ Return RAM usage using psutil """
-        return psutil.virtual_memory()[2]
-
-    @staticmethod
-    def get_swap_info():
-        """ Return swap memory  usage using psutil """
-        return psutil.swap_memory()[3]
-
-
-class extended_board:
+class ExtendedBoard:
     def __init__(self, board_port='/dev/ttyS0', board_baudrate=9600):
         self.filament_exist = True
         self.relay1 = False
         self.relay2 = False
-        self
+        self.board_port = board_port
+        self.board_baudrate = board_baudrate
 
         try:
             self.board_serial = serial.Serial(
@@ -897,35 +905,36 @@ class extended_board:
                 text = str(self.board_serial.readline())
                 if text.find('ok') != -1:
                     break
-            return True,None
+            # return True,None
         except Exception as e:
             print(e)
-            return False,e
+            # return False,e
 
 
     def check_filament_status(self):
+        # pass
         """
-        check filament 
-        is exist return true 
-        not exist return false and the printer most pause 
-        if return None it means its in the last situation 
+        check filament
+        is exist return true
+        not exist return false and the printer most pause
+        if return None it means its in the last situation
 
 
         """
-        if inWaiting() > 0: 
+        if self.board_serial.inWaiting() > 0:
             text = str(self.board_serial.readline())
             if text.find('F'):
                 self.filament_exist = True
                 self.board_serial.write(b'ok\n')
                 return True
 
-            else if text.find('N'):
+            elif text.find('N'):
                 self.filament_exist = False
                 self.board_serial.write(b'ok\n')
-                return False 
+                return False
 
-        else : return None
-
+        else:
+            return None
 
     def relay_status(self,relay_num,status):
         """
@@ -944,7 +953,7 @@ class extended_board:
             else:
                 self.board_serial.write(b'L1\n')
         
-        else if relay_num == 2 : 
+        elif relay_num == 2 :
             if status:
                 self.board_serial.write(b'O2\n')
             else:

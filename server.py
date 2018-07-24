@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, url_for, Response, json, jsonify
 from utils import Machine, Utils, Extra
 from os.path import isfile
-import subprocess
+# import subprocess
 
 app = Flask(__name__)
 printer = Machine()
@@ -14,9 +14,37 @@ log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 
-
 # def middleWare(*args, **kwargs):
     # return [True, *args]
+
+
+@app.route('/api/led', methods=['POST'])
+def turn_led_off():
+    try:
+        # printer.turn_led_off()
+        return Response(status=200)
+    except Exception as e:
+        print('Error:', e)
+        return Response(status=500)
+
+
+@app.route('/api/speed', methods=['POST'])
+def set_speed():
+    try:
+        req=request.json
+        field = req.get('field', 'travel') # DEFAULTS TO BE SET
+        value = req.get('value', 0) # DEFAULTS TO BE SET
+        if field=='travel':
+            printer.set_travel_speed(value)
+        elif field=='feedrate':
+            printer.set_feedrate_speed(value)
+        else:
+            return Response(status=404)
+        return Response(status=200)
+
+    except Exception as e:
+        print('Error:', e)
+        return Response(status=500)
 
 
 @app.route('/api/recent_print_status', methods=['GET'])
@@ -27,6 +55,7 @@ def recent_print_status():
     except Exception as e:
         print('Error:', e)
         return Response(status=500)
+
 
 @app.route('/api/abs', methods=['GET', 'POST'])
 def ask_before_starting():
@@ -50,6 +79,7 @@ def ask_before_starting():
     if request.method == 'POST':
         try:
             status = request.json['abs']
+            print(status)
             printer.set_abs(status)
             return Response(status=200)
         except Exception as e:
@@ -58,6 +88,7 @@ def ask_before_starting():
     elif request.method == 'GET':
         try:
             ask_before = printer.get_abs()
+            return jsonify({'abs': ask_before}), 200
         except Exception as e:
             print('Error:', e)
             return Response(status=500)
@@ -98,6 +129,19 @@ def on_print_page():
             print('error in printing page:', e)
             return Response(status=500)
 
+
+@app.route('/api/set_pin', methods=['PUT'])
+def set_pin():
+    try:
+        pin = request.json['code']
+        print(pin)
+        print(printer.set_pin(pin))
+        return Response(status=200)
+    except Exception as e:
+        print('Error', e)
+        return Response(status=500)
+
+
 @app.route('/api/unlock', methods=['POST'])
 def unlock():
     """
@@ -115,7 +159,7 @@ def unlock():
     try:
         if printer.is_locked:
             pin = printer.fetch_pin()
-            if pin == request.json['pin']:
+            if pin == int(request.json['code']):
                 printer.is_locked = False
                 return Response(status=200)
             else:
@@ -125,6 +169,7 @@ def unlock():
     except Exception as e:
         print('Error:', e)
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
+
 
 @app.route('/api/lock', methods=['POST'])
 def lock():
@@ -146,6 +191,7 @@ def lock():
         print('Error:', e)
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
 
+
 @app.route('/api/get_time', methods=['GET'])
 def get_time():
     """
@@ -161,6 +207,7 @@ def get_time():
     except Exception as e:
         print('Error:', e)
         return Response(status=500)
+
 
 @app.route('/api/temperatures', methods=['GET'])
 def temperatures():
@@ -195,6 +242,7 @@ def temperatures():
             print('error in getting temps: ', e)
             return Response(status=500)
 
+
 @app.route('/api/wifi', methods=['OPTIONS', 'POST'])
 def wifi():
     """
@@ -228,7 +276,6 @@ def wifi():
         return Response(status=500)
 
 
-
 @app.route('/api/move_axis', methods=['OPTIONS', 'POST'])
 def move_axis():
     """
@@ -254,7 +301,7 @@ def move_axis():
             return Response(status=500)
     if request.method == 'POST':
         try:
-            if extra.checkHomeAxisAccess() == False:
+            if extra.checkHomeAxisAccess() is False:
                 raise
 
             data = request.json
@@ -263,6 +310,7 @@ def move_axis():
         except Exception as e:
             print("ERROR:", e)
             return jsonify({'access': False}), 500
+
 
 @app.route('/api/home', methods=['POST'])
 def home_machine():
@@ -287,7 +335,7 @@ def home_machine():
 def release_motor():
     if request.method == 'POST':
         try:
-            printer.Release_motors()
+            printer.release_motors()
             return Response(status=200)
         except Exception as e:
             print("ERROR:", e)
@@ -314,7 +362,7 @@ def usb_list():
             if file_addr.endswith('.gcode') and isfile(printer.base_path + '/' + file_addr):
                 return jsonify({'status': 'success', 'data': file_addr, 'type': 'file'}), 200
             print('it wasn\'t file!')
-            data = printer.get_connected_usb() if req['cd'] == '' else printer.get_usb_files(req['cd'])
+            data = Utils.get_connected_usb() if req['cd'] == '' else Utils.get_usb_files(req['cd'])
             print('the files:', data)
             return jsonify({'status':'success', 'data': data, 'type': 'dir'}), 200
         except Exception as e:
@@ -470,6 +518,7 @@ def print_it():
                 #     status = {'status': str(e), 'status_code': 500}
             elif action == 'stop':
                 printer.stop_printing()
+                printer.release_motors()
                 printer.delete_last_print_files()
             elif action == 'resume':
                 printer.resume_printing()
@@ -506,7 +555,6 @@ def print_it():
             return Response(status=500)
 
 
-
 @app.route('/api/ip', methods=['POST'])
 def ip_list():
     """
@@ -541,5 +589,5 @@ if __name__ == '__main__':
         "--kiosk", "--disable-translate",
         "--start-maximized", "http://0.0.0.0"])   #** comment for test in laptop /uncomment for test in raspberry pi
     '''
-    app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=9000, threaded=True, debug=True, use_reloader=False)
 
