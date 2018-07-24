@@ -93,7 +93,7 @@ class Machine:
         self.__Travel_speed_percentage = 100
         self.__Feedrate_speed_percentage = 100
         self.__current_Z_position = None
-        
+
         self.start_machine_connection()
 
     def set_pin(self, pin):
@@ -431,10 +431,6 @@ class Machine:
                 
                 self.__Gcodes_to_run = []
                 self.__Gcodes_return = []
-
-                #    release motors after stop  
-                self.append_gcode(gcode="M84")
-
                 break
 
             ''' pause and resume the printing '''
@@ -446,7 +442,8 @@ class Machine:
                 self.append_gcode('G28 X Y')
                 self.append_gcode('G90')
 
-                while self.__pause_flag:pass
+                while self.__pause_flag:
+                    pass
 
                 self.append_gcode('G91')
                 self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
@@ -457,11 +454,11 @@ class Machine:
             
         '''      here       '''
         new_print = dict()
-        new_print['time'] = self.time.read()
-        new_print['temperature'] = self.extruder_temp
-        new_print['file_name'] = self.printing_file
-        new_print['filament_type'] = None # TO BE SET
-        new_print['is_finished'] = self.print_percentage == 100
+        new_print['time'] = str(self.time.read())
+        new_print['temperature'] = str(self.extruder_temp)
+        new_print['file_name'] = str(self.printing_file)
+        # new_print['filament_type'] = None # TO BE SET
+        new_print['is_finished'] = (self.print_percentage == 100)
 
         self.finalize_print(new_print)
 
@@ -474,15 +471,16 @@ class Machine:
             pass
 
     def finalize_print(self, new_print):
+        self.append_gcode(gcode="M84")  # Release Motors
         self.on_the_print_page = False
         self.printing_file = None
 
-        self.dbcursor.execute('''CREATE TABLE IF NOT EXISTS Prints\
-                    (time REAL, temperature REAL, file_name TEXT, filament_type TEXT, is_finished Boolean)\
+        self.dbcursor.execute('''CREATE TABLE IF NOT EXISTS Prints
+                    (time TEXT, temperature TEXT, file_name TEXT, is_finished Boolean)
                     ''')
         print_status = (new_print['time'], new_print['temperature'],
-                        new_print['file_name'], new_print['filament_type'], new_print['is_finished'])
-        self.dbcursor.execute('INSERT INTO Prints VALUES (?, ?, ?, ?, ?)', print_status)
+                        new_print['file_name'], new_print['is_finished'],)
+        self.dbcursor.execute('INSERT INTO Prints VALUES (?, ?, ?, ?)', print_status)
 
     def append_gcode(self,gcode,gcode_return=0):
         """
