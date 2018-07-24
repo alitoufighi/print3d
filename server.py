@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, url_for, Response, json, jsonify
 from utils import Machine, Utils, Extra
 from os.path import isfile
-# import subprocess
+import subprocess
 
 app = Flask(__name__)
 printer = Machine()
@@ -580,7 +580,7 @@ def hello(path):
 
 if __name__ == '__main__':
     print('let\'s go')
-    '''
+    
     subprocess.Popen(["chromium-browser", "--disk-cache-dir=/dev/null",
         "--disk-catch-size=1", "--hide-scrollbars",
         "--overscroll-history-navigation=0", "--incognito",
@@ -588,6 +588,6 @@ if __name__ == '__main__':
         " --noerrdialog", "--no-sandbox",
         "--kiosk", "--disable-translate",
         "--start-maximized", "http://0.0.0.0"])   #** comment for test in laptop /uncomment for test in raspberry pi
-    '''
-    app.run(host='0.0.0.0', port=9000, threaded=True, debug=True, use_reloader=False)
+    
+    app.run(host='0.0.0.0', port=80, threaded=True, debug=True, use_reloader=False)
 

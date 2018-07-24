@@ -10,14 +10,14 @@ import threading
 import subprocess
 import codecs
 import os
-# import psutil
+#import psutil
 import sqlite3
 
-BASE_PATH = '/media/alitou' # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
+BASE_PATH = '/media/pi' # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
 
 
 class Machine:
-    def __init__(self, machine_port='/dev/ttyUSB1', machine_baudrate=250000):
+    def __init__(self, machine_port='/dev/ttyUSB0', machine_baudrate=250000):
         """
         :param machine_port:
         for linux base boards something like  '/dev/ttyUSB0'
