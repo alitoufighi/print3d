@@ -31,7 +31,7 @@ class Machine:
         usually is 250000 because of machine-settings-database.db default
         """
         # print("I'm new.")
-        self.base_path = '/media/shb'#'/media/pi'   '''** change for test in laptop or raspberry pi   '''
+        self.base_path = '/media/pi'
         self.machine_baudrate = machine_baudrate
         self.machine_port = machine_port
         self.machine_serial = None
@@ -73,10 +73,10 @@ class Machine:
         self.__stop_flag = False
         self.__pause_flag = False
         self.on_the_print_page = False
-        self.__Travel_speed_percentage = 100
         self.__Feedrate_speed_percentage = 100
+        self.__Travel_speed_percentage = 100
         self.__current_Z_position = None
-        #self.recent_print_status = self.load_recent_print_status() # is a list of tuples
+        self.recent_print_status = self.load_recent_print_status() # is a list of tuples
         self.start_machine_connection()
 
 
@@ -156,7 +156,7 @@ class Machine:
                         self.extruder_temp['point'] = float(splited[2][1:])
                         self.bed_temp['current'] = float(splited[3][2:])
                         self.bed_temp['point'] = float(splited[4][1:])
-                        #print (self.extruder_temp)
+                        print (self.extruder_temp)
                         first_done = True
 
                     elif self.__Gcodes_return[0] == 2:
@@ -179,6 +179,7 @@ class Machine:
                         first_done = True
 
                     if first_done:
+                        print('in first done')
                         self.__Gcodes_to_run.pop(0)
                         self.__Gcodes_return.pop(0)
                         first_done = False
@@ -205,7 +206,6 @@ class Machine:
         command = None
         z_pos_offset = 0
         e_pos_offset = 0
-        new_e_pos = 0
         self.__current_Z_position = None
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
@@ -314,10 +314,9 @@ class Machine:
                             end = len(command)
 
                         last_feedrate = float(command[Feedrate_speed + 1: end]) 
-                        new_feedrate = last_feedrate * self.__Travel_speed_percentage / 100
+                        new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
                         command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
                         end = None
-                        print('G1 F%f'%( new_feedrate))
 
 
 
@@ -341,12 +340,9 @@ class Machine:
                         last_e_pos = float(command[Eresulte + 1: end])
                         if line_to_go != 0:
                             new_e_pos = last_e_pos - e_pos_offset
-                        else:
-                            new_e_pos = last_e_pos
                         # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
                         command = command[0: Eresulte + 1] + str(new_e_pos) + ' ' + command[len(command[0: Eresulte + 1]) + len(str(last_e_pos)) + 1:]
                         end = None
-                        print('G1 E%f'%(last_e_pos))
 
 
                     self.append_gcode(command)
@@ -383,10 +379,9 @@ class Machine:
                             end = len(command)
 
                         last_travel_speed = float(command[Travel_speed + 1: end]) 
-                        new_travel_speed = last_travel_speed * self.__Feedrate_speed_percentage / 100
+                        new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
                         command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
                         end = None
-                        print('travel speed %f and old one %f'%(new_travel_speed,last_travel_speed))
 
 
 
@@ -671,11 +666,11 @@ class Machine:
     def get_percentage(self):
         return self.print_percentage
 
-    def set_travel_speed(self,percentage):
-        self.__Travel_speed_percentage = percentage
-
     def set_feedrate_speed(self,percentage):
         self.__Feedrate_speed_percentage = percentage
+
+    def set_travel_speed(self,percentage):
+        self.__Travel_speed_percentage = percentage
 
     def get_current_Z_position(self):
         """
