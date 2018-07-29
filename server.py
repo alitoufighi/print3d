@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, url_for, Response, json, json
 from utils import Machine, Utils, Extra
 from os.path import isfile
 import subprocess
+import time
 
 app = Flask(__name__)
 printer = Machine()
@@ -518,8 +519,9 @@ def print_it():
                 #     status = {'status': str(e), 'status_code': 500}
             elif action == 'stop':
                 printer.stop_printing()
-                printer.release_motors()
                 printer.delete_last_print_files()
+                time.sleep(1)
+                printer.release_motors()
             elif action == 'resume':
                 printer.resume_printing()
             elif action == 'pause':
