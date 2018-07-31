@@ -424,7 +424,6 @@ class Machine:
             if self.__stop_flag:
 
                 # maybe here is the problem of the stop hanging **
-                print("came hererererererererererererere")
                 self.__Gcodes_to_run = []
                 self.__Gcodes_return = []
                 break
@@ -468,6 +467,9 @@ class Machine:
 
     def finalize_print(self, new_print):
         self.append_gcode(gcode="M84")  # Release Motors
+
+        # IMAN -> ADDED FOLLOWING LINE FOR DELETING BACK UP FILES
+        self.delete_last_print_files()
         self.on_the_print_page = False
         self.printing_file = None
 
@@ -646,9 +648,7 @@ class Machine:
 
     def stop_printing(self):
         self.__stop_flag = True
-
-    def set_on_the_print_page_flag(self, flag):
-        self.on_the_print_page = flag
+        self.on_the_print_page = False
 
     def pause_printing(self):
         self.__pause_flag = True
@@ -876,7 +876,6 @@ class RaspberryHardwareInfo: #new
     # def get_swap_info():
     #     """ Return swap memory  usage using psutil """
     #     return psutil.swap_memory()[3]
-
 
 class ExtendedBoard:
     def __init__(self, board_port='/dev/ttyS0', board_baudrate=9600):

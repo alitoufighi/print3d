@@ -47,7 +47,7 @@ def set_speed():
         return Response(status=500)
 
 
-@app.route('/api/recent_print_status', methods=['GET'])
+@app.route('/api/last_prints', methods=['GET'])
 def recent_print_status():
     try:
         data = printer.get_recent_print_status()
@@ -518,7 +518,6 @@ def print_it():
                 printer.delete_last_print_files()
                 time.sleep(1)
                 printer.release_motors()
-                printer.set_on_the_print_page_flag(False)
             elif action == 'resume':
                 printer.resume_printing()
             elif action == 'pause':
