@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--<section *ngIf=\"!showProgressing\">-->\r\n<!--</section>-->\r\n<router-outlet (activate)=\"refreshData($event, true)\"></router-outlet>\r\n<section>\r\n  <mat-progress-bar\r\n    *ngIf=\"showProgressing\"\r\n    [color]=\"color\"\r\n    [mode]=\"mode\"\r\n    [value]=\"value\"\r\n    [bufferValue]=\"bufferValue\">\r\n  </mat-progress-bar>\r\n</section>\r\n"
+module.exports = "<!--<section *ngIf=\"!showProgressing\">-->\r\n<!--</section>-->\r\n<router-outlet (activate)=\"refreshData($event, true)\"></router-outlet>\r\n<section>\r\n  <mat-progress-bar\r\n    *ngIf=\"showProgressing || false\"\r\n    [color]=\"color\"\r\n    [mode]=\"mode\"\r\n    [value]=\"value\"\r\n    [bufferValue]=\"bufferValue\">\r\n  </mat-progress-bar>\r\n</section>\r\n"
 
 /***/ }),
 
@@ -71,8 +71,7 @@ var AppComponent = (function () {
         this.dataService = dataService;
         this.httpService = httpService;
         this.title = 'app';
-        // TODO: change every material icon things to newly-added font-awesome, because the former doesn't work!
-        // by changes, I mean, the things that needs to be activated in that page!
+        // by 'changes', I mean, the things that needs to be activated in that page!
         this.refreshingPages = [
             {
                 pageName: 'main-page',
@@ -103,9 +102,7 @@ var AppComponent = (function () {
         setInterval(function () {
             _this.standByTime += 10;
             if (_this.standByTime > _this.dataService.standByLimit) {
-                _this.httpService.post('led', { status: 'off' }).subscribe(function (data) {
-                    _this.isCurrentlyOn = false;
-                });
+                _this.httpService.post('led', { status: 'off' }).subscribe(function (res) { return _this.isCurrentlyOn = false; }, function (err) { return console.log('could not turn off led: ', err); });
             }
         }, 10000);
     }
@@ -114,9 +111,7 @@ var AppComponent = (function () {
         var _this = this;
         this.standByTime = 0;
         if (!this.isCurrentlyOn) {
-            this.httpService.post('led', { status: 'on' }).subscribe(function (data) {
-                _this.isCurrentlyOn = true;
-            });
+            this.httpService.post('led', { status: 'on' }).subscribe(function (res) { return _this.isCurrentlyOn = true; }, function (err) { return console.log('could not turn on led: ', err); });
         }
     };
     AppComponent.prototype.ngOnInit = function () {
@@ -212,12 +207,16 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__shared_lock_lock_component__ = __webpack_require__("../../../../../src/app/shared/lock/lock.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28_angular_font_awesome__ = __webpack_require__("../../../../angular-font-awesome/dist/angular-font-awesome.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__shared_print_speed_print_speed_component__ = __webpack_require__("../../../../../src/app/shared/print-speed/print-speed.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__settings_page_last_prints_last_prints_component__ = __webpack_require__("../../../../../src/app/settings-page/last-prints/last-prints.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__node_modules_angular_common__ = __webpack_require__("../../../common/esm5/common.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -271,9 +270,11 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_26__shared_heat_heat_component__["a" /* HeatComponent */],
                 __WEBPACK_IMPORTED_MODULE_27__shared_lock_lock_component__["a" /* LockComponent */],
                 __WEBPACK_IMPORTED_MODULE_29__shared_print_speed_print_speed_component__["a" /* PrintSpeedComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__settings_page_last_prints_last_prints_component__["a" /* LastPrintsComponent */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_5__app_routing__["a" /* routing */],
+                __WEBPACK_IMPORTED_MODULE_31__node_modules_angular_common__["b" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_12__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_10__angular_common_http__["b" /* HttpClientModule */],
@@ -294,7 +295,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_7__angular_material__["b" /* MatButtonModule */],
                 __WEBPACK_IMPORTED_MODULE_8__ngx_material_keyboard_core__["a" /* MatKeyboardModule */],
                 __WEBPACK_IMPORTED_MODULE_7__angular_material__["d" /* MatCheckboxModule */],
-                __WEBPACK_IMPORTED_MODULE_7__angular_material__["r" /* MatTabsModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["t" /* MatTabsModule */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_material__["s" /* MatTableModule */],
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_18__shared_confirm_confirm_component__["a" /* ConfirmComponent */],
@@ -329,6 +331,8 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__settings_page_wifi_wifi_component__ = __webpack_require__("../../../../../src/app/settings-page/wifi/wifi.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__tools_page_extrude_extrude_component__ = __webpack_require__("../../../../../src/app/tools-page/extrude/extrude.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__tools_page_bedleveling_bedleveling_component__ = __webpack_require__("../../../../../src/app/tools-page/bedleveling/bedleveling.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__settings_page_last_prints_last_prints_component__ = __webpack_require__("../../../../../src/app/settings-page/last-prints/last-prints.component.ts");
+
 
 
 
@@ -355,6 +359,7 @@ var APP_ROUTES = [
     { path: 'bedleveling', component: __WEBPACK_IMPORTED_MODULE_11__tools_page_bedleveling_bedleveling_component__["a" /* BedlevelingComponent */] },
     { path: 'print', component: __WEBPACK_IMPORTED_MODULE_7__print_page_print_page_component__["a" /* PrintPageComponent */] },
     { path: 'settings', component: __WEBPACK_IMPORTED_MODULE_8__settings_page_settings_page_component__["a" /* SettingsPageComponent */] },
+    { path: 'last_prints', component: __WEBPACK_IMPORTED_MODULE_12__settings_page_last_prints_last_prints_component__["a" /* LastPrintsComponent */] },
     { path: 'wifi', component: __WEBPACK_IMPORTED_MODULE_9__settings_page_wifi_wifi_component__["a" /* WifiComponent */] },
 ];
 var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* RouterModule */].forRoot(APP_ROUTES);
@@ -528,9 +533,27 @@ var MainPageComponent = (function () {
     }
     MainPageComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.dataService.getAskBefore() // first we need to make sure that we're getting this!
+            .then(function (res) {
+            _this.checkForUnfinishedPrinting();
+        })
+            .catch(function (err) {
+            console.warn('could not get askBefore flag: ', err);
+        });
+        this.dataService.temps.subscribe(function (data) {
+            _this.bed = data.bed;
+            _this.ext = data.ext;
+        });
+    };
+    MainPageComponent.prototype.checkForUnfinishedPrinting = function () {
+        var _this = this;
         this.dataService.checkUnfinishedProject()
             .then(function (res) {
             if (res && res === true) {
+                if (_this.dataService.askBefore === false) {
+                    _this.preparePrinting();
+                    return;
+                }
                 var rmDialog = _this.dialog.open(__WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
                     width: '450px',
                     data: {
@@ -539,23 +562,7 @@ var MainPageComponent = (function () {
                 });
                 rmDialog.afterClosed().subscribe(function (status) {
                     if (status) {
-                        _this.progressService.enable();
-                        _this.httpService.post('print', {
-                            cd: _this.dataService.gcodePrintingFileDirectory,
-                            line: _this.dataService.gcodeUnfinishedLine || 0,
-                            action: 'print'
-                        }, true).subscribe(function (data) {
-                            _this.progressService.disable();
-                            if (data['status'] === 'success') {
-                                _this.router.navigate(["/print"]);
-                            }
-                            else {
-                                console.error('problem occurred!', data);
-                            }
-                        }, function (err) {
-                            _this.progressService.disable();
-                            console.error('network problems supposedly!', err);
-                        });
+                        _this.preparePrinting();
                     }
                     else {
                         _this.httpService.delete('print', true).subscribe();
@@ -567,9 +574,25 @@ var MainPageComponent = (function () {
             .catch(function (rej) {
             console.error('about unfinished project: ', rej);
         });
-        this.dataService.temps.subscribe(function (data) {
-            _this.bed = data.bed;
-            _this.ext = data.ext;
+    };
+    MainPageComponent.prototype.preparePrinting = function () {
+        var _this = this;
+        this.progressService.enable();
+        this.httpService.post('print', {
+            cd: this.dataService.gcodePrintingFileDirectory,
+            line: this.dataService.gcodeUnfinishedLine || 0,
+            action: 'print'
+        }, true).subscribe(function (data) {
+            _this.progressService.disable();
+            if (data['status'] === 'success') {
+                _this.router.navigate(["/print"]);
+            }
+            else {
+                console.error('problem occurred!', data);
+            }
+        }, function (err) {
+            _this.progressService.disable();
+            console.error('network problems supposedly!', err);
         });
     };
     MainPageComponent.prototype.goToSelectUsbPage = function () {
@@ -615,7 +638,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 1.8%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active, .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* SELECT USB */\r\nbody {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.print-buttons {\r\n  padding: 20px !important;\r\n  max-width: 70% !important;\r\n  max-height: 125px !important;\r\n  margin: 2px;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\nmat-progress-spinner {\r\n  left: 20%;\r\n  bottom: -50px;\r\n}\r\n\r\n.limit-height {\r\n  max-height: 100px;\r\n}\r\n\r\n.value-percent {\r\n  position: relative;\r\n  top: -139px;\r\n  left: 11px;\r\n  font-size: 7em;\r\n  font-weight: bold;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.short-padding {\r\n  padding: 10px;\r\n  background-color: red;\r\n}\r\n\r\n.print-dir {\r\n  position: relative;\r\n  top: -70px;\r\n  text-align: center !important;\r\n  font-family: iranyekan, sans-serif;\r\n}\r\n\r\n.option-page {\r\n  position: absolute;\r\n  width: 70%;\r\n  top: 36%;\r\n  left: 11%;\r\n  border: 4px solid #D4D2D9;\r\n  border-radius: 55px;\r\n}\r\n\r\n.dark-back-part {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  left: 0%;\r\n  top: 0%;\r\n  background-color: grey;\r\n  opacity: 0.6;\r\n  z-index: 0;\r\n}\r\n\r\n.fix-option-texts {\r\n  text-align: center;\r\n  margin-right: 1em;\r\n}", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  height: 100%;\r\n}\r\n\r\n.item {\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 1.8%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 6%;\r\n\r\n}\r\n\r\n.bottom-part .item-button:active, .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  margin-bottom: 8px;\r\n  max-width: 100%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* SELECT USB */\r\nbody {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.print-buttons {\r\n  padding: 20px !important;\r\n  max-width: 70% !important;\r\n  max-height: 125px !important;\r\n  margin: 2px;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 1%;\r\n  margin: 2%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n}\r\n\r\nmat-progress-spinner {\r\n  left: 20%;\r\n  bottom: -50px;\r\n}\r\n\r\n.limit-height {\r\n  max-height: 100px;\r\n}\r\n\r\n.value-percent {\r\n  position: relative;\r\n  top: -139px;\r\n  left: 11px;\r\n  font-size: 7em;\r\n  font-weight: bold;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.short-padding {\r\n  padding: 10px;\r\n  background-color: red;\r\n}\r\n\r\n.print-dir {\r\n  position: relative;\r\n  top: -70px;\r\n  text-align: left !important;\r\n  margin-left: 12px;\r\n  font-family: iranyekan, sans-serif;\r\n}\r\n\r\n.option-page {\r\n  position: absolute;\r\n  width: 70%;\r\n  top: 36%;\r\n  left: 11%;\r\n  border: 4px solid #D4D2D9;\r\n  border-radius: 55px;\r\n}\r\n\r\n.dark-back-part {\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  left: 0%;\r\n  top: 0%;\r\n  background-color: grey;\r\n  opacity: 0.6;\r\n  z-index: 0;\r\n}\r\n\r\n.fix-option-texts {\r\n  text-align: center;\r\n  margin-right: 1em;\r\n}", ""]);
 
 // exports
 
@@ -628,7 +651,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/print-page/print-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"simple-text\">°{{temps.bed.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <!--<span class=\"simple-text\">Print Time:</span>-->\n        <div class=\"simple-text\" style=\"direction: ltr; color: red;\">192.168.43.223</div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"simple-text\">°{{temps.ext.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n        <div class=\"print-dir\">{{getShortedString(dataService.gcodePrintingFileDirectory)}}</div>\n        <br>\n        <div class=\"print-dri\">Z: {{zPosition}}</div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">قطع کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <!-- <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n              <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">Heat</div>\n            </div> -->\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openOptions()\">\n              <img src=\"{{elements.options?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">{{elements.options?.title}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons disable-like-button\">\n              <img src=\"{{elements.fan?.imageUrl}}\">\n              <div class=\"simple-text\">{{elements.fan?.title}}</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n    <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n    <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n    <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n    <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n  <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n  <!--</div>-->\n  <app-lock></app-lock>\n  <!--</div>-->\n\n</div>\n\n\n<div *ngIf=\"isOnOptionsPage\" class=\"dark-back-part\"></div>\n<!-- Options Page -->\n<div *ngIf=\"isOnOptionsPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"closeOptions()\">\n          <img src=\"{{elements.closeOptions?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.closeOptions?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n          <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.heat?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableSpeedPage()\">\n          <img src=\"{{elements.speed?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.speed?.title}}</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n<app-heat *ngIf=\"isOnHeatPage\" (onClose)=\"disableHeatPage()\"></app-heat>\n<app-print-speed *ngIf=\"isOnSpeedPage\" (onClose)=\"disableSpeedPage()\"></app-print-speed>"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"simple-text\">°{{temps.bed.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <!--<span class=\"simple-text\">Print Time:</span>-->\n        <div class=\"simple-text\" style=\"direction: ltr; color: red;\" *ngIf=\"dataService.ipList.length > 0\">\n          {{dataService.ipList[0]}}\n        </div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"simple-text\">°{{temps.ext.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n        <div class=\"print-dir\">\n          <span>z : {{zPosition}}</span>\n          <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>\n          <span>{{getShortedString(dataService.gcodePrintingFileDirectory)}}</span>\n        </div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">قطع کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <!-- <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n              <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">Heat</div>\n            </div> -->\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openOptions()\">\n              <img src=\"{{elements.options?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">{{elements.options?.title}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons disable-like-button\">\n              <img src=\"{{elements.fan?.imageUrl}}\">\n              <div class=\"simple-text\">{{elements.fan?.title}}</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n    <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n    <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n    <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n    <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n  <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n  <!--</div>-->\n  <app-lock></app-lock>\n  <!--</div>-->\n\n</div>\n\n\n<div *ngIf=\"isOnOptionsPage\" class=\"dark-back-part\"></div>\n<!-- Options Page -->\n<div *ngIf=\"isOnOptionsPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"closeOptions()\">\n          <img src=\"{{elements.closeOptions?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.closeOptions?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n          <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.heat?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableSpeedPage()\">\n          <img src=\"{{elements.speed?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.speed?.title}}</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n<app-heat *ngIf=\"isOnHeatPage\" (onClose)=\"disableHeatPage()\"></app-heat>\n<app-print-speed *ngIf=\"isOnSpeedPage\" (onClose)=\"disableSpeedPage()\"></app-print-speed>"
 
 /***/ }),
 
@@ -638,16 +661,15 @@ module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n  
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PrintPageComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operators__ = __webpack_require__("../../../../rxjs/_esm5/operators.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_fan_fan_component__ = __webpack_require__("../../../../../src/app/shared/fan/fan.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_fan_fan_component__ = __webpack_require__("../../../../../src/app/shared/fan/fan.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -657,7 +679,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -684,7 +705,7 @@ var PrintPageComponent = (function () {
         this.progressService = progressService;
         this.snackBar = snackBar;
         this.pageName = 'print-page';
-        this.printPercent = 100;
+        this.printPercent = 0;
         this.zPosition = 0;
         this.temps = {
             bed: {
@@ -702,36 +723,36 @@ var PrintPageComponent = (function () {
         this.isOnOptionsPage = false;
         this.elements = {
             resume: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
             },
             pause: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/down.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/down.png',
             },
             stop: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
             },
             return: {
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
             },
             heat: {
                 title: 'Heat',
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
             },
             speed: {
                 title: 'Speed',
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/speed.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/speed.png',
             },
             fan: {
                 title: 'Fans',
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
             },
             options: {
                 title: 'Options',
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/options.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/options.png',
             },
             closeOptions: {
                 title: 'بازگشت',
-                imageUrl: __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
             }
         };
     }
@@ -748,6 +769,7 @@ var PrintPageComponent = (function () {
             }
         });
         this.dataService.printTime.subscribe(function (data) {
+            console.log('new time received! ', data);
             _this.printTime = _this.dataService.stringizedTime(data);
         });
         this.dataService.zPosition.subscribe(function (data) {
@@ -755,18 +777,22 @@ var PrintPageComponent = (function () {
         });
     };
     PrintPageComponent.prototype.onFinishPrinting = function () {
+        // sending print data to server -> will be done there :D
+        // this.httpService.post('', {
+        //   // print infos
+        // }).pipe(retry(3)).subscribe(
+        //   data => {
+        //   },
+        //   err => {
+        //   }
+        // );
         var _this = this;
-        // TODO: should send a request to server to send the print info
-        // -> MAYBE NOT! All the info are already in the server!
-        this.httpService.post('', {}).pipe(Object(__WEBPACK_IMPORTED_MODULE_1_rxjs_operators__["a" /* retry */])(3)).subscribe(function (data) {
-        }, function (err) {
-        });
         this.dataService.changeInterval('printTime', false);
         this.dataService.changeInterval('percentage', false);
-        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_6__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
+        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
             width: '500px',
             data: {
-                usage: __WEBPACK_IMPORTED_MODULE_8__shared_enum_dialogUsage__["a" /* DialogUsage */].FinishPrinting,
+                usage: __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__["a" /* DialogUsage */].FinishPrinting,
             }
         });
         rmDialog.afterClosed().subscribe(function (status) {
@@ -782,10 +808,10 @@ var PrintPageComponent = (function () {
         if (action === void 0) { action = 'percentage'; }
         this.dataService.lockAuthorize().then(function (res) {
             if (action === 'stop') {
-                var rmDialog = _this.dialog.open(__WEBPACK_IMPORTED_MODULE_6__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
+                var rmDialog = _this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
                     width: '450px',
                     data: {
-                        usage: __WEBPACK_IMPORTED_MODULE_8__shared_enum_dialogUsage__["a" /* DialogUsage */].StopPrinting,
+                        usage: __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__["a" /* DialogUsage */].StopPrinting,
                     }
                 });
                 rmDialog.afterClosed().subscribe(function (status) {
@@ -854,7 +880,7 @@ var PrintPageComponent = (function () {
         if (kind === void 0) { kind = 'heat'; }
         // TODO: heat is changed, so these should be changed to, instead of dialog, should be absoluted-page!
         // let kindComp = (kind === 'heat' ? HeatComponent : FanComponent);
-        var kindComp = __WEBPACK_IMPORTED_MODULE_9__shared_fan_fan_component__["a" /* FanComponent */];
+        var kindComp = __WEBPACK_IMPORTED_MODULE_8__shared_fan_fan_component__["a" /* FanComponent */];
         var rmDialog = this.dialog.open(kindComp, {
             width: (kind === 'heat' ? '640px' : '450px'),
             height: (kind === 'heat' ? '420px' : '200px'),
@@ -878,8 +904,8 @@ var PrintPageComponent = (function () {
         });
     };
     PrintPageComponent.prototype.getShortedString = function (text) {
-        if (text.length > 48) {
-            return text.substr(text.length - 50) + '...';
+        if (text.length > 29) {
+            return text.substr(text.length - 27) + '...';
         }
         else {
             return text;
@@ -894,9 +920,9 @@ var PrintPageComponent = (function () {
             template: __webpack_require__("../../../../../src/app/print-page/print-page.component.html"),
             styles: [__webpack_require__("../../../../../src/app/print-page/print-page.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_5__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_7__angular_material__["e" /* MatDialog */],
-            __WEBPACK_IMPORTED_MODULE_10__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_7__angular_material__["p" /* MatSnackBar */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["e" /* MatDialog */],
+            __WEBPACK_IMPORTED_MODULE_9__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["p" /* MatSnackBar */]])
     ], PrintPageComponent);
     return PrintPageComponent;
 }());
@@ -913,7 +939,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 1.15em !important;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n", ""]);
+exports.push([module.i, "body {\r\n  /*background-repeat: repeat;*/\r\n}\r\n\r\n\r\n.disable-like-button {\r\n  opacity: 0.4;\r\n}\r\n\r\n.disable-like-button:active {\r\n  opacity: 0.4;\r\n  box-shadow: 0 0;\r\n}\r\n\r\n\r\n.main-page-div {\r\n  /*background-image: url(\"https://www.w3schools.com/css/trolltunga.jpg\");*/\r\n  border: 16px solid #005E7C;\r\n  background-color: #FFDD93;\r\n  /*margin: -10px;*/\r\n  /*margin: 24px 18px;*/\r\n  text-align: center;\r\n}\r\n\r\n.top-part {\r\n  /*height: 100px;*/\r\n  background-color: #58DADA;\r\n}\r\n\r\n.middle-part {\r\n  /*height: 100px;*/\r\n}\r\n\r\n.bottom-part {\r\n  /*height: 100%;*/\r\n  height: 170px;\r\n}\r\n\r\n.item {\r\n  overflow: hidden;\r\n  /*background-color: #1CA2BB;*/\r\n}\r\n\r\n\r\n.top-part .full-item {\r\n  padding: 2%;\r\n}\r\n\r\n.middle-part .full-item {\r\n  padding: 2%;\r\n  margin: 3%;\r\n  /*margin-top: 4%;*/\r\n  /*margin: 20px;*/\r\n}\r\n\r\n.t {\r\n  position: relative;\r\n  bottom: 10%;\r\n}\r\n\r\n.bottom-part .full-item {\r\n  padding: 2%;\r\n  margin: 1%;\r\n  height: 100%;\r\n  margin-bottom: 2%;\r\n\r\n}\r\n\r\n.middle-part .item-button:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.bottom-part .item-button-bigger:active {\r\n  opacity: 0.7;\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.item-button img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  /*margin-bottom: 8px;*/\r\n  max-width: 100%;\r\n}\r\n\r\n.item-button-bigger img {\r\n  /*background-color: red;*/\r\n  border-radius: 100px;\r\n  max-width: 80%;\r\n}\r\n\r\n.no-border-rad {\r\n  border-radius: 0 !important;\r\n}\r\n\r\n.simple-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 1.15em !important;\r\n}\r\n\r\n.ltr-text {\r\n  direction: ltr;\r\n}\r\n\r\n.little-text {\r\n  direction: rtl;\r\n  font-family: iranyekan;\r\n  font-size: 12px;\r\n}\r\n\r\n\r\n.mat-elevation-z16 {\r\n  box-shadow: 0px 8px 10px -5px rgba(0, 0, 0, 0.2), 0px 16px 24px 2px rgba(0, 0, 0, 0.14), 0px 6px 30px 5px rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n.iconic-font {\r\n  font-size: 6em;\r\n}\r\n\r\n.fix-overflow {\r\n  max-height: 20px;\r\n  overflow: hidden;\r\n}\r\n", ""]);
 
 // exports
 
@@ -926,7 +952,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/select-usb/select-usb.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        1\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\" style=\"text-align: center;\">{{cd}}</div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        3\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > i ? usbs[i] : '')\" [ngClass]=\"{'disable-like-button': usbs.length <= i}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{(i < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text\">{{usbs.length > i ? getShortString(usbs[i]) : 'Empty'}}</div>\r\n      </div>\r\n      <div fxFlex=\"1%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > (i + 1) ? usbs[i + 1] : '')\"\r\n           [ngClass]=\"{'disable-like-button': usbs.length <= (i + 1)}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{((i + 1) < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i + 1]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text\">{{usbs.length > (i + 1) ? getShortString(usbs[i + 1]) : 'Empty'}}</div>\r\n      </div>\r\n      <div fxFlex=\"1%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > (i + 2) ? usbs[i + 2] : '')\"\r\n           [ngClass]=\"{'disable-like-button': usbs.length <= (i + 2)}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{((i + 2) < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i + 2]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text\">{{usbs.length > (i + 2) ? getShortString(usbs[i + 2]) : 'Empty'}}</div>\r\n      </div>\r\n      <div fxFlex=\"1%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > (i + 3) ? usbs[i + 3] : '')\"\r\n           [ngClass]=\"{'disable-like-button': usbs.length <= (i + 3)}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{((i + 3) < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i + 3]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text\">{{usbs.length > (i + 3) ? getShortString(usbs[i + 3]) : 'Empty'}}</div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goBackToHomePage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"1%\" fxFlex=\"24%\" (click)=\"addDir(cd, false)\">\r\n        <img src=\"{{elements.up?.imageUrl}}\">\r\n        <div class=\"simple-text\">بالا</div>\r\n      </div>\r\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"1%\" fxFlex=\"24%\" (click)=\"changePage(false)\">\r\n        <img src=\"{{elements.left?.imageUrl}}\">\r\n        <div class=\"simple-text\">عقب</div>\r\n      </div>\r\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"1%\" fxFlex=\"24%\" (click)=\"changePage(true)\">\r\n        <img src=\"{{elements.right?.imageUrl}}\">\r\n        <div class=\"simple-text\">جلو</div>\r\n      </div>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        1\r\n      </div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item\" fxFlex=\"44%\" style=\"text-align: center;\">{{cd}}</div>\r\n      <div fxFlex=\"2%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\r\n        3\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > i ? usbs[i] : '')\" [ngClass]=\"{'disable-like-button': usbs.length <= i}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{(i < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text fix-overflow\">\r\n          {{usbs.length > i ? getShortString(usbs[i]) : 'Empty'}}\r\n        </div>\r\n      </div>\r\n      <div fxFlex=\"1%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > (i + 1) ? usbs[i + 1] : '')\"\r\n           [ngClass]=\"{'disable-like-button': usbs.length <= (i + 1)}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{((i + 1) < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i + 1]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text fix-overflow\">\r\n          {{usbs.length > (i + 1) ? getShortString(usbs[i + 1]) : 'Empty'}}\r\n        </div>\r\n      </div>\r\n      <div fxFlex=\"1%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > (i + 2) ? usbs[i + 2] : '')\"\r\n           [ngClass]=\"{'disable-like-button': usbs.length <= (i + 2)}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{((i + 2) < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i + 2]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text fix-overflow\">\r\n          {{usbs.length > (i + 2) ? getShortString(usbs[i + 2]) : 'Empty'}}\r\n        </div>\r\n      </div>\r\n      <div fxFlex=\"1%\"></div>\r\n      <div class=\"item full-item item-button\" fxFlex=\"24%\"\r\n           (click)=\"addDir(usbs.length > (i + 3) ? usbs[i + 3] : '')\"\r\n           [ngClass]=\"{'disable-like-button': usbs.length <= (i + 3)}\">\r\n        <img class=\"no-border-rad\"\r\n          src=\"{{((i + 3) < usbs.length ?\r\n          (cd == '' ? elements.usb?.imageUrl :\r\n            (isGcode(usbs[i + 3]) ?\r\n              elements.gcodeFile?.imageUrl :\r\n              elements.folder?.imageUrl))\r\n          : elements.none?.imageUrl)}}\"\r\n          alt=\"\">\r\n        <div class=\"simple-text ltr-text fix-overflow\">\r\n          {{usbs.length > (i + 3) ? getShortString(usbs[i + 3]) : 'Empty'}}\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goBackToHomePage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"1%\" fxFlex=\"24%\" (click)=\"addDir(cd, false)\">\r\n        <img src=\"{{elements.up?.imageUrl}}\">\r\n        <div class=\"simple-text\">بالا</div>\r\n      </div>\r\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"1%\" fxFlex=\"24%\" (click)=\"changePage(false)\">\r\n        <img src=\"{{elements.left?.imageUrl}}\">\r\n        <div class=\"simple-text\">عقب</div>\r\n      </div>\r\n      <div class=\"item full-item item-button-bigger\" fxFlexOffset=\"1%\" fxFlex=\"24%\" (click)=\"changePage(true)\">\r\n        <img src=\"{{elements.right?.imageUrl}}\">\r\n        <div class=\"simple-text\">جلو</div>\r\n      </div>\r\n\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -962,7 +988,9 @@ var SelectUsbComponent = (function () {
         this.dataService = dataService;
         this.progressService = progressService;
         this.router = router;
-        this.usbs = ['temp1 temp1temp1', 'temp2.gcode', 'temp3 temp3.gcode', 'temp4temp4temp4.gcode', 'temp5temp5 .gcode', 'temp6temp6 temp6'];
+        // initial temp data
+        // usbs = ['temp1 temp1temp1', 'temp2.gcode', 'temp3 temp3.gcode', 'temp4temp4temp4.gcode', 'temp5temp5 .gcode', 'temp6temp6 temp6'];
+        this.usbs = [];
         this.cd = '';
         this.i = 0;
         this.elements = {
@@ -1141,9 +1169,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DataService = (function () {
-    function DataService(progressService, httpService, 
-        // TODO: temp only for going to print page!
-        router, dialog) {
+    function DataService(progressService, httpService, router, dialog) {
         this.progressService = progressService;
         this.httpService = httpService;
         this.router = router;
@@ -1181,21 +1207,31 @@ var DataService = (function () {
         this.askBefore = false;
         this.standByLimit = 23; //5 * 60; // seconds
         this.setTemps();
-        this.getAskBefore();
-        // setInterval(() => {
-        //   this.percentage.next(this.currentPercentage ++);
-        // }, 50)
-        // TODO: only for going to print page
-        // this.checkOnPrintPage();
+        // checks for whether should be going to print page
+        this.checkOnPrintPage();
     }
+    /**
+     * gets the initial value of AskBefore
+     * this is useful for when we have an unfinished project
+     * and we want to ask the user to continue or not (false)
+     * or defaultly continue without asking (true)
+     */
     DataService.prototype.getAskBefore = function () {
         var _this = this;
-        this.httpService.get('abs', true).subscribe(function (data) {
-            _this.askBefore = data['abs'] || false;
-        }, function (err) {
-            console.warn('error getting ask before');
+        return new Promise(function (resolve, reject) {
+            _this.httpService.get('abs', true).subscribe(function (data) {
+                _this.askBefore = data['abs'] || false;
+                resolve(data);
+            }, function (err) {
+                console.warn('error getting ask before', err);
+                reject(err);
+            });
         });
     };
+    /**
+     * the simple authorization that the child lock provides,
+     * in order to let/prohibit the user from having accesses
+     */
     DataService.prototype.lockAuthorize = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -1217,25 +1253,10 @@ var DataService = (function () {
             this.printTime.next(0);
         }
     };
-    DataService.prototype.setIpList = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.httpService.post('ip', {}, true).subscribe(function (data) {
-                // console.log('data received from ip:', data);
-                if (data && data['ips']) {
-                    _this.ipList = data['ips'];
-                    resolve(true);
-                }
-                else {
-                    console.error('in else if posting to ip!', data);
-                    reject(false);
-                }
-            }, function (err) {
-                console.error('in err of posting to ip', err);
-                reject(false);
-            });
-        });
-    };
+    /**
+     * this checks for unfinished project and if there was, we show the dialog of
+     * 'redirecting ...' and also send a request to the server to continue that
+     */
     DataService.prototype.checkUnfinishedProject = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -1258,45 +1279,71 @@ var DataService = (function () {
             });
         });
     };
-    DataService.prototype.setHeat = function (data) {
+    /**
+     * checks every 10 seconds to see if there is something printing.
+     * useful when we are connected with two devices and we set one
+     * to print, so the other will know there's a print going on and
+     * redirects to the printing page
+    */
+    DataService.prototype.checkOnPrintPage = function () {
+        var _this = this;
+        this.onPrintPageInterval = setInterval(function () {
+            // console.log('current url:', this.router.url);
+            _this.checkOnPrintPageFunctionInside();
+        }, 10000);
+    };
+    /**
+     * checks if there is a printing going on
+     */
+    DataService.prototype.checkOnPrintPageFunctionInside = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var sendingObj = {
-                field: data['kind'] === 'bed' ? 'bed' : 'hotend',
-                action: data['goal'] === 0 ? 'cooldown' : 'heat',
-                value: data['goal']
-            };
-            console.log('ready to send for heating:', sendingObj);
-            _this.httpService.post('heat', sendingObj).subscribe(function (data) {
-                if (data['status'] === 'success') {
+            _this.httpService.post('on_print_page', {}, true)
+                .subscribe(function (data) {
+                if (data && data['page'] === 'print') {
+                    // should go to the print page if not already in it
+                    _this.openDialogForGoingToPrintPage();
                     resolve(true);
                 }
                 else {
-                    reject(false);
+                    //should go to home page if it's on the print page
+                    _this.redirectBackUserToHomePage();
+                    resolve(false);
                 }
             }, function (err) {
-                reject(false);
+                resolve(false);
+                // this.openDialogForGoingToPrintPage();
             });
         });
     };
-    DataService.prototype.setSpeed = function (kind, value) {
+    /**
+     * redirects to printing page (due to an ongoing printing)
+     */
+    DataService.prototype.openDialogForGoingToPrintPage = function () {
         var _this = this;
-        return new Promise(function (resolve, reject) {
-            var sendingObj = {
-                field: kind,
-                value: value // the goal speed value
-            };
-            console.log('ready to send for setting speed: ', sendingObj);
-            // TODO: speed rate should be set in here -> the correct post API to match with the server!
-            _this.httpService.post('speed', sendingObj, false).subscribe(function (data) {
-                console.log('data received from server: ', data);
-                _this.speed[sendingObj.field] = sendingObj.value;
-                resolve(true);
-            }, function (err) {
-                reject(false);
-            });
+        if (this.router.url === '/print')
+            return;
+        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_6__shared_fan_fan_component__["a" /* FanComponent */], {
+            width: '450px',
+        });
+        rmDialog.afterClosed().subscribe(function (status) {
+            _this.router.navigate(["/print"]);
         });
     };
+    /**
+     * redirects BACK from printing page (duo to print problem or stopping or ...)
+     */
+    DataService.prototype.redirectBackUserToHomePage = function () {
+        if (this.router.url !== '/print')
+            return;
+        this.router.navigate(['/home']);
+    };
+    /**
+     * @param name 'temps' | 'percentage' | 'printTime'
+     * @param activate
+     * depending on which page we're currently in,
+     * make the necessary changes in the intervals
+     */
     DataService.prototype.changeInterval = function (name, activate) {
         if (activate === void 0) { activate = true; }
         if (!activate) {
@@ -1319,7 +1366,7 @@ var DataService = (function () {
                 this.setTemps();
             }
             else if (name === 'percentage') {
-                this.setPercentage();
+                this.setPercentageAndZ();
             }
             else if (name === 'printTime') {
                 this.setPrintTime();
@@ -1352,7 +1399,64 @@ var DataService = (function () {
             });
         }, 2000);
     };
-    DataService.prototype.setPercentage = function () {
+    DataService.prototype.setHeat = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var sendingObj = {
+                field: data['kind'] === 'bed' ? 'bed' : 'hotend',
+                action: data['goal'] === 0 ? 'cooldown' : 'heat',
+                value: data['goal']
+            };
+            _this.httpService.post('heat', sendingObj).subscribe(function (data) {
+                if (data['status'] === 'success') {
+                    resolve(true);
+                }
+                else {
+                    reject(false);
+                }
+            }, function (err) {
+                reject(false);
+            });
+        });
+    };
+    DataService.prototype.setSpeed = function (kind, value) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var sendingObj = {
+                field: kind,
+                value: value // the goal speed value
+            };
+            _this.httpService.post('speed', sendingObj, false).subscribe(function (data) {
+                _this.speed[sendingObj.field] = sendingObj.value;
+                resolve(true);
+            }, function (err) {
+                reject();
+            });
+        });
+    };
+    DataService.prototype.setIpList = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.httpService.post('ip', {}, true).subscribe(function (data) {
+                // console.log('data received from ip:', data);
+                if (data && data['ips']) {
+                    _this.ipList = data['ips'];
+                    resolve(true);
+                }
+                else {
+                    console.error('in else if posting to ip!', data);
+                    reject(false);
+                }
+            }, function (err) {
+                console.error('in err of posting to ip', err);
+                reject(false);
+            });
+        });
+    };
+    /**
+     * the 5" interval for getting % of printing and current Z position
+     */
+    DataService.prototype.setPercentageAndZ = function () {
         var _this = this;
         this.percentageInterval = setInterval(function () {
             _this.httpService.post("print", {
@@ -1360,34 +1464,42 @@ var DataService = (function () {
             }, true).subscribe(function (data) {
                 _this.percentage.next(data['percentage']);
             }, function (err) {
-                console.warn('percentage fetch error');
+                console.warn('percentage fetch error', err);
             });
             _this.httpService.get('get_z', true).subscribe(function (data) {
                 _this.zPosition.next(data['z']);
             }, function (err) {
-                console.warn('could not get z');
+                console.warn('could not get z', err);
             });
         }, 5000);
     };
+    /**
+     * the 1' interval of getting the printing time from the server
+     */
     DataService.prototype.setPrintTime = function () {
         var _this = this;
-        // TODO: should be a request to the server, every minute, and in return we get A STRING!
         this.printTimeInterval = setInterval(function () {
-            // let's consider it a number for now, then we'll deal with the date
             _this.httpService.get('get_time', true).subscribe(function (data) {
                 _this.currentPrintTime = data['time'];
                 _this.printTime.next(_this.currentPrintTime);
             }, function (err) {
-                console.warn('print time couldn\'t be fetched');
+                console.warn('print time couldn\'t be fetched', err);
             });
         }, 1 * 60 * 1000); // 1 min
     };
+    /**
+     * the 15" interval for getting the ip list
+     */
     DataService.prototype.setIpInterval = function () {
         var _this = this;
+        this.setIpList();
         this.ipInterval = setInterval(function () {
             _this.setIpList();
         }, 15000);
     };
+    /**
+     * standardizes time to show
+     */
     DataService.prototype.stringizedTime = function (t) {
         var days, hours, minutes, seconds;
         days = Math.floor(t / 86400);
@@ -1399,50 +1511,12 @@ var DataService = (function () {
         seconds = t % 60;
         return [
             days,
-            '-',
-            (hours > 9 ? hours : ('0' + hours)),
-            ':',
-            (minutes > 9 ? minutes : ('0' + minutes)),
-            ':',
-            (seconds > 9 ? seconds : ('0' + seconds))
-        ].join(' ');
-    };
-    // TODO: temp API to check if we're on the print page, every device should go to that page too!
-    DataService.prototype.checkOnPrintPage = function () {
-        var _this = this;
-        this.onPrintPageInterval = setInterval(function () {
-            // console.log('current url:', this.router.url);
-            _this.checkOnPrintPageFunctionInside();
-        }, 4000);
-    };
-    DataService.prototype.checkOnPrintPageFunctionInside = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.httpService.post('on_print_page', {}, true)
-                .subscribe(function (data) {
-                if (data && data['page'] === 'print') {
-                    _this.openDialogForGoingToPrintPage();
-                    resolve(true);
-                }
-                else {
-                    resolve(false);
-                }
-            }, function (err) {
-                resolve(false);
-                // this.openDialogForGoingToPrintPage();
-            });
-        });
-    };
-    DataService.prototype.openDialogForGoingToPrintPage = function () {
-        var _this = this;
-        if (this.router.url === '/print')
-            return;
-        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_6__shared_fan_fan_component__["a" /* FanComponent */], {
-            width: '450px',
-        });
-        rmDialog.afterClosed().subscribe(function (status) {
-            _this.router.navigate(["/print"]);
-        });
+            'd ',
+            hours,
+            'h ',
+            minutes,
+            'm',
+        ].join('');
     };
     DataService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
@@ -1581,6 +1655,129 @@ var ProgressService = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/settings-page/last-prints/last-prints.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".low-margin {\r\n    margin: 5px;\r\n}\r\n\r\n.table-height {\r\n    max-height: 430px;\r\n    min-height: 430px;\r\n    overflow-y: scroll;\r\n    background-color: #FFDD93;\r\n    border: 16px solid #005E7C;\r\n}\r\n\r\nmat-header-row {\r\n    background-color: #58DADA;\r\n}\r\n\r\nmat-header-cell {\r\n    font-size: 1em;\r\n}\r\n\r\n* {\r\n    text-align: center;\r\n}\r\n\r\n.return-abs-button {\r\n    position: absolute;\r\n    right: 3%;\r\n    padding-right: 2%;\r\n    margin: 0;\r\n    bottom: 5%;\r\n    max-width: 100px;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings-page/last-prints/last-prints.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div style=\"background-color: #000000\">\n  <mat-table #table [dataSource]=\"dataSource\" class=\"mat-elevation-z16 table-height\">\n    <ng-container matColumnDef=\"file_name\">\n      <mat-header-cell *matHeaderCellDef> File Name </mat-header-cell>\n      <mat-cell *matCellDef=\"let file\" class=\"low-margin\"> {{file.file_name}} </mat-cell>\n    </ng-container>\n    <ng-container matColumnDef=\"filament_type\">\n      <mat-header-cell *matHeaderCellDef> Filament Type </mat-header-cell>\n      <mat-cell *matCellDef=\"let file\" class=\"low-margin\"> {{file.filament_type}} </mat-cell>\n    </ng-container>\n    <ng-container matColumnDef=\"time\">\n      <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>\n      <mat-cell *matCellDef=\"let file\" class=\"low-margin\"> {{file.time}} </mat-cell>\n    </ng-container>\n    <ng-container matColumnDef=\"temperature\">\n      <mat-header-cell *matHeaderCellDef> Temperature </mat-header-cell>\n      <mat-cell *matCellDef=\"let file\" class=\"low-margin\"> {{file.temperature}} </mat-cell>\n    </ng-container>\n    <ng-container matColumnDef=\"is_finished\">\n      <mat-header-cell *matHeaderCellDef> Is Finished </mat-header-cell>\n      <mat-cell *matCellDef=\"let file\" class=\"low-margin\"> {{file.is_finished}} </mat-cell>\n    </ng-container>\n    <mat-header-row *matHeaderRowDef=\"displayedColumns\"></mat-header-row>\n    <mat-row *matRowDef=\"let row; columns: displayedColumns;\"></mat-row>\n  </mat-table>\n</div>\n<div class=\"return-abs-button item elevating-item\" (click)=\"goToSettingsPage()\">\n  <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n  <!-- <div class=\"simple-text\">{{elements.return?.title}}</div> -->\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/settings-page/last-prints/last-prints.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LastPrintsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var LastPrintsComponent = (function () {
+    function LastPrintsComponent(router, httpService, snackBar, progressService, dataService) {
+        this.router = router;
+        this.httpService = httpService;
+        this.snackBar = snackBar;
+        this.progressService = progressService;
+        this.dataService = dataService;
+        this.displayedColumns = ['file_name', 'filament_type', 'time', 'temperature', 'is_finished'];
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_3__node_modules_angular_material__["r" /* MatTableDataSource */]();
+        this.elements = {
+            return: {
+                imageUrl: __WEBPACK_IMPORTED_MODULE_6__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
+                title: 'بازکشت',
+            }
+        };
+    }
+    LastPrintsComponent.prototype.ngOnInit = function () {
+        // initial mock data!
+        this.dataSource.data = [{
+                time: this.dataService.stringizedTime(37000),
+                temperature: 180,
+                file_name: 'batman arkham asylum 2000202020202flisjdflsdij lidfs',
+                filament_type: 'PLA',
+                is_finished: 'yes',
+            }, {
+                time: this.dataService.stringizedTime(304928),
+                temperature: 205,
+                file_name: 'batarang DKT',
+                filament_type: 'Flexible',
+                is_finished: 'no',
+            }, {}, {}, {}, {}, {}, {}, {}, {}];
+        this.dataSource.data = [];
+        this.getLastPrintedFiles();
+    };
+    LastPrintsComponent.prototype.getLastPrintedFiles = function () {
+        var _this = this;
+        this.progressService.enable();
+        this.httpService.post('last_prints', {}).subscribe(function (data) {
+            data.forEach(function (row) {
+                row['time'] = _this.dataService.stringizedTime(row['time']);
+                row['is_finished'] = (row['is_finished'] ? 'Yes' : 'No');
+            });
+            _this.dataSource.data = data;
+            _this.progressService.disable();
+        }, function (err) {
+            console.log('could not get the files: ', err);
+            _this.snackBar.open('قادر به دریافت لیست نیست', null, { duration: 1600 });
+            _this.progressService.disable();
+        });
+    };
+    LastPrintsComponent.prototype.goToSettingsPage = function () {
+        this.router.navigate(['settings']);
+    };
+    LastPrintsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-last-prints',
+            template: __webpack_require__("../../../../../src/app/settings-page/last-prints/last-prints.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/base-template/base-template.component.css"), __webpack_require__("../../../../../src/app/settings-page/last-prints/last-prints.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__node_modules_angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */],
+            __WEBPACK_IMPORTED_MODULE_3__node_modules_angular_material__["p" /* MatSnackBar */], __WEBPACK_IMPORTED_MODULE_4__services_progress_service__["a" /* ProgressService */],
+            __WEBPACK_IMPORTED_MODULE_5__services_data_service__["a" /* DataService */]])
+    ], LastPrintsComponent);
+    return LastPrintsComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/settings-page/settings-page.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1602,7 +1799,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/settings-page/settings-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\" style=\"text-align: center;\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"wifiPage()\">\n        <img class=\"no-border-rad\" style=\"max-height: 110px\" src=\"{{elements.wifi?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.wifi?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n\n      <div class=\"item full-item item-button\" fxFlex=\"24%\">\n        <img class=\"fake-image\">\n        <div class=\"simple-text\">{{elements.pincode?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"askBeforeFunctionality()\">\n        <img class=\"no-border-rad\" style=\"max-height: 110px;\" [src]=\"elements.askBefore?.imageUrl\">\n        <div class=\"simple-text\">{{elements.askBefore?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger return-back\" fxFlex=\"24%\" (click)=\"goBackToHomePage()\">\n        <img src=\"{{elements.return?.imageUrl}}\">\n        <div class=\"simple-text\">بازگشت</div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-lock class=\"app-lock\" [isOnSettings]=\"true\"></app-lock>"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        1\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\" style=\"text-align: center;\">2</div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        3\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"wifiPage()\">\n        <img class=\"no-border-rad\" style=\"max-height: 110px\" src=\"{{elements.wifi?.imageUrl}}\" alt=\"\">\n        <div class=\"simple-text\">{{elements.wifi?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n\n      <div class=\"item full-item item-button\" fxFlex=\"24%\">\n        <img class=\"fake-image\">\n        <div class=\"simple-text\">{{elements.pincode?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"askBeforeFunctionality()\">\n        <img class=\"no-border-rad\" style=\"max-height: 110px;\" [src]=\"elements.askBefore?.imageUrl\">\n        <div class=\"simple-text\">{{elements.askBefore?.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n\n      <div class=\"item full-item item-button\" fxFlex=\"24%\" (click)=\"goToLastPrintsPage()\">\n        <img src=\"{{elements.lastPrints?.imageUrl}}\" class=\"no-border-rad\">\n        <div class=\"simple-text\">{{elements.lastPrints.title}}</div>\n      </div>\n      <div fxFlex=\"1%\"> </div>\n    </div>\n  </div>\n\n  <div class=\"container t\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\n      <div class=\"item full-item item-button-bigger return-back\" fxFlex=\"24%\" (click)=\"goBackToHomePage()\">\n        <img src=\"{{elements.return?.imageUrl}}\">\n        <div class=\"simple-text\">بازگشت</div>\n      </div>\n    </div>\n  </div>\n</div>\n<app-lock class=\"app-lock\" [isOnSettings]=\"true\"></app-lock>"
 
 /***/ }),
 
@@ -1653,6 +1850,10 @@ var SettingsPageComponent = (function () {
                 state: this.dataService.askBefore,
                 imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
             },
+            lastPrints: {
+                title: 'Last Prints',
+                imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/print-logo.png',
+            },
             return: {
                 imageUrl: __WEBPACK_IMPORTED_MODULE_1__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/return.png',
             },
@@ -1675,6 +1876,9 @@ var SettingsPageComponent = (function () {
     };
     SettingsPageComponent.prototype.wifiPage = function () {
         this.router.navigate(["/wifi"]);
+    };
+    SettingsPageComponent.prototype.goToLastPrintsPage = function () {
+        this.router.navigate(['/last_prints']);
     };
     SettingsPageComponent.prototype.goBackToHomePage = function () {
         this.router.navigate(["/home"]);
@@ -2198,7 +2402,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".abs-whole-pannel {\r\n    position: absolute;\r\n    width: 88%;\r\n    height: 75%;\r\n    margin: 5%;\r\n    margin-bottom: 0px !important;\r\n    top: 11%;\r\n    left: 1%;\r\n    border: 2px solid #cd5334;\r\n    background-color: #edb88b;\r\n}\r\n\r\n.abs-whole-pannel-bolder {\r\n    width: 86%;\r\n    top: 4%;\r\n    left: 1%;\r\n    border: 8px solid #2e282a;\r\n}\r\n\r\n.dark-back-part {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    left: 0%;\r\n    top: 0%;\r\n    background-color: grey;\r\n    opacity: 0.6;\r\n}\r\n\r\n.lock-ico {\r\n    position: absolute;\r\n    width: 10% !important;\r\n    left: 3%;\r\n    top: 24%;\r\n}\r\n\r\n.settings-lock-ico {\r\n    border: 0 !important;\r\n    /* font-size: 4.5em; */\r\n    height: 100px;\r\n    width: 100px;\r\n\r\n    position: absolute;\r\n    top: 20%;\r\n    left: 36%;\r\n    font-size: 3em !important;\r\n}\r\n\r\n.settings-lock-ico * {\r\n    font-size: 2.5em;\r\n}\r\n\r\n.settings-lock-ico:active {\r\n    background-color: transparent !important;\r\n}\r\n\r\n.keypad {\r\n    font-family: cursive;\r\n    font-size: 2.5em;\r\n    text-align: center;\r\n\r\n    width: 120px;\r\n    margin: 10px;\r\n    padding: 5px;\r\n\r\n    border: 2px solid #cd5334;\r\n}\r\n\r\n.keypad-bolder {\r\n    margin: 5px;\r\n    border: 7px solid #cd5334;\r\n}\r\n\r\n.keypad:active {\r\n    background-color: #e2e2e2;\r\n}\r\n\r\n.left-side-keypad {\r\n    width: 75% !important;\r\n}\r\n\r\n.input-wrapper {\r\n    border: 0;\r\n}\r\n\r\n.input-styles {\r\n    width: 100%;\r\n    height: 100%;\r\n    font-family: cursive;\r\n    font-size: 1em;\r\n    text-align: center;\r\n    background-color: #17bebb;\r\n    margin: -2px !important;\r\n}\r\n\r\n.return-back {\r\n    position: relative;\r\n    bottom: -10px;\r\n}", ""]);
+exports.push([module.i, ".abs-whole-pannel {\r\n    position: absolute;\r\n    width: 88%;\r\n    height: 75%;\r\n    margin: 5%;\r\n    margin-bottom: 0px !important;\r\n    top: 11%;\r\n    left: 1%;\r\n    border: 2px solid #cd5334;\r\n    background-color: #edb88b;\r\n}\r\n\r\n.abs-whole-pannel-bolder {\r\n    width: 86%;\r\n    top: 4%;\r\n    left: 1%;\r\n    border: 8px solid #2e282a;\r\n}\r\n\r\n.dark-back-part {\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    left: 0%;\r\n    top: 0%;\r\n    background-color: grey;\r\n    opacity: 0.6;\r\n}\r\n\r\n.lock-ico {\r\n    position: absolute;\r\n    width: 10% !important;\r\n    left: 3%;\r\n    top: 24%;\r\n}\r\n\r\n.settings-lock-ico {\r\n    border: 0 !important;\r\n    /* font-size: 4.5em; */\r\n    height: 100px;\r\n    width: 100px;\r\n\r\n    position: absolute;\r\n    top: 20%;\r\n    left: 29%;\r\n    font-size: 3em !important;\r\n}\r\n\r\n.settings-lock-ico * {\r\n    font-size: 2.5em;\r\n}\r\n\r\n.settings-lock-ico:active {\r\n    background-color: transparent !important;\r\n}\r\n\r\n.keypad {\r\n    font-family: cursive;\r\n    font-size: 2.5em;\r\n    text-align: center;\r\n\r\n    width: 120px;\r\n    margin: 10px;\r\n    padding: 5px;\r\n\r\n    border: 2px solid #cd5334;\r\n}\r\n\r\n.keypad-bolder {\r\n    margin: 5px;\r\n    border: 7px solid #cd5334;\r\n}\r\n\r\n.keypad:active {\r\n    background-color: #e2e2e2;\r\n}\r\n\r\n.left-side-keypad {\r\n    width: 75% !important;\r\n}\r\n\r\n.input-wrapper {\r\n    border: 0;\r\n}\r\n\r\n.input-styles {\r\n    width: 100%;\r\n    height: 100%;\r\n    font-family: cursive;\r\n    font-size: 1em;\r\n    text-align: center;\r\n    background-color: #17bebb;\r\n    margin: -2px !important;\r\n}\r\n\r\n.return-back {\r\n    position: relative;\r\n    bottom: -10px;\r\n}", ""]);
 
 // exports
 
@@ -2251,7 +2455,6 @@ var LockComponent = (function () {
     };
     LockComponent.prototype.lock = function () {
         var _this = this;
-        // TODO: this should too be a request to server
         this.httpService.post('lock', {}).subscribe(function (data) {
             console.log('data received from server for locking: ', data);
             _this.dataService.isLocked = true;
@@ -2261,7 +2464,6 @@ var LockComponent = (function () {
     };
     LockComponent.prototype.unlock = function () {
         var _this = this;
-        // TODO: should send a VALID REQUEST to check the code
         if (this.code.length < 4)
             return;
         (this.isOnSettings ?
@@ -2331,7 +2533,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".former-row {\r\n    margin-top: 4px;\r\n    height: 100px;\r\n}", ""]);
+exports.push([module.i, ".former-row {\r\n    margin-top: 4px;\r\n    height: 100px;\r\n}\r\n\r\nsup {\r\n    font-size: 28px;\r\n}", ""]);
 
 // exports
 
@@ -2344,7 +2546,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared/print-speed/print-speed.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"abs-over-page\">\n  <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"start start\">\n    <div fxFlex=\"100\" role=\"no-btn\" style=\"display: inline-block\">\n      <button mat-icon-button (click)=\"close()\" style=\"opacity: 0;\">\n        <mat-icon aria-label=\"no\">clear</mat-icon>\n      </button>\n    </div>\n  </div>\n  <mat-card>\n    <mat-card-content>\n      <mat-tab-group>\n\n        <mat-tab label=\"Travel\">\n          <div class=\"container\">\n            <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n              <div fxFlex=\"100%\">\n\n                <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"former-row\">\n                  <div fxFlex=\"18%\" fxFlexOffset=\"1%\" class=\"\" (click)=\"changeValue('travel', 0, 50)\">\n                    <span class=\"preferred-heat item elevating-item\">50%</span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('travel', 0, 75)\">\n                    <span class=\"preferred-heat item elevating-item\">75%</span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('travel', 0, 100)\">\n                    <span class=\"preferred-heat item elevating-item\">100%</span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('travel', 0, 150)\">\n                    <span class=\"preferred-heat item elevating-item\">150%</span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('travel', 0, 200)\">\n                    <span class=\"preferred-heat item elevating-item\">200%</span>\n                  </div>\n                </div>\n\n                <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                  <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"close()\">\n                    <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n                    <div class=\"text text-ltr little-text\">بازگشت</div>\n                  </div>\n                  <div fxFlex=\"19%\" fxFlexOffset=\"1%\" class=\"item elevating-item\" (click)=\"changeValue('travel', -travelUnit, 0)\">\n                    <img src=\"{{elements.left?.imageUrl}}\" alt=\"\">\n                    <div class=\"text text-ltr little-text\">-{{travelUnit}}%</div>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"-1%\" class=\"changing-unit-wrapper\" (click)=\"onTravelChanged()\">\n                    <span class=\"preferred-heat item elevating-item changing-unit\">{{travelUnit}} Unit</span>\n                  </div>\n                  <div fxFlex=\"19%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue('travel', travelUnit, 0)\">\n                    <img src=\"{{elements.right?.imageUrl}}\" alt=\"\">\n                    <div class=\"text text-ltr little-text\">+{{travelUnit}}%</div>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"2%\" class=\"item elevating-item submit\" style=\"margin-right: 1%;\">\n                    <span class=\"preferred-heat-item-elevating-item submit-text\">\n                      سرعت فعلی: {{travelValue}}%\n                    </span>\n                  </div>\n                </div>\n\n              </div>\n            </div>\n          </div>\n        </mat-tab>\n\n        <mat-tab label=\"Feed rate\">\n            <div class=\"container\">\n              <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                <div fxFlex=\"100%\">\n  \n                  <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"former-row\">\n                    <div fxFlex=\"18%\" fxFlexOffset=\"1%\" class=\"\" (click)=\"changeValue('feedrate', 0, 50)\">\n                      <span class=\"preferred-heat item elevating-item\">50%</span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('feedrate', 0, 75)\">\n                      <span class=\"preferred-heat item elevating-item\">75%</span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('feedrate', 0, 100)\">\n                      <span class=\"preferred-heat item elevating-item\">100%</span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('feedrate', 0, 150)\">\n                      <span class=\"preferred-heat item elevating-item\">150%</span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('feedrate', 0, 200)\">\n                      <span class=\"preferred-heat item elevating-item\">200%</span>\n                    </div>\n                  </div>\n  \n                  <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                    <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"close()\">\n                      <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n                      <div class=\"text text-ltr little-text\">بازگشت</div>\n                    </div>\n                    <div fxFlex=\"19%\" fxFlexOffset=\"1%\" class=\"item elevating-item\" (click)=\"changeValue('feedrate', -feedrateUnit, 0)\">\n                      <img src=\"{{elements.left?.imageUrl}}\" alt=\"\">\n                      <div class=\"text text-ltr little-text\">-{{feedrateUnit}}%</div>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"-1%\" class=\"changing-unit-wrapper\" (click)=\"onFeedrateChanged()\">\n                      <span class=\"preferred-heat item elevating-item changing-unit\">{{feedrateUnit}} Unit</span>\n                    </div>\n                    <div fxFlex=\"19%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue('feedrate', feedrateUnit, 0)\">\n                      <img src=\"{{elements.right?.imageUrl}}\" alt=\"\">\n                      <div class=\"text text-ltr little-text\">+{{feedrateUnit}}%</div>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"2%\" class=\"item elevating-item submit\" style=\"margin-right: 1%;\">\n                      <span class=\"preferred-heat-item-elevating-item submit-text\">\n                        سرعت فعلی: {{feedrateValue}}%\n                      </span>\n                    </div>\n                  </div>\n  \n                </div>\n              </div>\n            </div>\n          </mat-tab>\n\n      </mat-tab-group>\n    </mat-card-content>\n  </mat-card>\n</div>"
+module.exports = "<div class=\"abs-over-page\">\n  <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"start start\">\n    <div fxFlex=\"100\" role=\"no-btn\" style=\"display: inline-block\">\n      <button mat-icon-button (click)=\"close()\" style=\"opacity: 0;\">\n        <mat-icon aria-label=\"no\">clear</mat-icon>\n      </button>\n    </div>\n  </div>\n  <mat-card>\n    <mat-card-content>\n      <mat-tab-group>\n\n        <mat-tab label=\"Travel\">\n          <div class=\"container\">\n            <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n              <div fxFlex=\"100%\">\n\n                <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"former-row\">\n                  <div fxFlex=\"18%\" fxFlexOffset=\"1%\" class=\"\" (click)=\"changeValue('travel', 0, 50)\">\n                    <span class=\"preferred-heat item elevating-item\">50<sup>%</sup></span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('travel', 0, 75)\">\n                    <span class=\"preferred-heat item elevating-item\">75<sup>%</sup></span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('travel', 0, 100)\">\n                    <span class=\"preferred-heat item elevating-item\">100<sup>%</sup></span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('travel', 0, 150)\">\n                    <span class=\"preferred-heat item elevating-item\">150<sup>%</sup></span>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('travel', 0, 200)\">\n                    <span class=\"preferred-heat item elevating-item\">200<sup>%</sup></span>\n                  </div>\n                </div>\n\n                <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                  <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"close()\">\n                    <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n                    <div class=\"text text-ltr little-text\">بازگشت</div>\n                  </div>\n                  <div fxFlex=\"19%\" fxFlexOffset=\"1%\" class=\"item elevating-item\" (click)=\"changeValue('travel', -travelUnit, 0)\">\n                    <img src=\"{{elements.left?.imageUrl}}\" alt=\"\">\n                    <div class=\"text text-ltr little-text\">-{{travelUnit}}%</div>\n                  </div>\n                  <div fxFlex=\"18%\" fxFlexOffset=\"-1%\" class=\"changing-unit-wrapper\" (click)=\"onTravelChanged()\">\n                    <span class=\"preferred-heat item elevating-item changing-unit\">{{travelUnit}} Unit</span>\n                  </div>\n                  <div fxFlex=\"19%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue('travel', travelUnit, 0)\">\n                    <img src=\"{{elements.right?.imageUrl}}\" alt=\"\">\n                    <div class=\"text text-ltr little-text\">+{{travelUnit}}%</div>\n                  </div>\n                  <div fxFlex=\"19%\" fxFlexOffset=\"2%\" class=\"item elevating-item submit\" style=\"margin-right: 1%;\">\n                    <span class=\"preferred-heat-item-elevating-item submit-text\">\n                      سرعت فعلی: {{travelValue}}%\n                    </span>\n                  </div>\n                </div>\n\n              </div>\n            </div>\n          </div>\n        </mat-tab>\n\n        <mat-tab label=\"Feed rate\">\n            <div class=\"container\">\n              <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                <div fxFlex=\"100%\">\n  \n                  <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"former-row\">\n                    <div fxFlex=\"18%\" fxFlexOffset=\"1%\" class=\"\" (click)=\"changeValue('feedrate', 0, 50)\">\n                      <span class=\"preferred-heat item elevating-item\">50<sup>%</sup></span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('feedrate', 0, 75)\">\n                      <span class=\"preferred-heat item elevating-item\">75<sup>%</sup></span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"\" (click)=\"changeValue('feedrate', 0, 100)\">\n                      <span class=\"preferred-heat item elevating-item\">100<sup>%</sup></span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('feedrate', 0, 150)\">\n                      <span class=\"preferred-heat item elevating-item\">150<sup>%</sup></span>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"4%\" class=\"\" (click)=\"changeValue('feedrate', 0, 200)\">\n                      <span class=\"preferred-heat item elevating-item\">200<sup>%</sup></span>\n                    </div>\n                  </div>\n  \n                  <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                    <div fxFlex=\"18%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"close()\">\n                      <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n                      <div class=\"text text-ltr little-text\">بازگشت</div>\n                    </div>\n                    <div fxFlex=\"19%\" fxFlexOffset=\"1%\" class=\"item elevating-item\" (click)=\"changeValue('feedrate', -feedrateUnit, 0)\">\n                      <img src=\"{{elements.left?.imageUrl}}\" alt=\"\">\n                      <div class=\"text text-ltr little-text\">-{{feedrateUnit}}%</div>\n                    </div>\n                    <div fxFlex=\"18%\" fxFlexOffset=\"-1%\" class=\"changing-unit-wrapper\" (click)=\"onFeedrateChanged()\">\n                      <span class=\"preferred-heat item elevating-item changing-unit\">{{feedrateUnit}} Unit</span>\n                    </div>\n                    <div fxFlex=\"19%\" fxFlexOffset=\"0%\" class=\"item elevating-item\" (click)=\"changeValue('feedrate', feedrateUnit, 0)\">\n                      <img src=\"{{elements.right?.imageUrl}}\" alt=\"\">\n                      <div class=\"text text-ltr little-text\">+{{feedrateUnit}}%</div>\n                    </div>\n                    <div fxFlex=\"19%\" fxFlexOffset=\"2%\" class=\"item elevating-item submit\" style=\"margin-right: 1%;\">\n                      <span class=\"preferred-heat-item-elevating-item submit-text\">\n                        سرعت فعلی: {{feedrateValue}}%\n                      </span>\n                    </div>\n                  </div>\n  \n                </div>\n              </div>\n            </div>\n          </mat-tab>\n\n      </mat-tab-group>\n    </mat-card-content>\n  </mat-card>\n</div>"
 
 /***/ }),
 
@@ -2479,7 +2681,7 @@ var PrintSpeedComponent = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ServerMatch; });
 var ServerMatch = (function () {
-    /** TODO:
+    /**
      * STATIC is for development-mode
      * But for the server, it's input should be changed to SERVER_STATIC value
      *
@@ -2780,7 +2982,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var HomizeComponent = (function () {
-    // TODO: I can use some kind of abstract class to reduce this much redundancy!
     function HomizeComponent(router, httpService, snackBar) {
         this.router = router;
         this.httpService = httpService;
@@ -2975,8 +3176,6 @@ var MoveAxisComponent = (function () {
         }, function (err) {
             _this.progressService.disable();
             console.error("couldn't move axis", err);
-            // TODO: for test purposes
-            // this.axis[axis] += value || 0;
         });
     };
     MoveAxisComponent.prototype.goToToolsPage = function () {

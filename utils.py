@@ -194,7 +194,7 @@ class Machine:
                         self.extruder_temp['point'] = float(splited[2][1:])
                         self.bed_temp['current'] = float(splited[3][2:])
                         self.bed_temp['point'] = float(splited[4][1:])
-                        
+
                         first_done = True
 
                     elif self.__Gcodes_return[0] == 2:
@@ -424,7 +424,7 @@ class Machine:
             if self.__stop_flag:
 
                 # maybe here is the problem of the stop hanging **
-                
+                print("came hererererererererererererere")
                 self.__Gcodes_to_run = []
                 self.__Gcodes_return = []
                 break
@@ -458,13 +458,13 @@ class Machine:
 
         self.finalize_print(new_print)
 
-        try:
-            os.remove('backup_print.bc')
-            os.remove('backup_print_path.bc')
+        #try:
+         #   os.remove('backup_print.bc')
+          #  os.remove('backup_print_path.bc')
             # self.printing_file = None
-        except Exception as e:
-            print('error in reading file lines: ', e)
-            pass
+        #except Exception as e:
+         #   print('error in reading file lines: ', e)
+          #  pass
 
     def finalize_print(self, new_print):
         self.append_gcode(gcode="M84")  # Release Motors
@@ -646,7 +646,9 @@ class Machine:
 
     def stop_printing(self):
         self.__stop_flag = True
-        self.on_the_print_page = False
+
+    def set_on_the_print_page_flag(self, flag):
+        self.on_the_print_page = flag
 
     def pause_printing(self):
         self.__pause_flag = True
@@ -694,7 +696,8 @@ class Machine:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
         except:
-            pass
+            print("tofe sag")
+           # pass
 
     ''' recent activites '''
     def check_last_print(self):
