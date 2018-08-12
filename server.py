@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, url_for, Response, json, jsonify
-from utils import Machine, Utils, Extra
+from utils import Machine, Utils, Extra, ExtendedBoard
 from os.path import isfile
 import subprocess
 import time
