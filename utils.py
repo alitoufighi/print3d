@@ -131,8 +131,9 @@ class Machine:
                 'time': print_status[0],
                 'temperature': print_status[1],
                 'file_name': print_status[2],
-                'filament_type': print_status[3],
-                'is_finished': print_status[4],
+                # 'filament_type': print_status[3],
+                # We don't have filament type yet! So we skip this for now!
+                'is_finished': print_status[3],
             }
             result.append(status)
         return result
@@ -461,7 +462,7 @@ class Machine:
         new_print['temperature'] = str(self.extruder_temp)
         new_print['file_name'] = str(self.printing_file)
         # new_print['filament_type'] = None # TO BE SET
-        new_print['is_finished'] = (self.print_percentage == 100)
+        new_print['is_finished'] = 'yes' if (self.print_percentage == 100) else 'no'
 
         self.finalize_print(new_print)
 
@@ -482,7 +483,7 @@ class Machine:
         self.printing_file = None
 
         self.dbcursor.execute('''CREATE TABLE IF NOT EXISTS Prints
-                    (time TEXT, temperature TEXT, file_name TEXT, is_finished Boolean)
+                    (time TEXT, temperature TEXT, file_name TEXT, is_finished TEXT)
                     ''')
         print_status = (new_print['time'], new_print['temperature'],
                         new_print['file_name'], new_print['is_finished'],)
