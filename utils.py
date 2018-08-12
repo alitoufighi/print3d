@@ -300,11 +300,11 @@ class Machine:
 
             '''wait for buffer to be free'''
             while len(self.__Gcodes_to_run) >= self.machine_settings['printing_buffer']:
-                ''' stop printing when it is wainting in buffer'''
+                ''' stop printing when it is waiting in buffer'''
                 if self.__stop_flag:
                     break
 
-            '''   check for existence of filament   '''
+            '''   check for existance of filament   '''
             if ExtendedBoard.check_filament_status() == False:
                 self.__pause_flag = True
                 self.__filament_pause_flag = True

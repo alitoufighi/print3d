@@ -18,11 +18,10 @@ log.setLevel(logging.ERROR)
 # def middleWare(*args, **kwargs):
     # return [True, *args]
 
-@app.route('/api/filament', methods=['POST'])
+@app.route('/api/filament', methods=['GET'])
 def filament_changes():
     try:
-        # TODO: should check for the filament type from the SHB's API!
-        return Response(status=200)
+        return jsonify({'filament_flag': printer.__filament_pause_flag}), 200
     except Exception as e:
         print('Error: ', e)
         return Response(status=500);
