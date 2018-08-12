@@ -89,6 +89,7 @@ class Machine:
         self.print_percentage = 0
         self.__stop_flag = False
         self.__pause_flag = False
+        self.__filament_pause_flag = False
         self.on_the_print_page = False
         self.__Feedrate_speed_percentage = 100
         self.__Travel_speed_percentage = 100
@@ -296,11 +297,18 @@ class Machine:
 
         ''' gcode applicator '''
         for x in range(line_to_go, len(lines)):
+
             '''wait for buffer to be free'''
-            while len(self.__Gcodes_to_run) >= 15:
+            while len(self.__Gcodes_to_run) >= self.machine_settings['printing_buffer']:
                 ''' stop printing when it is wainting in buffer'''
                 if self.__stop_flag:
                     break
+
+            '''   check for existence of filament   '''
+            if ExtendedBoard.check_filament_status() == False:
+                self.__pause_flag = True
+                self.__filament_pause_flag = True
+
 
             signnum = lines[x].find(';')
             if not lines[x]:pass
@@ -655,6 +663,7 @@ class Machine:
 
     def resume_printing(self):
         self.__pause_flag = False
+        self.__filament_pause_flag = False
 
     def get_percentage(self):
         return self.print_percentage
