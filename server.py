@@ -7,6 +7,7 @@ import time
 app = Flask(__name__)
 printer = Machine()
 extra = Extra()
+extendedBoard = ExtendedBoard()
 
 ''' disable flask logging '''
 import logging
@@ -17,11 +18,23 @@ log.setLevel(logging.ERROR)
 # def middleWare(*args, **kwargs):
     # return [True, *args]
 
+@app.route('/api/filament', methods=['POST'])
+def filament_changes():
+    try:
+        # TODO: should check for the filament type from the SHB's API!
+        return Response(status=200)
+    except Exception as e:
+        print('Error: ', e)
+        return Response(status=500);
 
 @app.route('/api/led', methods=['POST'])
-def turn_led_off():
+def change_led_status():
     try:
-        # printer.turn_led_off()
+        status = request.json.get('status')
+        if status == 'on':
+            extendedBoard.relay_status(1, True)
+        else:
+            extendedBoard.relay_status(1, False)
         return Response(status=200)
     except Exception as e:
         print('Error:', e)

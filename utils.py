@@ -480,11 +480,11 @@ class Machine:
                         new_print['file_name'], new_print['is_finished'],)
         self.dbcursor.execute('INSERT INTO Prints VALUES (?, ?, ?, ?)', print_status)
 
-    def append_gcode(self,gcode,gcode_return=0):
+    def append_gcode(self, gcode, gcode_return = 0):
         """
-        append the gcode to the privet var to be sent in the thread
+        append the gcode to the private var to be sent in the thread
         :param gcode:
-        a single line  of gcode
+        a single line of gcode
         :param gcode_return:
         what kind of data return that gcode
         0 -> nothing
