@@ -933,7 +933,7 @@ class ExtendedBoard:
                 self.filament_exist = False
                 return False
 
-            elif :
+            else :
                 self.filament_exist = True
                 return True
 
