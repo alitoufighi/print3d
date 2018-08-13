@@ -906,7 +906,7 @@ class ExtendedBoard:
             self.board_serial.close()
             self.board_serial.open()
             time.sleep(2)
-            self.board_serial.write(b'0\n')
+            self.board_serial.write(b'S')
             while True:
                 text = str(self.board_serial.readline())
                 if text.find('ok') != -1:
@@ -929,15 +929,13 @@ class ExtendedBoard:
         """
         if self.board_serial.inWaiting() > 0:
             text = str(self.board_serial.readline())
-            if text.find('F'):
-                self.filament_exist = True
-                self.board_serial.write(b'ok\n')
-                return True
-
-            elif text.find('N'):
+            if text.find('A'):
                 self.filament_exist = False
-                self.board_serial.write(b'ok\n')
                 return False
+
+            elif :
+                self.filament_exist = True
+                return True
 
         else:
             return None
@@ -955,15 +953,15 @@ class ExtendedBoard:
         """
         if relay_num == 1 : 
             if status:
-                self.board_serial.write(b'O1\n')
+                self.board_serial.write(b'O')
             else:
-                self.board_serial.write(b'L1\n')
+                self.board_serial.write(b'P')
         
         elif relay_num == 2 :
             if status:
-                self.board_serial.write(b'O2\n')
+                self.board_serial.write(b'W')
             else:
-                self.board_serial.write(b'L2\n')
+                self.board_serial.write(b'E')
 
         while True:
             text = str(self.board_serial.readline())
