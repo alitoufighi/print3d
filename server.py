@@ -7,7 +7,7 @@ import time
 app = Flask(__name__)
 printer = Machine()
 extra = Extra()
-extendedBoard = ExtendedBoard()
+#extendedBoard = ExtendedBoard()
 
 ''' disable flask logging '''
 import logging
@@ -31,9 +31,11 @@ def change_led_status():
     try:
         status = request.json.get('status')
         if status == 'on':
-            extendedBoard.relay_status(1, True)
+            printer.set_relay_ext_board(1,True)
+            #extendedBoard.relay_status(1, True)
         else:
-            extendedBoard.relay_status(1, False)
+            printer.set_relay_ext_board(1,False)
+            #extendedBoard.relay_status(1, False)
         return Response(status=200)
     except Exception as e:
         print('Error:', e)
