@@ -17,6 +17,14 @@ log.setLevel(logging.ERROR)
 # def middleWare(*args, **kwargs):
     # return [True, *args]
 
+@app.route('/api/extended_board_connection', methods=['GET'])
+def extended_board_connection():
+    try:
+        return jsonify({'is_connected': printer.use_ext_board}), 200
+    except Exception as e:
+        print('Error: ', e)
+        return Response(status=500)
+
 @app.route('/api/filament', methods=['GET'])
 def filament_changes():
     try:
