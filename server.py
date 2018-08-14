@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, url_for, Response, json, jsonify
-from utils import Machine, Utils, Extra, ExtendedBoard
+from utils import Machine, Utils, Extra
 from os.path import isfile
 import subprocess
 import time
@@ -7,7 +7,6 @@ import time
 app = Flask(__name__)
 printer = Machine()
 extra = Extra()
-#extendedBoard = ExtendedBoard()
 
 ''' disable flask logging '''
 import logging
@@ -31,10 +30,10 @@ def change_led_status():
     try:
         status = request.json.get('status')
         if status == 'on':
-            printer.set_relay_ext_board(1,True)
+            printer.set_relay_ext_board(1, True)
             #extendedBoard.relay_status(1, True)
         else:
-            printer.set_relay_ext_board(1,False)
+            printer.set_relay_ext_board(1, False)
             #extendedBoard.relay_status(1, False)
         return Response(status=200)
     except Exception as e:
