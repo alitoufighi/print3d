@@ -156,7 +156,7 @@ class Machine:
         try:
             self.ext_board = ExtendedBoard()
             self.use_ext_board = True
-        except Exception as e:
+        except BaseException as e:
             print(e)
             self.use_ext_board = False
 
@@ -938,19 +938,18 @@ class ExtendedBoard:
 
             '''  check for time out time '''
             if time.time() - timeout_time > 0.2:
-                self.board_serial.close()
-                self.board_serial.open()
-                time.sleep(2)
                 self.board_serial.write(b'S')
                 timeout_time  = time.time()
                 check_number += 1 
 
             if check_number > 3:
                 print ('!!! extended board not found !!!')
-                raise Exception
-            text = str(self.board_serial.readline())
-            if text.find('ok') != -1:
-                break
+                raise BaseException('!!! no board found !!!')
+
+            if self.board_serial.inWaiting():
+                text = str(self.board_serial.readline())
+                if text.find('ok') != -1:
+                    break
 
     def check_filament_status(self):
         # pass
