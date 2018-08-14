@@ -209,12 +209,14 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__shared_print_speed_print_speed_component__ = __webpack_require__("../../../../../src/app/shared/print-speed/print-speed.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__settings_page_last_prints_last_prints_component__ = __webpack_require__("../../../../../src/app/settings-page/last-prints/last-prints.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__node_modules_angular_common__ = __webpack_require__("../../../common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__services_variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -303,7 +305,7 @@ var AppModule = (function () {
                 // HeatComponent,
                 __WEBPACK_IMPORTED_MODULE_25__shared_fan_fan_component__["a" /* FanComponent */],
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_9__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_11__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_17__services_data_service__["a" /* DataService */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_9__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_11__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_17__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_32__services_variable_service__["a" /* VariableService */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]],
         })
     ], AppModule);
@@ -480,6 +482,7 @@ module.exports = "<!--<div class=\"container\"-->\r\n     <!--fxLayout-->\r\n   
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -498,13 +501,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var MainPageComponent = (function () {
-    function MainPageComponent(httpService, dialog, progressService, router, dataService) {
+    function MainPageComponent(httpService, dialog, progressService, router, dataService, variableService) {
         this.httpService = httpService;
         this.dialog = dialog;
         this.progressService = progressService;
         this.router = router;
         this.dataService = dataService;
+        this.variableService = variableService;
         this.pageName = 'main-page';
         this.bed = {
             cur: 200,
@@ -579,8 +584,8 @@ var MainPageComponent = (function () {
         var _this = this;
         this.progressService.enable();
         this.httpService.post('print', {
-            cd: this.dataService.gcodePrintingFileDirectory,
-            line: this.dataService.gcodeUnfinishedLine || 0,
+            cd: this.variableService.gcodePrintingFileDirectory,
+            line: this.variableService.gcodeUnfinishedLine || 0,
             action: 'print'
         }, true).subscribe(function (data) {
             _this.progressService.disable();
@@ -621,7 +626,7 @@ var MainPageComponent = (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_2__angular_material__["e" /* MatDialog */],
             __WEBPACK_IMPORTED_MODULE_3__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_5__angular_router__["a" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_6__services_data_service__["a" /* DataService */]])
+            __WEBPACK_IMPORTED_MODULE_6__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_9__services_variable_service__["a" /* VariableService */]])
     ], MainPageComponent);
     return MainPageComponent;
 }());
@@ -651,7 +656,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/print-page/print-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"simple-text\">°{{temps.bed.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <!--<span class=\"simple-text\">Print Time:</span>-->\n        <div class=\"simple-text\" style=\"direction: ltr; color: red;\" *ngIf=\"dataService.ipList.length > 0\">\n          {{dataService.ipList[0]}}\n        </div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"simple-text\">°{{temps.ext.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n        <div class=\"print-dir\">\n          <span>z : {{zPosition}}</span>\n          <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>\n          <span>{{getShortedString(dataService.gcodePrintingFileDirectory)}}</span>\n        </div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">قطع کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <!-- <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n              <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">Heat</div>\n            </div> -->\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openOptions()\">\n              <img src=\"{{elements.options?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">{{elements.options?.title}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openFan()\">\n              <img src=\"{{elements.fan?.imageUrl}}\">\n              <div class=\"simple-text\">{{elements.fan?.title}}</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n    <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n    <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n    <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n    <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n  <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n  <!--</div>-->\n  <app-lock></app-lock>\n  <!--</div>-->\n\n</div>\n\n\n<!-- Options Page -->\n<div *ngIf=\"isOnOptionsPage\" class=\"dark-back-part\" (click)=\"closeOptions()\"></div>\n<div *ngIf=\"isOnOptionsPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"closeOptions()\">\n          <img src=\"{{elements.closeOptions?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.closeOptions?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n          <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.heat?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableSpeedPage()\">\n          <img src=\"{{elements.speed?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.speed?.title}}</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n\n<!-- Fan Page -->\n<div *ngIf=\"isOnFanPage\" class=\"dark-back-part\" (click)=\"closeFan()\"></div>\n<div *ngIf=\"isOnFanPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('OFF')\">\n          <img src=\"{{elements.fan?.child?.offImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">Off</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('Half')\">\n          <img src=\"{{elements.fan?.child?.halfImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">Half</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('ON')\">\n          <img src=\"{{elements.fan?.child?.fullImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">On</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n<app-heat *ngIf=\"isOnHeatPage\" (onClose)=\"disableHeatPage()\"></app-heat>\n<app-print-speed *ngIf=\"isOnSpeedPage\" (onClose)=\"disableSpeedPage()\"></app-print-speed>"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"simple-text\">°{{temps.bed.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <!--<span class=\"simple-text\">Print Time:</span>-->\n        <div class=\"simple-text\" style=\"direction: ltr; color: red;\" *ngIf=\"dataService.ipList.length > 0\">\n          {{dataService.ipList[0]}}\n        </div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"simple-text\">°{{temps.ext.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n        <div class=\"print-dir\">\n          <span>z : {{zPosition}}</span>\n          <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>\n          <span>{{getShortedString(variableService.gcodePrintingFileDirectory)}}</span>\n        </div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">قطع کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <!-- <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n              <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">Heat</div>\n            </div> -->\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openOptions()\">\n              <img src=\"{{elements.options?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">{{elements.options?.title}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openFan()\">\n              <img src=\"{{elements.fan?.imageUrl}}\">\n              <div class=\"simple-text\">{{elements.fan?.title}}</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n    <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n    <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n    <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n    <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n  <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n  <!--</div>-->\n  <app-lock></app-lock>\n  <!--</div>-->\n\n</div>\n\n\n<!-- Options Page -->\n<div *ngIf=\"isOnOptionsPage\" class=\"dark-back-part\" (click)=\"closeOptions()\"></div>\n<div *ngIf=\"isOnOptionsPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"closeOptions()\">\n          <img src=\"{{elements.closeOptions?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.closeOptions?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n          <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.heat?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableSpeedPage()\">\n          <img src=\"{{elements.speed?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.speed?.title}}</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n\n<!-- Fan Page -->\n<div *ngIf=\"isOnFanPage\" class=\"dark-back-part\" (click)=\"closeFan()\"></div>\n<div *ngIf=\"isOnFanPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('OFF')\">\n          <img src=\"{{elements.fan?.child?.offImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">Off</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('Half')\">\n          <img src=\"{{elements.fan?.child?.halfImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">Half</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('ON')\">\n          <img src=\"{{elements.fan?.child?.fullImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">On</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n<app-heat *ngIf=\"isOnHeatPage\" (onClose)=\"disableHeatPage()\"></app-heat>\n<app-print-speed *ngIf=\"isOnSpeedPage\" (onClose)=\"disableSpeedPage()\"></app-print-speed>"
 
 /***/ }),
 
@@ -670,6 +675,7 @@ module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_fan_fan_component__ = __webpack_require__("../../../../../src/app/shared/fan/fan.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -689,6 +695,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PrintStatus;
 (function (PrintStatus) {
     PrintStatus["print"] = "print";
@@ -697,13 +704,14 @@ var PrintStatus;
     PrintStatus["stop"] = "stop";
 })(PrintStatus || (PrintStatus = {}));
 var PrintPageComponent = (function () {
-    function PrintPageComponent(httpService, router, dataService, dialog, progressService, snackBar) {
+    function PrintPageComponent(httpService, router, dataService, dialog, progressService, snackBar, variableService) {
         this.httpService = httpService;
         this.router = router;
         this.dataService = dataService;
         this.dialog = dialog;
         this.progressService = progressService;
         this.snackBar = snackBar;
+        this.variableService = variableService;
         this.pageName = 'print-page';
         this.printPercent = 0;
         this.zPosition = 0;
@@ -776,7 +784,7 @@ var PrintPageComponent = (function () {
             }
         });
         this.dataService.printTime.subscribe(function (data) {
-            _this.printTime = _this.dataService.stringizedTime(data);
+            _this.printTime = _this.variableService.stringizedTime(data);
         });
         this.dataService.zPosition.subscribe(function (data) {
             _this.zPosition = data;
@@ -973,7 +981,8 @@ var PrintPageComponent = (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */],
             __WEBPACK_IMPORTED_MODULE_4__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["e" /* MatDialog */],
-            __WEBPACK_IMPORTED_MODULE_9__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["p" /* MatSnackBar */]])
+            __WEBPACK_IMPORTED_MODULE_9__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_6__angular_material__["p" /* MatSnackBar */],
+            __WEBPACK_IMPORTED_MODULE_10__services_variable_service__["a" /* VariableService */]])
     ], PrintPageComponent);
     return PrintPageComponent;
 }());
@@ -1018,6 +1027,7 @@ module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1033,12 +1043,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SelectUsbComponent = (function () {
-    function SelectUsbComponent(httpService, dataService, progressService, router) {
+    function SelectUsbComponent(httpService, dataService, progressService, router, variableService) {
         this.httpService = httpService;
         this.dataService = dataService;
         this.progressService = progressService;
         this.router = router;
+        this.variableService = variableService;
         // initial temp data
         // usbs = ['temp1 temp1temp1', 'temp2.gcode', 'temp3 temp3.gcode', 'temp4temp4temp4.gcode', 'temp5temp5 .gcode', 'temp6temp6 temp6'];
         this.usbs = [];
@@ -1128,7 +1140,7 @@ var SelectUsbComponent = (function () {
     };
     SelectUsbComponent.prototype.makeThePrint = function () {
         var _this = this;
-        this.dataService.gcodePrintingFileDirectory = this.cd;
+        this.variableService.gcodePrintingFileDirectory = this.cd;
         this.httpService.post('print', { 'cd': this.cd, 'action': 'print' }, true).subscribe(function (data) {
             if (data.status === 'success') {
                 _this.progressService.disable();
@@ -1186,7 +1198,8 @@ var SelectUsbComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/select-usb/select-usb.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_5__services_data_service__["a" /* DataService */],
-            __WEBPACK_IMPORTED_MODULE_2__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */]])
+            __WEBPACK_IMPORTED_MODULE_2__services_progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_6__services_variable_service__["a" /* VariableService */]])
     ], SelectUsbComponent);
     return SelectUsbComponent;
 }());
@@ -1208,6 +1221,7 @@ var SelectUsbComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1225,12 +1239,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var DataService = (function () {
-    function DataService(progressService, httpService, router, dialog) {
+    function DataService(progressService, httpService, router, dialog, variableService) {
         this.progressService = progressService;
         this.httpService = httpService;
         this.router = router;
         this.dialog = dialog;
+        this.variableService = variableService;
         this.datas = [
             'temps',
             'percentage',
@@ -1254,10 +1270,7 @@ var DataService = (function () {
         // currentPercentage = 0;
         this.zPosition = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
         this.percentage = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
-        this.currentPrintTime = 0;
         this.printTime = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](0);
-        this.gcodePrintingFileDirectory = 'some/default/directory';
-        this.gcodeUnfinishedLine = 0;
         this.connectedWifi = '';
         this.ipList = [];
         this.isLocked = false;
@@ -1306,7 +1319,7 @@ var DataService = (function () {
             // TODO: maybe we don't need this anymore!
         }
         else if (name === 'printTime') {
-            this.currentPrintTime = 0;
+            this.variableService.currentPrintTime = 0;
             this.printTime.next(0);
         }
     };
@@ -1325,8 +1338,8 @@ var DataService = (function () {
                     if (data['status'] === 'success') {
                         if (data['unfinished'] && data['unfinished']['exist']) {
                             console.log('received data for unfinished file:', data);
-                            _this.gcodePrintingFileDirectory = data['unfinished']['cd'];
-                            _this.gcodeUnfinishedLine = data['unfinished']['line'];
+                            _this.variableService.gcodePrintingFileDirectory = data['unfinished']['cd'];
+                            _this.variableService.gcodeUnfinishedLine = data['unfinished']['line'];
                             resolve(true);
                         }
                     }
@@ -1549,8 +1562,8 @@ var DataService = (function () {
         var _this = this;
         this.printTimeInterval = setInterval(function () {
             _this.httpService.get('get_time', true).subscribe(function (data) {
-                _this.currentPrintTime = data['time'];
-                _this.printTime.next(_this.currentPrintTime);
+                _this.variableService.currentPrintTime = data['time'];
+                _this.printTime.next(_this.variableService.currentPrintTime);
             }, function (err) {
                 console.warn('print time couldn\'t be fetched', err);
             });
@@ -1566,31 +1579,10 @@ var DataService = (function () {
             _this.setIpList();
         }, 15000);
     };
-    /**
-     * standardizes time to show
-     */
-    DataService.prototype.stringizedTime = function (t) {
-        var days, hours, minutes, seconds;
-        days = Math.floor(t / 86400);
-        t -= days * 86400;
-        hours = Math.floor(t / 3600) % 24;
-        t -= hours * 3600;
-        minutes = Math.floor(t / 60) % 60;
-        t -= minutes * 60;
-        seconds = t % 60;
-        return [
-            days,
-            'd ',
-            hours,
-            'h ',
-            minutes,
-            'm',
-        ].join('');
-    };
     DataService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__progress_service__["a" /* ProgressService */], __WEBPACK_IMPORTED_MODULE_3__http_service__["a" /* HttpService */],
-            __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatDialog */]])
+            __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatDialog */], __WEBPACK_IMPORTED_MODULE_8__variable_service__["a" /* VariableService */]])
     ], DataService);
     return DataService;
 }());
@@ -1724,6 +1716,60 @@ var ProgressService = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/services/variable.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VariableService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var VariableService = (function () {
+    function VariableService() {
+        this.gcodePrintingFileDirectory = 'some/default/directory';
+        this.gcodeUnfinishedLine = 0;
+        this.currentPrintTime = 0;
+    }
+    /**
+     * standardizes time to show
+     */
+    VariableService.prototype.stringizedTime = function (t) {
+        var days, hours, minutes, seconds;
+        days = Math.floor(t / 86400);
+        t -= days * 86400;
+        hours = Math.floor(t / 3600) % 24;
+        t -= hours * 3600;
+        minutes = Math.floor(t / 60) % 60;
+        t -= minutes * 60;
+        seconds = t % 60;
+        return [
+            days,
+            'd ',
+            hours,
+            'h ',
+            minutes,
+            'm',
+        ].join('');
+    };
+    VariableService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], VariableService);
+    return VariableService;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/settings-page/last-prints/last-prints.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1761,6 +1807,7 @@ module.exports = "<div style=\"background-color: #000000\">\n  <mat-table #table
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_progress_service__ = __webpack_require__("../../../../../src/app/services/progress.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_servermatch__ = __webpack_require__("../../../../../src/app/shared/servermatch.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1777,13 +1824,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LastPrintsComponent = (function () {
-    function LastPrintsComponent(router, httpService, snackBar, progressService, dataService) {
+    function LastPrintsComponent(router, httpService, snackBar, progressService, dataService, variableService) {
         this.router = router;
         this.httpService = httpService;
         this.snackBar = snackBar;
         this.progressService = progressService;
         this.dataService = dataService;
+        this.variableService = variableService;
         this.displayedColumns = ['file_name', 'filament_type', 'time', 'temperature', 'is_finished'];
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_3__node_modules_angular_material__["r" /* MatTableDataSource */]();
         this.elements = {
@@ -1796,13 +1845,13 @@ var LastPrintsComponent = (function () {
     LastPrintsComponent.prototype.ngOnInit = function () {
         // TODO: remove this initial mock data!
         this.dataSource.data = [{
-                time: this.dataService.stringizedTime(37000),
+                time: this.variableService.stringizedTime(37000),
                 temperature: 180,
                 file_name: 'batman arkham asylum 2000202020202flisjdflsdij lidfs',
                 filament_type: 'PLA',
                 is_finished: 'yes',
             }, {
-                time: this.dataService.stringizedTime(304928),
+                time: this.variableService.stringizedTime(304928),
                 temperature: 205,
                 file_name: 'batarang DKT',
                 filament_type: 'Flexible',
@@ -1818,7 +1867,7 @@ var LastPrintsComponent = (function () {
         this.progressService.enable();
         this.httpService.get('last_prints', true).subscribe(function (data) {
             data.forEach(function (row) {
-                row['time'] = _this.dataService.stringizedTime(row['time']);
+                row['time'] = _this.variableService.stringizedTime(row['time']);
                 if (!row.hasOwnProperty('filament_type'))
                     row['filament_type'] = 'PLA Test';
                 row['is_finished'] = (row['is_finished'] ? 'Yes' : 'No');
@@ -1842,7 +1891,7 @@ var LastPrintsComponent = (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__node_modules_angular_router__["a" /* Router */], __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */],
             __WEBPACK_IMPORTED_MODULE_3__node_modules_angular_material__["p" /* MatSnackBar */], __WEBPACK_IMPORTED_MODULE_4__services_progress_service__["a" /* ProgressService */],
-            __WEBPACK_IMPORTED_MODULE_5__services_data_service__["a" /* DataService */]])
+            __WEBPACK_IMPORTED_MODULE_5__services_data_service__["a" /* DataService */], __WEBPACK_IMPORTED_MODULE_7__services_variable_service__["a" /* VariableService */]])
     ], LastPrintsComponent);
     return LastPrintsComponent;
 }());
@@ -2134,7 +2183,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared/confirm/confirm.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\n      پرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <div class=\"sub-title content\">\n      ...{{dataService.gcodePrintingFileDirectory.substr(dataService.gcodePrintingFileDirectory.length - 25, 25)}}\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--NEEDS PREHEATING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 3\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\">\n      دما بسیار پایین است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به حداقل دمای °180 دارید!\n    </div>\n    <br/><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--NEEDS HOMING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 4\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"left: 165px !important;\">\n      دستگاه هوم نشده است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به هوم کردن محورها دارید!\n    </div>\n    <br/><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--SHOULD GO TO PRINT PAGE-->\n<mat-card class=\"center\" *ngIf=\"usage == 5\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"font-size: 1.1em !important; left: 165px !important;\">\n      پرینتی در حال انجام است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">\n      دستگاه در حال پرینت است. به صفحه پرینت منتقل می شوید...\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- FILAMENT FINISHED -->\n<mat-card class=\"center\" *ngIf=\"usage == 6\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      اتمام فیلامنت\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">فیلامنت موجود در حال حاضر تمام شده است</div>\n    <div class=\"sub-title content\">\n      لطفا آن را تعویض کرده و سپس ادامه دهید\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
+module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/>\n    <br>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\n      پرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/>\n    <br>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <div class=\"sub-title content\">\n      ...{{variableService.gcodePrintingFileDirectory.substr(variableService.gcodePrintingFileDirectory.length - 25, 25)}}\n    </div>\n    <br/>\n    <br>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--NEEDS PREHEATING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 3\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\">\n      دما بسیار پایین است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به حداقل دمای °180 دارید!\n    </div>\n    <br/>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--NEEDS HOMING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 4\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"left: 165px !important;\">\n      دستگاه هوم نشده است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به هوم کردن محورها دارید!\n    </div>\n    <br/>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--SHOULD GO TO PRINT PAGE-->\n<mat-card class=\"center\" *ngIf=\"usage == 5\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"font-size: 1.1em !important; left: 165px !important;\">\n      پرینتی در حال انجام است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">\n      دستگاه در حال پرینت است. به صفحه پرینت منتقل می شوید...\n    </div>\n    <br/>\n    <br>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- FILAMENT FINISHED -->\n<mat-card class=\"center\" *ngIf=\"usage == 6\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      اتمام فیلامنت\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">فیلامنت موجود در حال حاضر تمام شده است</div>\n    <div class=\"sub-title content\">لطفا آن را تعویض کرده و سپس ادامه دهید</div>\n    <br/>\n    <br>\n    <br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>"
 
 /***/ }),
 
@@ -2146,7 +2195,7 @@ module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usa
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_data_service__ = __webpack_require__("../../../../../src/app/services/data.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_variable_service__ = __webpack_require__("../../../../../src/app/services/variable.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2164,17 +2213,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 var ConfirmComponent = (function () {
-    function ConfirmComponent(dialogRef, data, dataService) {
+    function ConfirmComponent(dialogRef, data, variableService) {
         this.dialogRef = dialogRef;
         this.data = data;
-        this.dataService = dataService;
+        this.variableService = variableService;
     }
     ConfirmComponent.prototype.ngOnInit = function () {
         this.usage = this.data && this.data['usage'];
         if (this.usage === __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__["a" /* DialogUsage */].FinishPrinting) {
             this.printInfo = {
-                dir: this.dataService.gcodePrintingFileDirectory,
-                time: this.dataService.stringizedTime(this.dataService.currentPrintTime),
+                dir: this.variableService.gcodePrintingFileDirectory,
+                time: this.variableService.stringizedTime(this.variableService.currentPrintTime),
             };
         }
         else if (this.usage === __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__["a" /* DialogUsage */].shouldGoToPrintPage) {
@@ -2200,7 +2249,7 @@ var ConfirmComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/shared/confirm/confirm.component.css")]
         }),
         __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["a" /* MAT_DIALOG_DATA */])),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["g" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_3__services_data_service__["a" /* DataService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_material__["g" /* MatDialogRef */], Object, __WEBPACK_IMPORTED_MODULE_3__services_variable_service__["a" /* VariableService */]])
     ], ConfirmComponent);
     return ConfirmComponent;
 }());
