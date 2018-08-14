@@ -95,6 +95,8 @@ class Machine:
         self.__Travel_speed_percentage = 100
         self.__current_Z_position = None
         # self.recent_print_status = self.load_recent_print_status() # is a list of tuples
+        self.ext_board = None 
+        self.use_ext_board = False
         self.start_machine_connection()
 
     def set_pin(self, pin):
@@ -150,6 +152,15 @@ class Machine:
         True as connected
         False as not connected
         """
+        '''      check for extended board     '''
+        try:
+            self.ext_board = ExtendedBoard()
+            self.use_ext_board = True
+        except Exception as e:
+            print(e)
+            self.use_ext_board = False
+
+
         try:
             self.machine_serial = serial.Serial(
                 port=self.machine_port,
@@ -305,10 +316,12 @@ class Machine:
                 if self.__stop_flag:
                     break
 
-            '''   check for existance of filament   '''
-            if ExtendedBoard.check_filament_status() == False:
-                self.__pause_flag = True
-                self.__filament_pause_flag = True
+            if self.use_ext_board :
+                '''   check for existance of filament   '''
+                if self.ext_board.check_filament_status() == False:
+                    self.__pause_flag = True
+                    self.__filament_pause_flag = True
+                    print ('!!! paused by filament error !!!')
 
 
             signnum = lines[x].find(';')
@@ -379,6 +392,7 @@ class Machine:
                             e_pos_offset = float(command[Eresulte + 1: end])
                         '''get the current e position of file'''
                         last_e_pos = float(command[Eresulte + 1: end])
+                        new_e_pos = last_e_pos
                         if line_to_go != 0:
                             new_e_pos = last_e_pos - e_pos_offset
                         # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
@@ -665,6 +679,7 @@ class Machine:
     def resume_printing(self):
         self.__pause_flag = False
         self.__filament_pause_flag = False
+        self.ext_board.flush_input_buffer()
 
     def get_percentage(self):
         return self.print_percentage
@@ -712,6 +727,16 @@ class Machine:
     ''' recent activites '''
     def check_last_print(self):
         pass
+
+
+    def set_relay_ext_board(self,number,state):
+        if self.use_ext_board:
+            self.ext_board.relay_status(number, state)
+
+
+
+
+
 
 
 class Utils():
@@ -895,27 +920,29 @@ class ExtendedBoard:
         self.board_port = board_port
         self.board_baudrate = board_baudrate
 
-        try:
-            self.board_serial = serial.Serial(
-                port=self.board_port,
-                baudrate=self.board_baudrate,
-                parity=serial.PARITY_NONE,
-                stopbits=serial.STOPBITS_ONE,
-                bytesize=serial.EIGHTBITS
-            )
-            self.board_serial.close()
-            self.board_serial.open()
-            time.sleep(2)
-            self.board_serial.write(b'0\n')
-            while True:
-                text = str(self.board_serial.readline())
-                if text.find('ok') != -1:
-                    break
-            # return True,None
-        except Exception as e:
-            print(e)
-            # return False,e
+        
+        self.board_serial = serial.Serial(
+            port=self.board_port,
+            baudrate=self.board_baudrate,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS
+        )
+        self.board_serial.close()
+        self.board_serial.open()
+        time.sleep(2)
+        self.board_serial.write(b'S')
+        timeout_time  = time.time()
+        while True:
 
+            '''  check for time out time '''
+            if time.time() - timeout_time > 0.2:
+                self.board_serial.write(b'S')
+                timeout_time  = time.time()
+
+            text = str(self.board_serial.readline())
+            if text.find('ok') != -1:
+                break
 
     def check_filament_status(self):
         # pass
@@ -929,15 +956,14 @@ class ExtendedBoard:
         """
         if self.board_serial.inWaiting() > 0:
             text = str(self.board_serial.readline())
-            if text.find('F'):
-                self.filament_exist = True
-                self.board_serial.write(b'ok\n')
-                return True
 
-            elif text.find('N'):
+            if text.find('A') != -1:
                 self.filament_exist = False
-                self.board_serial.write(b'ok\n')
                 return False
+
+            else :
+                self.filament_exist = True
+                return True
 
         else:
             return None
@@ -955,17 +981,20 @@ class ExtendedBoard:
         """
         if relay_num == 1 : 
             if status:
-                self.board_serial.write(b'O1\n')
+                self.board_serial.write(b'O')
             else:
-                self.board_serial.write(b'L1\n')
+                self.board_serial.write(b'P')
         
         elif relay_num == 2 :
             if status:
-                self.board_serial.write(b'O2\n')
+                self.board_serial.write(b'W')
             else:
-                self.board_serial.write(b'L2\n')
+                self.board_serial.write(b'E')
 
         while True:
             text = str(self.board_serial.readline())
             if text.find('ok') != -1:
                 return
+
+    def flush_input_buffer(self):
+        self.board_serial.flushInput()
