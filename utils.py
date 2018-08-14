@@ -392,6 +392,7 @@ class Machine:
                             e_pos_offset = float(command[Eresulte + 1: end])
                         '''get the current e position of file'''
                         last_e_pos = float(command[Eresulte + 1: end])
+                        new_e_pos = last_e_pos
                         if line_to_go != 0:
                             new_e_pos = last_e_pos - e_pos_offset
                         # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
@@ -955,7 +956,8 @@ class ExtendedBoard:
         """
         if self.board_serial.inWaiting() > 0:
             text = str(self.board_serial.readline())
-            if text.find('A'):
+
+            if text.find('A') != -1:
                 self.filament_exist = False
                 return False
 

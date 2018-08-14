@@ -183,7 +183,7 @@ def unlock():
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
 
 
-@app.route('api/lock', methods=['POST'])
+@app.route('/api/lock', methods=['POST'])
 def lock():
     """
     POST:
