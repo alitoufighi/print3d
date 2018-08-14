@@ -651,7 +651,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/print-page/print-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"simple-text\">°{{temps.bed.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <!--<span class=\"simple-text\">Print Time:</span>-->\n        <div class=\"simple-text\" style=\"direction: ltr; color: red;\" *ngIf=\"dataService.ipList.length > 0\">\n          {{dataService.ipList[0]}}\n        </div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"simple-text\">°{{temps.ext.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n        <div class=\"print-dir\">\n          <span>z : {{zPosition}}</span>\n          <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>\n          <span>{{getShortedString(dataService.gcodePrintingFileDirectory)}}</span>\n        </div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">قطع کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <!-- <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n              <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">Heat</div>\n            </div> -->\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openOptions()\">\n              <img src=\"{{elements.options?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">{{elements.options?.title}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons disable-like-button\">\n              <img src=\"{{elements.fan?.imageUrl}}\">\n              <div class=\"simple-text\">{{elements.fan?.title}}</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n    <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n    <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n    <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n    <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n  <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n  <!--</div>-->\n  <app-lock></app-lock>\n  <!--</div>-->\n\n</div>\n\n\n<div *ngIf=\"isOnOptionsPage\" class=\"dark-back-part\"></div>\n<!-- Options Page -->\n<div *ngIf=\"isOnOptionsPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"closeOptions()\">\n          <img src=\"{{elements.closeOptions?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.closeOptions?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n          <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.heat?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableSpeedPage()\">\n          <img src=\"{{elements.speed?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.speed?.title}}</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n<app-heat *ngIf=\"isOnHeatPage\" (onClose)=\"disableHeatPage()\"></app-heat>\n<app-print-speed *ngIf=\"isOnSpeedPage\" (onClose)=\"disableSpeedPage()\"></app-print-speed>"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Bed</div>\n        <span class=\"simple-text\">°{{temps.bed.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.bed.goal}}</span>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item\" fxFlex=\"44%\">\n        <!--<span class=\"simple-text\">Print Time:</span>-->\n        <div class=\"simple-text\" style=\"direction: ltr; color: red;\" *ngIf=\"dataService.ipList.length > 0\">\n          {{dataService.ipList[0]}}\n        </div>\n        <div class=\"simple-text\" style=\"direction: ltr\">{{printTime}}</div>\n      </div>\n      <div fxFlex=\"2%\"></div>\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"26%\">\n        <div class=\"simple-text\">دمای Extrude</div>\n        <span class=\"simple-text\">°{{temps.ext.cur}}</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">|</span>&nbsp;&nbsp;\n        <span class=\"simple-text\">°{{temps.ext.goal}}</span>\n      </div>\n    </div>\n  </div>\n  <!-- <div class=\"container\"> -->\n  <!-- <div fxLayout=\"row\" class=\"middle-part\"> -->\n  <!-- <div class=\"item full-item\" fxFlex=\"100\"> -->\n  <!-- </div> -->\n  <!-- </div> -->\n  <!-- </div> -->\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start start\">\n      <div fxFlex=\"50\" class=\"limit-height\">\n        <mat-progress-spinner [value]=\"printPercent === 0 ? 1 : printPercent\"></mat-progress-spinner>\n        <div class=\"value-percent\" [ngStyle]=\"{'left': (printPercent > 99 ? '11px' : (printPercent > 9 ? '15px' : '19px'))}\">{{printPercent}}</div>\n        <div class=\"print-dir\">\n          <span>z : {{zPosition}}</span>\n          <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>\n          <span>{{getShortedString(dataService.gcodePrintingFileDirectory)}}</span>\n        </div>\n      </div>\n      <div fxFlex=\"50\">\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint(printingStatus == 'pause' ? 'resume' : 'pause')\">\n              <img src=\"{{printingStatus == 'pause' ? elements.pause?.imageUrl : elements.resume?.imageUrl}}\">\n              <div class=\"simple-text\">{{printingStatus == 'pause' ? 'ادامه' : 'توقف'}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"beforePrint('stop')\">\n              <img src=\"{{elements.stop?.imageUrl}}\">\n              <div class=\"simple-text\">قطع کامل</div>\n            </div>\n          </div>\n        </div>\n        <div fxLayout=\"row\" fxLayouAlign=\"start center\">\n          <div fxFlex=\"50\">\n            <!-- <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n              <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">Heat</div>\n            </div> -->\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openOptions()\">\n              <img src=\"{{elements.options?.imageUrl}}\" alt=\"\">\n              <div class=\"simple-text\">{{elements.options?.title}}</div>\n            </div>\n          </div>\n          <div fxFlex=\"50\">\n            <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"openFan()\">\n              <img src=\"{{elements.fan?.imageUrl}}\">\n              <div class=\"simple-text\">{{elements.fan?.title}}</div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">-->\n    <!--<div class=\"item full-item item-button\" fxFlex=\"24%\" fxFlexOffset=\"40%\">-->\n    <!--<mat-progress-spinner [value]=\"printPercent\"></mat-progress-spinner>-->\n    <!--<div class=\"value-percent\">{{printPercent}}</div>-->\n    <!--</div>-->\n    <!--</div>-->\n  </div>\n\n  <!--<div class=\"container t\">-->\n  <!--<div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">-->\n\n\n\n  <!--</div>-->\n  <app-lock></app-lock>\n  <!--</div>-->\n\n</div>\n\n\n<!-- Options Page -->\n<div *ngIf=\"isOnOptionsPage\" class=\"dark-back-part\" (click)=\"closeOptions()\"></div>\n<div *ngIf=\"isOnOptionsPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"closeOptions()\">\n          <img src=\"{{elements.closeOptions?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.closeOptions?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableHeatPage()\">\n          <img src=\"{{elements.heat?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.heat?.title}}</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"enableSpeedPage()\">\n          <img src=\"{{elements.speed?.imageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">{{elements.speed?.title}}</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n\n<!-- Fan Page -->\n<div *ngIf=\"isOnFanPage\" class=\"dark-back-part\" (click)=\"closeFan()\"></div>\n<div *ngIf=\"isOnFanPage\" style=\"z-index: 4;\">\n  <mat-card class=\"option-page\" style=\"background-color: #F0FBF6\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"30%\" fxFlexOffset=\"3%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('OFF')\">\n          <img src=\"{{elements.fan?.child?.offImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">Off</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('Half')\">\n          <img src=\"{{elements.fan?.child?.halfImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">Half</div>\n        </div>\n      </div>\n      <div fxFlex=\"30%\" fxFlexOffset=\"5%\">\n        <div class=\"item full-item item-button-bigger print-buttons\" (click)=\"changeFan('ON')\">\n          <img src=\"{{elements.fan?.child?.fullImageUrl}}\" alt=\"\">\n          <div class=\"simple-text fix-option-texts\">On</div>\n        </div>\n      </div>\n    </div>\n  </mat-card>\n</div>\n<app-heat *ngIf=\"isOnHeatPage\" (onClose)=\"disableHeatPage()\"></app-heat>\n<app-print-speed *ngIf=\"isOnSpeedPage\" (onClose)=\"disableSpeedPage()\"></app-print-speed>"
 
 /***/ }),
 
@@ -721,6 +721,8 @@ var PrintPageComponent = (function () {
         this.isOnHeatPage = false;
         this.isOnSpeedPage = false;
         this.isOnOptionsPage = false;
+        this.isOnFanPage = false;
+        this.isFilamentFinished = false;
         this.elements = {
             resume: {
                 imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/up.png',
@@ -745,6 +747,11 @@ var PrintPageComponent = (function () {
             fan: {
                 title: 'Fans',
                 imageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
+                child: {
+                    offImageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
+                    halfImageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
+                    fullImageUrl: __WEBPACK_IMPORTED_MODULE_2__shared_servermatch__["a" /* ServerMatch */].STATIC + 'assets/images/fans.png',
+                }
             },
             options: {
                 title: 'Options',
@@ -769,12 +776,33 @@ var PrintPageComponent = (function () {
             }
         });
         this.dataService.printTime.subscribe(function (data) {
-            console.log('new time received! ', data);
             _this.printTime = _this.dataService.stringizedTime(data);
         });
         this.dataService.zPosition.subscribe(function (data) {
             _this.zPosition = data;
         });
+        this.checkFilamentFinish();
+    };
+    PrintPageComponent.prototype.checkFilamentFinish = function () {
+        var _this = this;
+        this.filamentInterval = setInterval(function () {
+            _this.httpService.get('filament', true).subscribe(function (data) {
+                if (data['filament_flag']) {
+                    clearInterval(_this.filamentInterval);
+                    var rmDialog = _this.dialog.open(__WEBPACK_IMPORTED_MODULE_5__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
+                        width: '500px',
+                        data: {
+                            usage: __WEBPACK_IMPORTED_MODULE_7__shared_enum_dialogUsage__["a" /* DialogUsage */].FilamentFinished,
+                        }
+                    });
+                    rmDialog.afterClosed().subscribe(function (status) {
+                        _this.printingStatus = PrintStatus.pause;
+                    });
+                }
+            }, function (err) {
+                console.warn('could not get filament status: ', err);
+            });
+        }, 10000);
     };
     PrintPageComponent.prototype.onFinishPrinting = function () {
         // sending print data to server -> will be done there :D
@@ -830,7 +858,6 @@ var PrintPageComponent = (function () {
         if (action === void 0) { action = 'percentage'; }
         this.httpService.post("print", { action: action }, true).subscribe(function (data) {
             if (data['status'] === 'success') {
-                console.log('OK');
                 _this.printingStatus = PrintStatus[action];
                 if (_this.printingStatus === PrintStatus.stop) {
                     _this.dataService.setUpBasic('percentage');
@@ -843,10 +870,12 @@ var PrintPageComponent = (function () {
                 }
                 else if (_this.printingStatus === PrintStatus.resume) {
                     _this.dataService.changeInterval('printTime', true);
+                    clearInterval(_this.filamentInterval);
+                    _this.checkFilamentFinish();
                 }
             }
             else {
-                console.log('problem!', data);
+                console.log('problem in printPage->printAction!', data);
             }
         }, function (err) {
             console.error('error in changing state of printing', err);
@@ -859,7 +888,8 @@ var PrintPageComponent = (function () {
         }, function (err) { });
     };
     PrintPageComponent.prototype.closeOptions = function () {
-        this.isOnOptionsPage = false;
+        if (!this.isOnHeatPage && !this.isOnSpeedPage)
+            this.isOnOptionsPage = false;
     };
     PrintPageComponent.prototype.enableHeatPage = function () {
         if (this.isOnOptionsPage)
@@ -875,6 +905,27 @@ var PrintPageComponent = (function () {
     PrintPageComponent.prototype.disableSpeedPage = function () {
         this.isOnSpeedPage = false;
     };
+    PrintPageComponent.prototype.openFan = function () {
+        if (!this.isOnOptionsPage)
+            this.isOnFanPage = true;
+    };
+    PrintPageComponent.prototype.changeFan = function (value) {
+        var _this = this;
+        this.progressService.enable();
+        this.dataService.setFan(value)
+            .then(function (res) {
+            _this.progressService.disable();
+            _this.isOnFanPage = false;
+        })
+            .catch(function (rej) {
+            _this.progressService.disable();
+            console.warn('could not set the fan: ', rej);
+        });
+    };
+    PrintPageComponent.prototype.closeFan = function () {
+        this.isOnFanPage = false;
+    };
+    // TODO: I THINK THIS IS NOW USELESS !!
     PrintPageComponent.prototype.openDialog = function (kind) {
         var _this = this;
         if (kind === void 0) { kind = 'heat'; }
@@ -1062,19 +1113,7 @@ var SelectUsbComponent = (function () {
                 _this.cd = currentDir;
                 console.log('data received:', data);
                 if (data && data.type == 'file') {
-                    _this.dataService.gcodePrintingFileDirectory = _this.cd;
-                    _this.httpService.post('print', { 'cd': _this.cd, 'action': 'print' }, true).subscribe(function (data) {
-                        if (data.status === 'success') {
-                            _this.progressService.disable();
-                            _this.router.navigate(["/print"]);
-                        }
-                        else {
-                            console.error('problem occurred!', data);
-                        }
-                    }, function (err) {
-                        _this.progressService.disable();
-                        console.error('go to print page has problems: ', err);
-                    });
+                    _this.makeThePrint();
                 }
                 else {
                     _this.progressService.disable();
@@ -1086,6 +1125,22 @@ var SelectUsbComponent = (function () {
                 console.log('server didn\'t send the files', err);
             });
         }
+    };
+    SelectUsbComponent.prototype.makeThePrint = function () {
+        var _this = this;
+        this.dataService.gcodePrintingFileDirectory = this.cd;
+        this.httpService.post('print', { 'cd': this.cd, 'action': 'print' }, true).subscribe(function (data) {
+            if (data.status === 'success') {
+                _this.progressService.disable();
+                _this.router.navigate(["/print"]);
+            }
+            else {
+                console.error('problem occurred!', data);
+            }
+        }, function (err) {
+            _this.progressService.disable();
+            console.error('go to print page has problems: ', err);
+        });
     };
     SelectUsbComponent.prototype.changePage = function (next) {
         if (next) {
@@ -1151,7 +1206,8 @@ var SelectUsbComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__http_service__ = __webpack_require__("../../../../../src/app/services/http.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_fan_fan_component__ = __webpack_require__("../../../../../src/app/shared/fan/fan.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_enum_dialogUsage__ = __webpack_require__("../../../../../src/app/shared/enum/dialogUsage.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__ = __webpack_require__("../../../../../src/app/shared/confirm/confirm.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1161,6 +1217,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1204,10 +1261,10 @@ var DataService = (function () {
         this.connectedWifi = '';
         this.ipList = [];
         this.isLocked = false;
-        this.askBefore = false;
-        this.standByLimit = 23; //5 * 60; // seconds
+        this.askBefore = true;
+        this.standByLimit = 23; //5 * 60; // TODO: seconds
         this.setTemps();
-        // checks for whether should be going to print page
+        // checks for whether should be going/leaving to print page
         this.checkOnPrintPage();
     }
     /**
@@ -1220,7 +1277,7 @@ var DataService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.httpService.get('abs', true).subscribe(function (data) {
-                _this.askBefore = data['abs'] || false;
+                _this.askBefore = data['abs'] || true;
                 resolve(data);
             }, function (err) {
                 console.warn('error getting ask before', err);
@@ -1283,12 +1340,12 @@ var DataService = (function () {
      * checks every 10 seconds to see if there is something printing.
      * useful when we are connected with two devices and we set one
      * to print, so the other will know there's a print going on and
-     * redirects to the printing page
+     * redirects to the printing page OR we stop a print on one device
+     * and the other connected devices should be aware and go to home
     */
     DataService.prototype.checkOnPrintPage = function () {
         var _this = this;
         this.onPrintPageInterval = setInterval(function () {
-            // console.log('current url:', this.router.url);
             _this.checkOnPrintPageFunctionInside();
         }, 10000);
     };
@@ -1312,7 +1369,6 @@ var DataService = (function () {
                 }
             }, function (err) {
                 resolve(false);
-                // this.openDialogForGoingToPrintPage();
             });
         });
     };
@@ -1323,15 +1379,18 @@ var DataService = (function () {
         var _this = this;
         if (this.router.url === '/print')
             return;
-        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_6__shared_fan_fan_component__["a" /* FanComponent */], {
+        var rmDialog = this.dialog.open(__WEBPACK_IMPORTED_MODULE_7__shared_confirm_confirm_component__["a" /* ConfirmComponent */], {
             width: '450px',
+            data: {
+                usage: __WEBPACK_IMPORTED_MODULE_6__shared_enum_dialogUsage__["a" /* DialogUsage */].shouldGoToPrintPage,
+            }
         });
         rmDialog.afterClosed().subscribe(function (status) {
             _this.router.navigate(["/print"]);
         });
     };
     /**
-     * redirects BACK from printing page (duo to print problem or stopping or ...)
+     * redirects BACK from printing page (due to print problem, stopping, etc.)
      */
     DataService.prototype.redirectBackUserToHomePage = function () {
         if (this.router.url !== '/print')
@@ -1339,7 +1398,7 @@ var DataService = (function () {
         this.router.navigate(['/home']);
     };
     /**
-     * @param name 'temps' | 'percentage' | 'printTime'
+     * @param name 'temps' | 'percentage' | 'printTime' | 'ips'
      * @param activate
      * depending on which page we're currently in,
      * make the necessary changes in the intervals
@@ -1428,6 +1487,16 @@ var DataService = (function () {
             };
             _this.httpService.post('speed', sendingObj, false).subscribe(function (data) {
                 _this.speed[sendingObj.field] = sendingObj.value;
+                resolve(true);
+            }, function (err) {
+                reject();
+            });
+        });
+    };
+    DataService.prototype.setFan = function (status) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.httpService.post('fan_speed', { status: status }, true).subscribe(function (data) {
                 resolve(true);
             }, function (err) {
                 reject();
@@ -1725,7 +1794,7 @@ var LastPrintsComponent = (function () {
         };
     }
     LastPrintsComponent.prototype.ngOnInit = function () {
-        // initial mock data!
+        // TODO: remove this initial mock data!
         this.dataSource.data = [{
                 time: this.dataService.stringizedTime(37000),
                 temperature: 180,
@@ -1738,22 +1807,26 @@ var LastPrintsComponent = (function () {
                 file_name: 'batarang DKT',
                 filament_type: 'Flexible',
                 is_finished: 'no',
-            }, {}, {}, {}, {}, {}, {}, {}, {}];
+            },
+            {}, {}, {}, {},
+            {}, {}, {}, {}];
         this.dataSource.data = [];
         this.getLastPrintedFiles();
     };
     LastPrintsComponent.prototype.getLastPrintedFiles = function () {
         var _this = this;
         this.progressService.enable();
-        this.httpService.post('last_prints', {}).subscribe(function (data) {
+        this.httpService.get('last_prints', true).subscribe(function (data) {
             data.forEach(function (row) {
                 row['time'] = _this.dataService.stringizedTime(row['time']);
+                if (!row.hasOwnProperty('filament_type'))
+                    row['filament_type'] = 'PLA Test';
                 row['is_finished'] = (row['is_finished'] ? 'Yes' : 'No');
             });
             _this.dataSource.data = data;
             _this.progressService.disable();
         }, function (err) {
-            console.log('could not get the files: ', err);
+            console.warn('could not get the files: ', err);
             _this.snackBar.open('قادر به دریافت لیست نیست', null, { duration: 1600 });
             _this.progressService.disable();
         });
@@ -2048,7 +2121,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "mat-card {\r\n  padding: 10px;\r\n  background-color: darkgrey;\r\n}\r\n\r\n.stop-header {\r\n  font-size: 1.7em;\r\n  left: -20px;\r\n  position: relative;\r\n}\r\n\r\n.sub-title {\r\n  font-size: 1.4em;\r\n}\r\n\r\n.page {\r\n  font-family: iranyekan, sans-serif;\r\n  padding: 15px;\r\n  margin: 10px;\r\n}\r\n\r\n.center {\r\n  text-align: center;\r\n}\r\n\r\nmat-card-title {\r\n  font-family: iranyekan, sans-serif;\r\n  font-size: 1.5em !important;\r\n  text-align: center;\r\n  position: relative;\r\n  left: 114px;\r\n}\r\n\r\n.finish-header {\r\n  direction: rtl;\r\n  left: -173px;\r\n  position: relative;\r\n  font-size: 2em;\r\n}\r\n\r\n.finish-content {\r\n  margin-top: -20px;\r\n}\r\n\r\n.right-content {\r\n  direction: rtl;\r\n  text-align: right;\r\n}\r\n\r\n.left-content {\r\n  direction: ltr;\r\n  text-align: left;\r\n}\r\n\r\n.preheating-title {\r\n  font-size: 1.3em !important;\r\n  left: 140px;\r\n}\r\n\r\n.preheating-text {\r\n  direction: rtl;\r\n  font-size: 1.2em;\r\n  margin-top: 20px;\r\n}\r\n", ""]);
+exports.push([module.i, "mat-card {\r\n  padding: 10px;\r\n  background-color: darkgrey;\r\n}\r\n\r\n.stop-header {\r\n  font-size: 1.7em;\r\n  left: -20px;\r\n  position: relative;\r\n}\r\n\r\n.sub-title {\r\n  font-size: 1.4em;\r\n}\r\n\r\n.page {\r\n  font-family: iranyekan, sans-serif;\r\n  padding: 15px;\r\n  margin: 10px;\r\n  max-width: 400px;\r\n}\r\n\r\n.center {\r\n  text-align: center;\r\n}\r\n\r\nmat-card-title {\r\n  font-family: iranyekan, sans-serif;\r\n  font-size: 1.5em !important;\r\n  text-align: center;\r\n  position: relative;\r\n  left: 114px;\r\n}\r\n\r\n.finish-header {\r\n  direction: rtl;\r\n  left: -173px;\r\n  position: relative;\r\n  font-size: 2em;\r\n}\r\n\r\n.finish-content {\r\n  margin-top: -20px;\r\n}\r\n\r\n.right-content {\r\n  direction: rtl;\r\n  text-align: right;\r\n}\r\n\r\n.left-content {\r\n  direction: ltr;\r\n  text-align: left;\r\n}\r\n\r\n.preheating-title {\r\n  font-size: 1.3em !important;\r\n  left: 140px;\r\n}\r\n\r\n.preheating-text {\r\n  direction: rtl;\r\n  font-size: 1.2em;\r\n  margin-top: 20px;\r\n}\r\n", ""]);
 
 // exports
 
@@ -2061,7 +2134,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/shared/confirm/confirm.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\n      پرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <div class=\"sub-title content\">\n      {{dataService.gcodePrintingFileDirectory.substr(10)}}\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!--NEEDS PREHEATING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 3\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\">\n      دما بسیار پایین است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به حداقل دمای °180 دارید!\n    </div>\n    <br/><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!--NEEDS HOMING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 4\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"left: 165px !important;\">\n      دستگاه هوم نشده است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به هوم کردن محورها دارید!\n    </div>\n    <br/><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
+module.exports = "<!-- STOP PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 0\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      تأیید توقف\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">آیا مطمئن هستید که پرینت متوقف شود؟</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n<!-- FINISH PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 1\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title>\n      پرینت تمام شد!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content\" dir=\"rtl\" style=\"font-weight: bold; font-size: 1em;\">فایل با موفقیت پرینت شد.</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">زمان پرینت:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.time}}</div>\n    <br>\n    <div class=\"sub-title content right-content\" dir=\"rtl\">فایل پرینت گرفته شده:</div>\n    <div class=\"sub-title content left-content\" dir=\"ltr\">{{printInfo.dir}}</div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- UNFINISHED PRINTING -->\n<mat-card class=\"center\" *ngIf=\"usage == 2\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      پرینت ناتمام\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">یک فایل پرینت ناتمام دارید. آیا میخواهید ادامه دهید؟</div>\n    <div class=\"sub-title content\">\n      ...{{dataService.gcodePrintingFileDirectory.substr(dataService.gcodePrintingFileDirectory.length - 25, 25)}}\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--NEEDS PREHEATING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 3\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\">\n      دما بسیار پایین است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به حداقل دمای °180 دارید!\n    </div>\n    <br/><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--NEEDS HOMING FIRST-->\n<mat-card class=\"center\" *ngIf=\"usage == 4\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"left: 165px !important;\">\n      دستگاه هوم نشده است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page finish-content\">\n    <div class=\"sub-title content preheating-text\">\n      برای استفاده از این بخش نیاز به هوم کردن محورها دارید!\n    </div>\n    <br/><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!--SHOULD GO TO PRINT PAGE-->\n<mat-card class=\"center\" *ngIf=\"usage == 5\">\n  <mat-card-header class=\"content finish-header\">\n    <mat-card-title class=\"preheating-title\" style=\"font-size: 1.1em !important; left: 165px !important;\">\n      پرینتی در حال انجام است!\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">\n      دستگاه در حال پرینت است. به صفحه پرینت منتقل می شوید...\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n\n\n<!-- FILAMENT FINISHED -->\n<mat-card class=\"center\" *ngIf=\"usage == 6\">\n  <mat-card-header class=\"content stop-header\">\n    <mat-card-title>\n      اتمام فیلامنت\n    </mat-card-title>\n  </mat-card-header>\n  <mat-card-content class=\"page\">\n    <div class=\"sub-title content\">فیلامنت موجود در حال حاضر تمام شده است</div>\n    <div class=\"sub-title content\">\n      لطفا آن را تعویض کرده و سپس ادامه دهید\n    </div>\n    <br/><br><br>\n    <div fxLayout=\"row\" fxLayout.xs=\"column\" fxLayoutAlign=\"center center\">\n      <div fxFlex=\"50\" role=\"yes-btn\" style=\"display: inline-block\">\n        <button mat-button mat-icon-button (click)=\"remove(true)\">\n          <mat-icon aria-label=\"yes\">done</mat-icon>\n        </button>\n      </div>\n      <div fxFlex=\"50\" role=\"no-btn\" style=\"display: inline-block\">\n        <button mat-icon-button (click)=\"remove(false)\">\n          <mat-icon aria-label=\"no\">clear</mat-icon>\n        </button>\n      </div>\n    </div>\n  </mat-card-content>\n</mat-card>\n"
 
 /***/ }),
 
@@ -2104,9 +2177,18 @@ var ConfirmComponent = (function () {
                 time: this.dataService.stringizedTime(this.dataService.currentPrintTime),
             };
         }
+        else if (this.usage === __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__["a" /* DialogUsage */].shouldGoToPrintPage) {
+            this.autoRemove();
+        }
         else if (this.usage === __WEBPACK_IMPORTED_MODULE_2__enum_dialogUsage__["a" /* DialogUsage */].UnfinishedPrinting) {
         }
         // data = (this.data && this.data.name) ? this.data.name : null;
+    };
+    ConfirmComponent.prototype.autoRemove = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.dialogRef.close(true);
+        }, 3500);
     };
     ConfirmComponent.prototype.remove = function (answer) {
         this.dialogRef.close(answer);
@@ -2140,6 +2222,7 @@ var DialogUsage;
     DialogUsage[DialogUsage["needsPreheating"] = 3] = "needsPreheating";
     DialogUsage[DialogUsage["needsHoming"] = 4] = "needsHoming";
     DialogUsage[DialogUsage["shouldGoToPrintPage"] = 5] = "shouldGoToPrintPage";
+    DialogUsage[DialogUsage["FilamentFinished"] = 6] = "FilamentFinished";
 })(DialogUsage || (DialogUsage = {}));
 ;
 
@@ -2820,7 +2903,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tools-page/extrude/extrude.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div fxFlex=\"26%\" fxFlexOffset=\"0%\" class=\"title-elevated\">\n        <span>1</span>\n      </div>\n      <div fxFlex=\"44%\" fxFlexOffset=\"2%\" class=\"title-normal\">\n        <span class=\"text text-rtl\">مقدار تزریق‌شده: {{injected}}</span>\n      </div>\n      <div fxFlex=\"26%\" fxFlexOffset=\"2%\" class=\"title-elevated\">\n        <span>3</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"75%\" class=\"\">\n        <div class=\"text text-ltr normal-text slider slider-offset\" style=\"width: 100%\">Offset</div>\n        <mat-slider [max]=\"10\" [min]=\"1\" [step]=\"1\" [thumb-label]=\"true\"\n                    [(ngModel)]=\"value\" class=\"slider slider-offset\"></mat-slider>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\" (click)=\"makeExtrude(false)\">\n        <img src=\"{{elements.ext_in?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-ltr bigger-text little-text-alignment\">&nbsp;In</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"20%\" class=\"item elevating-item return-special\" (click)=\"goBackToToolsPage()\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">بازگشت</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"49%\" fxFlexOffset=\"2%\" class=\"\">\n        <div class=\"text text-ltr normal-text\">Feed Rate</div>\n        <mat-slider [max]=\"1500\" [min]=\"250\" [step]=\"250\" [thumb-label]=\"true\"\n                    [(ngModel)]=\"feedrate\" class=\"slider slider-feedrate\"></mat-slider>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\" (click)=\"makeExtrude(true)\">\n        <img src=\"{{elements.ext_out?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-ltr bigger-text little-text-alignment\">Out</div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"main-page-div\">\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\n      <div fxFlex=\"26%\" fxFlexOffset=\"0%\" class=\"title-elevated\">\n        <span>1</span>\n      </div>\n      <div fxFlex=\"44%\" fxFlexOffset=\"2%\" class=\"title-normal\">\n        <span class=\"text text-rtl\">مقدار تزریق‌شده: {{injected}}</span>\n      </div>\n      <div fxFlex=\"26%\" fxFlexOffset=\"2%\" class=\"title-elevated\">\n        <span>3</span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\">\n      <div fxFlex=\"75%\" class=\"\">\n        <div class=\"text text-ltr normal-text slider slider-offset\" style=\"width: 100%\">Offset</div>\n        <mat-slider [max]=\"10\" [min]=\"1\" [step]=\"1\" [thumb-label]=\"true\"\n                    [(ngModel)]=\"value\" class=\"slider slider-offset\"></mat-slider>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\" (click)=\"makeExtrude(false)\">\n        <img src=\"{{elements.ext_in?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-ltr bigger-text little-text-alignment\">&nbsp;In</div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"container\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"main-part\" style=\"margin: 2% !important;\">\n      <div fxFlex=\"20%\" class=\"item elevating-item return-special\" (click)=\"goBackToToolsPage()\">\n        <img src=\"{{elements.return?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-rtl normal-text\">بازگشت</div>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"49%\" fxFlexOffset=\"2%\" class=\"\">\n        <div class=\"text text-ltr normal-text\">Feed Rate</div>\n        <mat-slider [max]=\"1500\" [min]=\"250\" [step]=\"250\" [thumb-label]=\"true\"\n                    [(ngModel)]=\"feedrate\" class=\"slider slider-feedrate\"></mat-slider>\n      </div>\n      <div fxFlex=\"1%\"></div>\n      <div fxFlex=\"24%\" class=\"item elevating-item\" style=\"margin: 2% !important;\" (click)=\"makeExtrude(true)\">\n        <img src=\"{{elements.ext_out?.imageUrl}}\" alt=\"\">\n        <div class=\"text text-ltr bigger-text little-text-alignment\">Out</div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -3069,7 +3152,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/tools-page/move-axis/move-axis.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"main-page-div\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">X: {{axis.X}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Y: {{axis.Y}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Z: {{axis.Z}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div style=\"margin-bottom: 5px;\"></div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n        <!--<div class=\"simple-text\">X</div>-->\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\r\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\r\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <div fxFlex=\"76%\">\r\n        <mat-slider [max]=\"50\" [min]=\"1\" [step]=\"1\" [thumb-label]=\"true\"\r\n                    [(ngModel)]=\"value\" class=\"slider-value\"></mat-slider>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"main-page-div\" style=\"overflow: hidden;\">\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"top-part\">\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">X: {{axis.X}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Y: {{axis.Y}}</span>\r\n      </div>\r\n      <div fxFlex=\"5%\"></div>\r\n      <div class=\"item full-item mat-elevation-z16\" fxFlex=\"30%\">\r\n        <span class=\"simple-text\">Z: {{axis.Z}}</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div style=\"margin-bottom: 5px;\"></div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_up</i>-->\r\n        <img src=\"{{elements.up?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"container\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"middle-part\">\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"9%\" class=\"item-button\" (click)=\"moveAxis('X', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n        <!--<div class=\"simple-text\">X</div>-->\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Y', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n      <div fxFlex=\"13%\" fxFlexOffset=\"22%\" class=\"item-button\" (click)=\"moveAxis('Z', -value)\">\r\n        <!--<i class=\"material-icons move-icon\">keyboard_arrow_down</i>-->\r\n        <img src=\"{{elements.down?.imageUrl}}\" alt=\"\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"container t\" style=\"overflow: hidden; max-height: 155px;\">\r\n    <div fxLayout=\"row\" fxLayoutAlign=\"start center\" class=\"bottom-part\" style=\"margin-bottom: 3% !important;\">\r\n      <div class=\"item full-item item-button-bigger\" fxFlex=\"24%\" (click)=\"goToToolsPage()\">\r\n        <img src=\"{{elements.return?.imageUrl}}\">\r\n        <!--<mat-icon aria-label=\"edit\">edit</mat-icon>-->\r\n        <!--<i class=\"material-icons\">keyboard_arrow_left</i>-->\r\n        <!--<i class=\"material-icons iconic-font\">replay</i>-->\r\n        <div class=\"simple-text\">بازگشت</div>\r\n      </div>\r\n      <div fxFlex=\"76%\">\r\n        <mat-slider [max]=\"50\" [min]=\"1\" [step]=\"1\" [thumb-label]=\"true\"\r\n                    [(ngModel)]=\"value\" class=\"slider-value\"></mat-slider>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
