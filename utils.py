@@ -89,7 +89,7 @@ class Machine:
         self.print_percentage = 0
         self.__stop_flag = False
         self.__pause_flag = False
-        self.__filament_pause_flag = False
+        self._filament_pause_flag = False
         self.on_the_print_page = False
         self.__Feedrate_speed_percentage = 100
         self.__Travel_speed_percentage = 100
@@ -320,7 +320,7 @@ class Machine:
                 '''   check for existance of filament   '''
                 if self.ext_board.check_filament_status() == False:
                     self.__pause_flag = True
-                    self.__filament_pause_flag = True
+                    self._filament_pause_flag = True
                     print ('!!! paused by filament error !!!')
 
 
@@ -678,7 +678,7 @@ class Machine:
 
     def resume_printing(self):
         self.__pause_flag = False
-        self.__filament_pause_flag = False
+        self._filament_pause_flag = False
         self.ext_board.flush_input_buffer()
 
     def get_percentage(self):
