@@ -28,7 +28,7 @@ def extended_board_connection():
 @app.route('/api/filament', methods=['GET'])
 def filament_changes():
     try:
-        return jsonify({'filament_flag': printer._filament_pause_flag}), 200
+        return jsonify({'filament_flag': printer.is_filament}), 200
     except Exception as e:
         print('Error: ', e)
         return Response(status=500)
