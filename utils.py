@@ -89,7 +89,10 @@ class Machine:
         self.print_percentage = 0
         self.__stop_flag = False
         self.__pause_flag = False
-        self._filament_pause_flag = False
+        self.__filament_pause_flag = False
+        self.__update_filament = False
+        self.__relay_updated = False
+        self.__relay_state = None
         self.on_the_print_page = False
         self.__Feedrate_speed_percentage = 100
         self.__Travel_speed_percentage = 100
@@ -192,6 +195,24 @@ class Machine:
         first_done=False
         while True:
             try:
+
+                if self.use_ext_board :
+                    if self.__update_filament:
+                        '''   check for existance of filament   '''
+                        self.__update_filament = False
+                        if self.ext_board.check_filament_status() == False:
+                            self.__pause_flag = True
+                            self.__filament_pause_flag = True
+                            print ('!!! paused by filament error !!!')
+
+                    if self.__relay_updated:
+                        ''' set relay status '''
+                        self.__relay_updated = False
+                        self.ext_board.relay_status(self.__relay_state[0],self.__relay_state[0])
+                        print ('relay %d status %r'%(self.__relay_state[0],self.__relay_state[1]))
+
+
+
                 if self.__Gcodes_to_run:
                     print('send to machine', ('%s%s' % (self.__Gcodes_to_run[0], '\n')).encode('utf-8'))
                     self.machine_serial.write((self.__Gcodes_to_run[0] + '\n').encode('utf-8'))
@@ -316,12 +337,12 @@ class Machine:
                 if self.__stop_flag:
                     break
 
-            if self.use_ext_board :
-                '''   check for existance of filament   '''
-                if self.ext_board.check_filament_status() == False:
-                    self.__pause_flag = True
-                    self._filament_pause_flag = True
-                    print ('!!! paused by filament error !!!')
+            # if self.use_ext_board :
+            #     '''   check for existance of filament   '''
+            #     if self.ext_board.check_filament_status() == False:
+            #         self.__pause_flag = True
+            #         self.__filament_pause_flag = True
+            #         print ('!!! paused by filament error !!!')
 
 
             signnum = lines[x].find(';')
@@ -357,21 +378,21 @@ class Machine:
                 elif command.find('G1') == 0:
 
                     '''                find and repalce F in Gcode file        '''
-                    Feedrate_speed = command.find('F')
+                    Travel_speed = command.find('F')
 
-                    if Feedrate_speed != -1:
+                    if Travel_speed != -1:
 
                         # find the number in front of 'F' character
-                        if command.find(' ', Feedrate_speed) != -1:
-                            end = command.find(' ', Feedrate_speed)
-                        elif command.find('\n', Feedrate_speed) != -1:
+                        if command.find(' ', Travel_speed) != -1:
+                            end = command.find(' ', Travel_speed)
+                        elif command.find('\n', Travel_speed) != -1:
                             end = command.find('\n')
                         else:
                             end = len(command)
 
-                        last_feedrate = float(command[Feedrate_speed + 1: end]) 
-                        new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
-                        command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
+                        last_travel_speed = float(command[Travel_speed + 1: end]) 
+                        new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
+                        command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
                         end = None
 
                     '''                  find and replace E in Gcode              '''
@@ -418,22 +439,23 @@ class Machine:
                         command = command[:-(len(command) - (Zresulte + 1))] + str(z_pos)
 
                     '''                find and repalce F in Gcode file        '''
-                    Travel_speed = command.find('F')
+                    Feedrate_speed = command.find('F')
 
-                    if Travel_speed != -1:
+                    if Feedrate_speed != -1:
 
                         # find the number in front of 'F' character
-                        if command.find(' ', Travel_speed) != -1:
-                            end = command.find(' ', Travel_speed)
-                        elif command.find('\n', Travel_speed) != -1:
+                        if command.find(' ', Feedrate_speed) != -1:
+                            end = command.find(' ', Feedrate_speed)
+                        elif command.find('\n', Feedrate_speed) != -1:
                             end = command.find('\n')
                         else:
                             end = len(command)
 
-                        last_travel_speed = float(command[Travel_speed + 1: end]) 
-                        new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
-                        command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
+                        last_feedrate = float(command[Feedrate_speed + 1: end]) 
+                        new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
+                        command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
                         end = None
+
 
                     self.append_gcode(command)
 
@@ -678,7 +700,7 @@ class Machine:
 
     def resume_printing(self):
         self.__pause_flag = False
-        self._filament_pause_flag = False
+        self.__filament_pause_flag = False
         self.ext_board.flush_input_buffer()
 
     def get_percentage(self):
@@ -721,7 +743,7 @@ class Machine:
             os.remove('backup_print.bc')
             os.remove('backup_print_path.bc')
         except:
-            print("tofe sag")
+            print("file not removed !")
            # pass
 
     ''' recent activites '''
@@ -730,9 +752,16 @@ class Machine:
 
 
     def set_relay_ext_board(self,number,state):
-        if self.use_ext_board:
-            self.ext_board.relay_status(number, state)
+        self.__relay_updated = True
+        self.__relay_state = [number,state] 
+        # if self.use_ext_board:
+        #     self.ext_board.relay_status(number, state)
 
+    def is_filament(self):
+        return self .__filament_pause_flag
+        
+    def update_filament_status(self):
+        self.__update_filament = True 
 
 
 
