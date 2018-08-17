@@ -473,7 +473,7 @@ class Machine:
         '''      here       '''
         new_print = dict()
         new_print['time'] = str(self.time.read())
-        new_print['temperature'] = ('Extruder: ' + str(self.extruder_temp['goal']) + ' - Bed: ' + str(self.bed_temp['goal']))
+        new_print['temperature'] = ('Extruder: ' + str(self.extruder_temp['point']) + ' - Bed: ' + str(self.bed_temp['point']))
         new_print['file_name'] = str(self.printing_file)
         # new_print['filament_type'] = None # TO BE SET
         new_print['is_finished'] = 'Yes' if (self.print_percentage == 100) else 'No'
