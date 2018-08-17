@@ -208,7 +208,7 @@ class Machine:
                     if self.__relay_updated:
                         ''' set relay status '''
                         self.__relay_updated = False
-                        self.ext_board.relay_status(self.__relay_state[0],self.__relay_state[0])
+                        self.ext_board.relay_status(self.__relay_state[0],self.__relay_state[1])
                         print ('relay %d status %r'%(self.__relay_state[0],self.__relay_state[1]))
 
 
@@ -717,7 +717,7 @@ class Machine:
         return Z positon acording to Gcode lines 
         never run this if machine is not in 'printing' state 
         """
-        return self.__current_Z_position
+        return "%.1f" %self.__current_Z_position
 
     def check_for_unfinished_print(self):
         """
@@ -759,7 +759,7 @@ class Machine:
 
     def is_filament(self):
         return self .__filament_pause_flag
-        
+
     def update_filament_status(self):
         self.__update_filament = True 
 
