@@ -759,6 +759,7 @@ class Machine:
 
     def is_filament(self):
         return self .__filament_pause_flag
+        
     def update_filament_status(self):
         self.__update_filament = True 
 
