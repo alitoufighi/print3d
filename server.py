@@ -142,6 +142,8 @@ def on_print_page():
     """
     if request.method == 'POST':
         try:
+            # LOG ON THE PRINT PAGE
+            print('on the print page: ', printer.on_the_print_page)
             if printer.on_the_print_page:
                 return jsonify({'page': 'print'}), 200
             else:
