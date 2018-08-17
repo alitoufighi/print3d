@@ -531,6 +531,7 @@ def print_it():
                 printer.delete_last_print_files()
                 time.sleep(1)
                 printer.release_motors()
+                printer.cooldown_hotend()
             elif action == 'resume':
                 printer.resume_printing()
             elif action == 'pause':
