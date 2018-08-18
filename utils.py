@@ -12,6 +12,7 @@ import codecs
 import os
 #import psutil
 import sqlite3
+import ConfigParser
 
 BASE_PATH = '/media/pi' # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
 
@@ -798,6 +799,18 @@ class Utils():
         except Exception as e:
             print('error in connecting to wifi:', e)
             return 'failure'
+
+    @staticmethod
+    def connect_to_config_file_wifi():
+        try:
+            config = ConfigParser.ConfigParser()
+            config.read('/boot/Q-config.ini')
+            if config.get('wifi','ssid') != '' :
+                return Utils.wifi_con(config.get('wifi','ssid'),config.get('wifi','pass'))
+            except:
+                print('no config file ')
+                return 'no file '
+
 
     @staticmethod
     def wifi_list():
