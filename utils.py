@@ -12,7 +12,7 @@ import codecs
 import os
 #import psutil
 import sqlite3
-import ConfigParser
+import configparser
 
 BASE_PATH = '/media/pi' # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
 
@@ -772,7 +772,7 @@ class Machine:
 class Utils():
     # util function to get client ip address
 
-    is_first_time = True 
+    is_first_time = 0
 
     @staticmethod
     def get_client_ip_address(request):
@@ -806,7 +806,7 @@ class Utils():
     @staticmethod
     def connect_to_config_file_wifi():
         try:
-            config = ConfigParser.ConfigParser()
+            config = configparser.ConfigParser()
             config.read('/boot/Q-config.ini')
             if config.get('wifi','ssid') != '' :
                 return Utils.wifi_con(config.get('wifi','ssid'),config.get('wifi','pass'))

@@ -591,8 +591,11 @@ def ip_list():
     try:
         if request.method == 'POST':
 
-            if Utils.is_first_time:
-                Utils.is_first_time = False
+            if Utils.is_first_time != -1:
+                Utils.is_first_time += 1
+                
+            if Utils.is_first_time == 2:
+                Utils.is_first_time = -1
                 Utils.connect_to_config_file_wifi()
 
             ips = Utils.get_ip_list()
