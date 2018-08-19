@@ -589,6 +589,11 @@ def ip_list():
     """
     try:
         if request.method == 'POST':
+            
+            if Utils.is_first_time:
+                Utils.is_first_time = False
+                Utils.connect_to_config_file_wifi()
+
             ips = Utils.get_ip_list()
             print('list of ips:', ips)
             return jsonify({'ips': ips}), 200

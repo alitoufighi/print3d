@@ -771,6 +771,9 @@ class Machine:
 
 class Utils():
     # util function to get client ip address
+
+    is_first_time = True 
+    
     @staticmethod
     def get_client_ip_address(request):
         return request.META.get('REMOTE_ADDR') or request.META.get('HTTP_X_FORWARDED_FOR', '')
@@ -810,7 +813,6 @@ class Utils():
             except:
                 print('no config file ')
                 return 'no file '
-
 
     @staticmethod
     def wifi_list():
