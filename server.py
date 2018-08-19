@@ -54,12 +54,12 @@ def change_led_status():
 def set_speed():
     try:
         req=request.json
-        field = req.get('field', 'travel') # DEFAULTS TO BE SET
+        field = req.get('field', 'print') # DEFAULTS TO BE SET
         value = req.get('value', 0) # DEFAULTS TO BE SET
         if field=='print':
             printer.set_travel_speed(value)
             printer.set_feedrate_speed(value)
-        elif field=='feedrate':
+        elif field=='flow':
             printer.set_feedrate_speed(value)
         else:
             return Response(status=404)
