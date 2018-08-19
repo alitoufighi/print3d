@@ -56,8 +56,9 @@ def set_speed():
         req=request.json
         field = req.get('field', 'travel') # DEFAULTS TO BE SET
         value = req.get('value', 0) # DEFAULTS TO BE SET
-        if field=='travel':
+        if field=='print':
             printer.set_travel_speed(value)
+            printer.set_feedrate_speed(value)
         elif field=='feedrate':
             printer.set_feedrate_speed(value)
         else:
@@ -589,7 +590,7 @@ def ip_list():
     """
     try:
         if request.method == 'POST':
-            
+
             if Utils.is_first_time:
                 Utils.is_first_time = False
                 Utils.connect_to_config_file_wifi()
