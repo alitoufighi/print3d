@@ -543,6 +543,7 @@ def print_it():
                 time.sleep(1)
                 printer.release_motors()
                 printer.cooldown_hotend()
+                printer.cooldown_bed()
             elif action == 'resume':
                 printer.resume_printing()
             elif action == 'pause':
