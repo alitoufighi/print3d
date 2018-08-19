@@ -54,11 +54,12 @@ def change_led_status():
 def set_speed():
     try:
         req=request.json
-        field = req.get('field', 'travel') # DEFAULTS TO BE SET
+        field = req.get('field', 'print') # DEFAULTS TO BE SET
         value = req.get('value', 0) # DEFAULTS TO BE SET
-        if field=='travel':
+        if field=='print':
             printer.set_travel_speed(value)
-        elif field=='feedrate':
+            printer.set_feedrate_speed(value)
+        elif field=='flow':
             printer.set_feedrate_speed(value)
         else:
             return Response(status=404)
@@ -589,9 +590,12 @@ def ip_list():
     """
     try:
         if request.method == 'POST':
-            
-            if Utils.is_first_time:
-                Utils.is_first_time = False
+
+            if Utils.is_first_time != -1:
+                Utils.is_first_time += 1
+                
+            if Utils.is_first_time == 2:
+                Utils.is_first_time = -1
                 Utils.connect_to_config_file_wifi()
 
             ips = Utils.get_ip_list()
