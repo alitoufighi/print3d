@@ -4,6 +4,19 @@ from os.path import isfile
 import subprocess
 import time
 
+import logging
+LOG_LEVEL = logging.DEBUG
+LOGFORMAT = "  %(log_color)s%(levelname)-8s%(reset)s | %(log_color)s%(message)s%(reset)s"
+from colorlog import ColoredFormatter
+logging.root.setLevel(LOG_LEVEL)
+formatter = ColoredFormatter(LOGFORMAT)
+stream = logging.StreamHandler()
+stream.setLevel(LOG_LEVEL)
+stream.setFormatter(formatter)
+log = logging.getLogger('pythonConfig')
+log.setLevel(LOG_LEVEL)
+log.addHandler(stream)
+
 app = Flask(__name__)
 printer = Machine()
 extra = Extra()
@@ -22,7 +35,8 @@ def extended_board_connection():
     try:
         return jsonify({'is_connected': printer.use_ext_board}), 200
     except Exception as e:
-        print('Error in getting extended board connection: ', e)
+        log.error('Error in getting extended board connection: %s'%e)
+        # print('Error in getting extended board connection: ', e)
         return Response(status=500)
 
 @app.route('/api/filament', methods=['GET'])
@@ -31,7 +45,7 @@ def filament_changes():
         printer.update_filament_status()
         return jsonify({'filament_flag': printer.is_filament()}), 200
     except Exception as e:
-        print('Error in getting filament flag: ', e)
+        log.error('Error in getting filament flag: %s'%e)
         return Response(status=500)
 
 @app.route('/api/led', methods=['POST'])
@@ -46,7 +60,8 @@ def change_led_status():
             #extendedBoard.relay_status(1, False)
         return Response(status=200)
     except Exception as e:
-        print('Error in setting led status:', e)
+        log.error('Error in setting led status: %s'%e)
+        # print('Error in setting led status:', e)
         return Response(status=500)
 
 
@@ -67,7 +82,8 @@ def set_speed():
         return Response(status=200)
 
     except Exception as e:
-        print('Error in setting the speed:', e)
+        log.error('Error in setting the speed: %s'%e)
+        # print('Error in setting the speed:', e)
         return Response(status=500)
 
 
@@ -77,7 +93,8 @@ def recent_print_status():
         data = printer.get_recent_print_status()
         return jsonify(data), 200
     except Exception as e:
-        print('Error in getting :', e)
+        log.error('Error in getting last print: %s'%e)
+        # print('Error in getting :', e)
         return Response(status=500)
 
 
@@ -103,18 +120,20 @@ def ask_before_starting():
     if request.method == 'POST':
         try:
             status = request.json['abs']
-            print(status)
+            # print(status)
             printer.set_abs(status)
             return Response(status=200)
         except Exception as e:
-            print('Error in setting abs:', e)
+            log.error('Error in getting abs: %s'%e)
+            # print('Error in getting abs:', e)
             return Response(status=500)
     elif request.method == 'GET':
         try:
             ask_before = printer.get_abs()
             return jsonify({'abs': ask_before}), 200
         except Exception as e:
-            print('Error in getting abs:', e)
+            log.error('Error in getting abs: %s'%e)
+            # print('Error in getting abs:', e)
             return Response(status=500)
 
 
@@ -130,7 +149,8 @@ def get_z():
         z = printer.get_current_Z_position()
         return jsonify({'z': z}), 200
     except Exception as e:
-        print('error in getting Z:', e)
+        log.error('error in getting Z: %s'%e)
+        # print('error in getting Z:', e)
         return Response(status=500)
 
 # TODO: TEMP API -> on the print page
@@ -151,7 +171,9 @@ def on_print_page():
             else:
                 return jsonify({'page': 'other'}), 200
         except Exception as e:
-            print('error in printing page:', e)
+            # print('error in printing page:', e)
+
+            log.error('error in printing page: %s'%e)
             return Response(status=500)
 
 @app.route('/api/set_pin', methods=['PUT'])
@@ -162,7 +184,8 @@ def set_pin():
         print(printer.set_pin(pin))
         return Response(status=200)
     except Exception as e:
-        print('Error in setting pin: ', e)
+        log.error('Error in setting pin: %s'%e)
+        # print('Error in setting pin: ', e)
         return Response(status=500)
 
 
@@ -191,7 +214,8 @@ def unlock():
         else:
             return Response(status=404)
     except Exception as e:
-        print('error in unlocking the device:', e)
+        log.error('error in unlocking the device: %s'%e)
+        # print('error in unlocking the device:', e)
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
 
 
@@ -212,7 +236,8 @@ def lock():
         # else:
         #     return Response(status=503) # RETURN STATUS CODE TO BE RE-DEFINED
     except Exception as e:
-        print('Error in locking the device:', e)
+        log.error('Error in locking the device: %s'%e)
+        # print('Error in locking the device:', e)
         return Response(status=500) # RETURN STATUS CODE TO BE RE-DEFINED
 
 @app.route('/api/get_time', methods=['GET'])
@@ -228,7 +253,8 @@ def get_time():
         time_read = printer.time.read()
         return jsonify({'time': time_read}), 200
     except Exception as e:
-        print('Error in getting the time:', e)
+        log.error('Error in getting the time: %s'%e)
+        # print('Error in getting the time:', e)
         return Response(status=500)
 
 
@@ -262,7 +288,8 @@ def temperatures():
             }
             return jsonify(data), 200
         except Exception as e:
-            print('error in getting temps: ', e)
+            log.error('error in getting temps: %s'%e)
+            # print('error in getting temps: ', e)
             return Response(status=500)
 
 
@@ -295,7 +322,8 @@ def wifi():
             else:
                 return jsonify({'status': 'failure'})
     except Exception as e:
-        print('error in wifi:', e)
+        log.error('error in wifi: %s'%e)
+        # print('error in wifi:', e)
         return Response(status=500)
 
 
@@ -320,7 +348,8 @@ def move_axis():
             else:
                 return jsonify({'access': False}), 200
         except Exception as e:
-            print('error in gaining access for moving', e)
+            log.error('error in gaining access for moving %s'%e)
+            # print('error in gaining access for moving', e)
             return Response(status=500)
     if request.method == 'POST':
         try:
@@ -331,7 +360,8 @@ def move_axis():
             printer.move_axis(data['axis'], "Relative", data['value'])
             return Response(status=200)
         except Exception as e:
-            print("ERROR in moving axis:", e)
+            log.error('ERROR in moving axis: %s'%e)
+            # print("ERROR in moving axis:", e)
             return jsonify({'access': False}), 500
 
 
@@ -350,7 +380,8 @@ def home_machine():
             extra.addHomeAxis(axis)
             return Response(status=200)
         except Exception as e:
-            print("ERROR in homing:", e)
+            log.error('ERROR in homing: %s'%e)
+            # print("ERROR in homing:", e)
             return Response(status=500)
 
 
@@ -361,7 +392,8 @@ def release_motor():
             printer.release_motors()
             return Response(status=200)
         except Exception as e:
-            print("ERROR in releasing motor:", e)
+            log.error('ERROR in releasing motor: %s'%e)
+            # print("ERROR in releasing motor:", e)
             return Response(status=500)
 
 
@@ -389,7 +421,8 @@ def usb_list():
             print('the files:', data)
             return jsonify({'status':'success', 'data': data, 'type': 'dir'}), 200
         except Exception as e:
-            print("error in setting directory:", e)
+            log.error('error in setting directory: %s'%e)
+            # print("error in setting directory:", e)
             return Response(status=500)
 
 
@@ -407,7 +440,8 @@ def fan_speed():
             printer.fan_status(status)
             return Response(status=200)
         except Exception as e:
-            print("ERROR in setting fan speed: ", e)
+            log.error('ERROR in setting fan speed: %s'%e)
+            # print("ERROR in setting fan speed: ", e)
             return Response(status=500)
 
 
@@ -445,7 +479,8 @@ def heat():
 
         return jsonify({'status': 'success'}), 200
     except Exception as e:
-        print("Error in heating:", e)
+        log.error('Error in heating: %s'%e)
+        # print("Error in heating:", e)
         return jsonify({'status': 'failure'}), 500
 
 
@@ -467,7 +502,8 @@ def extrude():
                 printer.extrude(data['value'])
             return Response(status=200)
         except Exception as e:
-            print("ERROR in extruding:", e)
+            log.error('ERROR in extruding: %s'%e)
+            # print("ERROR in extruding:", e)
             return Response(status=500)
 
 
@@ -485,7 +521,8 @@ def bed_leveling():
             printer.bedleveling_manual(stage)
             return Response(status=200)
         except Exception as e:
-            print("ERROR in bedleveling: ", e)
+            log.error('ERROR in bedleveling: %s'%e)
+            # print("ERROR in bedleveling: ", e)
             return Response(status=500)
 
 
@@ -570,7 +607,8 @@ def print_it():
 
             return jsonify({'status': 'success', 'percentage': percentage}), 200
         except Exception as e:
-            print('ERROR in printing: ', e)
+            log.error('ERROR in printing: %s'%e)
+            # print('ERROR in printing: ', e)
             return Response(status=500)
 
     elif request.method == 'DELETE':
@@ -578,6 +616,7 @@ def print_it():
             printer.delete_last_print_files()
             return Response(status=200)
         except Exception as e:
+            log.error('ERROR in deleting file (maybe not bad) %s'%e)
             return Response(status=500)
 
 
@@ -603,7 +642,8 @@ def ip_list():
             # print('list of ips:', ips)
             return jsonify({'ips': ips}), 200
     except Exception as e:
-        print('error in getting ips:', e)
+        log.error('error in getting ips: %s'%e)
+        # print('error in getting ips:', e)
         return Response(status=500)
 
 @app.route('/', defaults={'path': ''})
