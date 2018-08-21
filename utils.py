@@ -14,7 +14,7 @@ import os
 import sqlite3
 import configparser
 
-BASE_PATH = '/media/pi' # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
+BASE_PATH = '/media/pi'  # '/media/pi'   '''** change for test in laptop or raspberry pi   '''
 
 
 class Machine:
@@ -36,7 +36,8 @@ class Machine:
         self.printing_file = None  # When printing started, it will set to filename
         self.pin = None  # When locked, it will be set, when unlocked, it is None
 
-        db = sqlite3.connect('database.db', check_same_thread=False, isolation_level=None)
+        db = sqlite3.connect(
+            'database.db', check_same_thread=False, isolation_level=None)
         self.dbcursor = db.cursor()
         # settings_keys = ('bedleveling_X1', 'bedleveling_X2',
         #                  'bedleveling_Y1', 'bedleveling_Y2',
@@ -56,9 +57,10 @@ class Machine:
         ABS boolean, pin real)''')
 
         self.dbcursor.execute('SELECT * FROM Settings LIMIT 1')
-        settings=self.dbcursor.fetchone()
+        settings = self.dbcursor.fetchone()
         if settings is None:
-            settings=(50, 180, 50, 180, 3000, 10, 1500, 5, 1500, 10, 1500, 15, False, None,)
+            settings = (50, 180, 50, 180, 3000, 10, 1500,
+                        5, 1500, 10, 1500, 15, False, None,)
             self.dbcursor.execute("""INSERT INTO Settings
                                   (bedleveling_X1, bedleveling_X2,
                                   bedleveling_Y1, bedleveling_Y2,
@@ -83,7 +85,7 @@ class Machine:
             'ABS': settings[12],
         }
 
-        self.time = None
+        self.time = Time()
         self.Gcode_handler_error_logs = []
         self.extruder_temp = {'current': 0, 'point': 0}
         self.bed_temp = {'current': 0, 'point': 0}
@@ -97,9 +99,9 @@ class Machine:
         self.on_the_print_page = False
         self.__Feedrate_speed_percentage = 100
         self.__Travel_speed_percentage = 100
-        self.__current_Z_position = None
+        self.__current_Z_position = 0
         # self.recent_print_status = self.load_recent_print_status() # is a list of tuples
-        self.ext_board = None 
+        self.ext_board = None
         self.use_ext_board = False
         self.start_machine_connection()
 
@@ -109,7 +111,7 @@ class Machine:
             print(pin)
             return True
         except Exception as e:
-            print('Error:', e)
+            print('Error in setting pin:', e)
             return False
 
     def fetch_pin(self):
@@ -128,7 +130,7 @@ class Machine:
         return self.dbcursor.fetchone()[0]
 
     def get_recent_print_status(self):
-        result=[]
+        result = []
         self.dbcursor.execute('SELECT * FROM Prints LIMIT 10')
         prints = self.dbcursor.fetchall()
 
@@ -164,7 +166,6 @@ class Machine:
             print(e)
             self.use_ext_board = False
 
-
         try:
             self.machine_serial = serial.Serial(
                 port=self.machine_port,
@@ -181,23 +182,24 @@ class Machine:
                 text = str(self.machine_serial.readline())
                 if text.find('ok') != -1:
                     break
-            gcode_handler_thread = threading.Thread(target=self.__Gcode_handler)
+            gcode_handler_thread = threading.Thread(
+                target=self.__Gcode_handler)
             gcode_handler_thread.start()
-            return True,None
+            return True, None
         except Exception as e:
             print(e)
-            return False,e
+            return False, e
 
     def __Gcode_handler(self):
         """
         this method is for send gcodes on the serial line
         :return:
         """
-        first_done=False
+        first_done = False
         while True:
             try:
 
-                if self.use_ext_board :
+                if self.use_ext_board:
                     if self.__update_filament:
                         '''   check for existance of filament   '''
                         self.__update_filament = False
@@ -209,16 +211,19 @@ class Machine:
                     if self.__relay_updated:
                         ''' set relay status '''
                         self.__relay_updated = False
-                        self.ext_board.relay_status(self.__relay_state[0],self.__relay_state[1])
-                        print ('relay %d status %r'%(self.__relay_state[0],self.__relay_state[1]))
-
-
+                        self.ext_board.relay_status(
+                            self.__relay_state[0], self.__relay_state[1])
+                        print ('relay %d status %r' %
+                               (self.__relay_state[0], self.__relay_state[1]))
 
                 if self.__Gcodes_to_run:
-                    print('send to machine', ('%s%s' % (self.__Gcodes_to_run[0], '\n')).encode('utf-8'))
-                    self.machine_serial.write((self.__Gcodes_to_run[0] + '\n').encode('utf-8'))
+                    print('send to machine', ('%s%s' %
+                                              (self.__Gcodes_to_run[0], '\n')).encode('utf-8'))
+                    self.machine_serial.write(
+                        (self.__Gcodes_to_run[0] + '\n').encode('utf-8'))
                     if self.__Gcodes_return[0] == 0:
-                        while self.machine_serial.readline() != 'ok\n'.encode('utf-8'): pass
+                        while self.machine_serial.readline() != 'ok\n'.encode('utf-8'):
+                            pass
                         first_done = True
 
                     elif self.__Gcodes_return[0] == 1:
@@ -237,7 +242,8 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = float(splited[0][2:])
+                            self.extruder_temp['current'] = float(
+                                splited[0][2:])
                             self.bed_temp['current'] = float(splited[2][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
@@ -247,7 +253,8 @@ class Machine:
                         data = self.machine_serial.readline().decode('utf-8')
                         while data != 'ok\n':
                             splited = data.split(' ')
-                            self.extruder_temp['current'] = float(splited[0][2:])
+                            self.extruder_temp['current'] = float(
+                                splited[0][2:])
                             data = self.machine_serial.readline().decode('utf-8')
                         first_done = True
 
@@ -262,7 +269,7 @@ class Machine:
                 if len(self.Gcode_handler_error_logs) > 9:
                     break
 
-    def __read_file_gcode_lines(self,gcode_file_path,line_to_go=0):
+    def __read_file_gcode_lines(self, gcode_file_path, line_to_go=0):
         """
         :param gcode_file_path:
         the path of the gcode file
@@ -299,22 +306,26 @@ class Machine:
 
             '''first homing the x and y to resume printing'''
             self.append_gcode('G91')
-            self.append_gcode('G1 Z%f F%f'%(self.machine_settings['hibernate_Z_offset'],self.machine_settings['hibernate_Z_move_feedrate']))
+            self.append_gcode('G1 Z%f F%f' % (
+                self.machine_settings['hibernate_Z_offset'], self.machine_settings['hibernate_Z_move_feedrate']))
             self.append_gcode('G28 X Y')
             self.append_gcode('G90')
 
             '''get the bed temp from the gcode'''
             for line in lines:
                 if line.find('M190') == 0:
-                    self.bed_temp['point'] = int(float(line[line.find('S') + 1:]))
-                    self.append_gcode('M190 S%f'%(self.bed_temp['point']),2)
+                    self.bed_temp['point'] = int(
+                        float(line[line.find('S') + 1:]))
+                    self.append_gcode('M190 S%f' % (self.bed_temp['point']), 2)
                     break
 
             '''get the extruder temp from the gcode'''
             for line in lines:
                 if line.find('M109') == 0:
-                    self.extruder_temp['point'] = int(float(line[line.find('S') + 1:]))
-                    self.append_gcode('M109 S%f'%(self.extruder_temp['point']),3)
+                    self.extruder_temp['point'] = int(
+                        float(line[line.find('S') + 1:]))
+                    self.append_gcode('M109 S%f' %
+                                      (self.extruder_temp['point']), 3)
                     break
 
             '''find the layer that had been printed'''
@@ -326,7 +337,8 @@ class Machine:
 
             '''send the nozzle to the correct position to start printing'''
             self.append_gcode('G91')
-            self.append_gcode('G1 -Z%f F%f'%(self.machine_settings['hibernate_Z_offset'],self.machine_settings['hibernate_Z_move_feedrate']))
+            self.append_gcode(
+                'G1 -Z%f F%f' % (self.machine_settings['hibernate_Z_offset'], self.machine_settings['hibernate_Z_move_feedrate']))
             self.append_gcode('G90')
 
         ''' gcode applicator '''
@@ -345,9 +357,9 @@ class Machine:
             #         self.__filament_pause_flag = True
             #         print ('!!! paused by filament error !!!')
 
-
             signnum = lines[x].find(';')
-            if not lines[x]:pass
+            if not lines[x]:
+                pass
             elif signnum == -1:
                 command = lines[x]
             elif signnum == 0:
@@ -366,16 +378,19 @@ class Machine:
                 ''' use command '''
 
                 if command.find('M190') == 0:
-                    self.bed_temp['point'] = int(float(command[command.find('S') + 1:]))
+                    self.bed_temp['point'] = int(
+                        float(command[command.find('S') + 1:]))
                     self.append_gcode('M190 S%f' % (self.bed_temp['point']), 2)
 
                 elif command.find('M109') == 0:
-                    self.extruder_temp['point'] = int(float(command[command.find('S') + 1:]))
-                    self.append_gcode('M109 S%f' % (self.extruder_temp['point']), 3)
+                    self.extruder_temp['point'] = int(
+                        float(command[command.find('S') + 1:]))
+                    self.append_gcode('M109 S%f' %
+                                      (self.extruder_temp['point']), 3)
 
                 elif command.find('M0') == 0:
                     pass
-                
+
                 elif command.find('G1') == 0:
 
                     '''                find and repalce F in Gcode file        '''
@@ -391,9 +406,11 @@ class Machine:
                         else:
                             end = len(command)
 
-                        last_travel_speed = float(command[Travel_speed + 1: end]) 
+                        last_travel_speed = float(
+                            command[Travel_speed + 1: end])
                         new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
-                        command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:] 
+                        command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(
+                            command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:]
                         end = None
 
                     '''                  find and replace E in Gcode              '''
@@ -418,11 +435,12 @@ class Machine:
                         if line_to_go != 0:
                             new_e_pos = last_e_pos - e_pos_offset
                         # command = command[:-(len(command) - (Eresulte + 1))] + str(e_pos)
-                        command = command[0: Eresulte + 1] + str(new_e_pos) + ' ' + command[len(command[0: Eresulte + 1]) + len(str(last_e_pos)) + 1:]
+                        command = command[0: Eresulte + 1] + str(new_e_pos) + ' ' + command[len(
+                            command[0: Eresulte + 1]) + len(str(last_e_pos)) + 1:]
                         end = None
 
                     self.append_gcode(command)
-                    
+
                 elif command.find('G0') == 0:
 
                     '''         find and replace Z in Gcode               '''
@@ -437,7 +455,8 @@ class Machine:
                         if line_to_go != 0:
                             z_pos = z_pos - z_pos_offset
                         self.__current_Z_position = z_pos
-                        command = command[:-(len(command) - (Zresulte + 1))] + str(z_pos)
+                        command = command[:-(len(command) -
+                                             (Zresulte + 1))] + str(z_pos)
 
                     '''                find and repalce F in Gcode file        '''
                     Feedrate_speed = command.find('F')
@@ -452,11 +471,11 @@ class Machine:
                         else:
                             end = len(command)
 
-                        last_feedrate = float(command[Feedrate_speed + 1: end]) 
+                        last_feedrate = float(command[Feedrate_speed + 1: end])
                         new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
-                        command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:] 
+                        command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(
+                            command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:]
                         end = None
-
 
                     self.append_gcode(command)
 
@@ -479,7 +498,7 @@ class Machine:
 
                 self.append_gcode('G91')
                 self.append_gcode('G1 Z%f F%f' % (self.machine_settings['pause_Z_offset'],
-                                                self.machine_settings['pause_Z_move_feedrate']))
+                                                  self.machine_settings['pause_Z_move_feedrate']))
                 self.append_gcode('G28 X Y')
                 self.append_gcode('G90')
 
@@ -488,28 +507,30 @@ class Machine:
 
                 self.append_gcode('G91')
                 self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
-                                                 self.machine_settings['pause_Z_move_feedrate']))
+                                                   self.machine_settings['pause_Z_move_feedrate']))
                 self.append_gcode('G90')
 
             """  print done """
-            
+
         '''      here       '''
         new_print = dict()
         new_print['time'] = str(self.time.read())
-        new_print['temperature'] = ('Extruder: ' + str(self.extruder_temp['point']) + ' - Bed: ' + str(self.bed_temp['point']))
+        new_print['temperature'] = (
+            'Extruder: ' + str(self.extruder_temp['point']) + ' - Bed: ' + str(self.bed_temp['point']))
         new_print['file_name'] = str(self.printing_file)
         # new_print['filament_type'] = None # TO BE SET
-        new_print['is_finished'] = 'Yes' if (self.print_percentage == 100) else 'No'
+        new_print['is_finished'] = 'Yes' if (
+            self.print_percentage == 100) else 'No'
 
         self.finalize_print(new_print)
 
-        #try:
-         #   os.remove('backup_print.bc')
-          #  os.remove('backup_print_path.bc')
-            # self.printing_file = None
-        #except Exception as e:
-         #   print('error in reading file lines: ', e)
-          #  pass
+        # try:
+        #   os.remove('backup_print.bc')
+        #  os.remove('backup_print_path.bc')
+        # self.printing_file = None
+        # except Exception as e:
+        #   print('error in reading file lines: ', e)
+        #  pass
 
     def finalize_print(self, new_print):
         self.append_gcode(gcode="M84")  # Release Motors
@@ -524,9 +545,10 @@ class Machine:
                     ''')
         print_status = (new_print['time'], new_print['temperature'],
                         new_print['file_name'], new_print['is_finished'],)
-        self.dbcursor.execute('INSERT INTO Prints VALUES (?, ?, ?, ?)', print_status)
+        self.dbcursor.execute(
+            'INSERT INTO Prints VALUES (?, ?, ?, ?)', print_status)
 
-    def append_gcode(self, gcode, gcode_return = 0):
+    def append_gcode(self, gcode, gcode_return=0):
         """
         append the gcode to the private var to be sent in the thread
         :param gcode:
@@ -545,7 +567,7 @@ class Machine:
 
 # Methods to control printer
 
-    def Home_machine(self,axis='All'):
+    def Home_machine(self, axis='All'):
         """
 
         :param axis:
@@ -565,7 +587,7 @@ class Machine:
     def release_motors(self):
         self.append_gcode(gcode="M84")
 
-    def fan_status(self,status='ON'):
+    def fan_status(self, status='ON'):
         """
         :param status:
         ON for 255 speed for fan
@@ -580,7 +602,7 @@ class Machine:
         elif status == 'OFF':
             self.append_gcode('M107')
 
-    def move_axis(self,axis,positioning_mode,value):
+    def move_axis(self, axis, positioning_mode, value):
         """
         :param axis:
         X
@@ -597,10 +619,10 @@ class Machine:
             self.append_gcode(gcode='G91')
         elif positioning_mode == 'Absolute':
             self.append_gcode(gcode='G90')
-        gcode = 'G1 %s%f' % (axis,value)
+        gcode = 'G1 %s%f' % (axis, value)
         self.append_gcode(gcode=gcode)
 
-    def extrude(self,value,feedrate=1000):
+    def extrude(self, value, feedrate=1000):
         """
         :param feedrate:
         the speed of extruder
@@ -609,7 +631,7 @@ class Machine:
         :return:
         """
         self.append_gcode(gcode='G91')
-        gcode = 'G1 E%f F%f'%(value,feedrate)
+        gcode = 'G1 E%f F%f' % (value, feedrate)
         self.append_gcode(gcode=gcode)
 
     def cooldown_hotend(self):
@@ -618,19 +640,21 @@ class Machine:
     def cooldown_bed(self):
         self.append_gcode(gcode='M140 S0')
 
-    def set_hotend_temp(self,value):
+    def set_hotend_temp(self, value):
         if value+self.extruder_temp['point'] > 0:
-            self.append_gcode(gcode='M104 S%d' % value)  # +self.extruder_temp['point']))
+            # +self.extruder_temp['point']))
+            self.append_gcode(gcode='M104 S%d' % value)
         else:
             self.append_gcode(gcode='M104 S0')
 
-    def set_bed_temp(self,value):
-        if value+self.bed_temp['point'] > 0 :
-            self.append_gcode(gcode='M140 S%d' % value)  # +self.bed_temp['point']))
+    def set_bed_temp(self, value):
+        if value+self.bed_temp['point'] > 0:
+            # +self.bed_temp['point']))
+            self.append_gcode(gcode='M140 S%d' % value)
         else:
             self.append_gcode(gcode='M140 S0')
 
-    def bedleveling_manual(self,stage):
+    def bedleveling_manual(self, stage):
         """
         :param stage:
         1 2 3 4
@@ -645,50 +669,60 @@ class Machine:
         """
         if stage == 1:
             self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f' % (self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
+            gcode = 'G1 Z%f F%f' % (
+                self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode = 'G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X1'], self.machine_settings['bedleveling_Y1'], self.machine_settings['traveling_feedrate'])
+            gcode = 'G1 X%d Y%d F%f' % (
+                self.machine_settings['bedleveling_X1'], self.machine_settings['bedleveling_Y1'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
         if stage == 2:
-            self.append_gcode(gcode = 'G91')
-            gcode = 'G1 Z%f F%f'%(self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
+            self.append_gcode(gcode='G91')
+            gcode = 'G1 Z%f F%f' % (
+                self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X2'], self.machine_settings['bedleveling_Y1'], self.machine_settings['traveling_feedrate'])
+            gcode = 'G1 X%d Y%d F%f' % (
+                self.machine_settings['bedleveling_X2'], self.machine_settings['bedleveling_Y1'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
         if stage == 3:
             self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f' % (self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
+            gcode = 'G1 Z%f F%f' % (
+                self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X1'], self.machine_settings['bedleveling_Y2'], self.machine_settings['traveling_feedrate'])
+            gcode = 'G1 X%d Y%d F%f' % (
+                self.machine_settings['bedleveling_X1'], self.machine_settings['bedleveling_Y2'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
         if stage == 4:
             self.append_gcode(gcode='G91')
-            gcode = 'G1 Z%f F%f' % (self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
+            gcode = 'G1 Z%f F%f' % (
+                self.machine_settings['bedleveling_Z_ofsset'], self.machine_settings['bedleveling_Z_move_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G90')
-            gcode ='G1 X%d Y%d F%f' % (self.machine_settings['bedleveling_X2'], self.machine_settings['bedleveling_Y2'], self.machine_settings['traveling_feedrate'])
+            gcode = 'G1 X%d Y%d F%f' % (
+                self.machine_settings['bedleveling_X2'], self.machine_settings['bedleveling_Y2'], self.machine_settings['traveling_feedrate'])
             self.append_gcode(gcode=gcode)
             self.append_gcode(gcode='G1 Z0')
 
     def refresh_temp(self):
-        self.append_gcode('M105',1)
+        self.append_gcode('M105', 1)
 
     ''' print '''
-    def start_printing_thread(self, gcode_dir,line=0):
+
+    def start_printing_thread(self, gcode_dir, line=0):
         print('@@@ printing file dir:', gcode_dir)
         self.time = Time()
         self.printing_file = gcode_dir
         gcode_dir = self.base_path + '/' + gcode_dir
-        read_file_gcode_lines_thread = threading.Thread(target=self.__read_file_gcode_lines,args=(gcode_dir,line,))
+        read_file_gcode_lines_thread = threading.Thread(
+            target=self.__read_file_gcode_lines, args=(gcode_dir, line,))
         read_file_gcode_lines_thread.start()
         print ('started')
 
@@ -707,10 +741,10 @@ class Machine:
     def get_percentage(self):
         return self.print_percentage
 
-    def set_feedrate_speed(self,percentage):
+    def set_feedrate_speed(self, percentage):
         self.__Feedrate_speed_percentage = percentage
 
-    def set_travel_speed(self,percentage):
+    def set_travel_speed(self, percentage):
         self.__Travel_speed_percentage = percentage
 
     def get_current_Z_position(self):
@@ -718,7 +752,7 @@ class Machine:
         return Z positon acording to Gcode lines 
         never run this if machine is not in 'printing' state 
         """
-        return "%.1f" %self.__current_Z_position
+        return "%.1f" % self.__current_Z_position
 
     def check_for_unfinished_print(self):
         """
@@ -748,13 +782,13 @@ class Machine:
            # pass
 
     ''' recent activites '''
+
     def check_last_print(self):
         pass
 
-
-    def set_relay_ext_board(self,number,state):
+    def set_relay_ext_board(self, number, state):
         self.__relay_updated = True
-        self.__relay_state = [number,state] 
+        self.__relay_state = [number, state]
         # if self.use_ext_board:
         #     self.ext_board.relay_status(number, state)
 
@@ -762,11 +796,7 @@ class Machine:
         return self .__filament_pause_flag
 
     def update_filament_status(self):
-        self.__update_filament = True 
-
-
-
-
+        self.__update_filament = True
 
 
 class Utils():
@@ -794,7 +824,8 @@ class Utils():
     def wifi_con(un, pw):
         try:
             os.popen('nmcli n on')
-            answer = os.popen('nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw)).read()
+            answer = os.popen(
+                'nmcli d wifi connect \"{0}\" password \"{1}\"'.format(un, pw)).read()
             if answer.find('successfully'):
                 return 'success'
             else:
@@ -808,10 +839,10 @@ class Utils():
         try:
             config = configparser.ConfigParser()
             config.read('/boot/Q-config.ini')
-            if config.get('wifi','ssid') != '' :
-                return Utils.wifi_con(config.get('wifi','ssid'),config.get('wifi','pass'))
-        except:
-            print('no config file ')
+            if config.get('wifi', 'ssid') != '':
+                return Utils.wifi_con(config.get('wifi', 'ssid'), config.get('wifi', 'pass'))
+        except Exception as e:
+            print('no config file found!: ', e)
             return 'no file '
 
     @staticmethod
@@ -844,7 +875,8 @@ class Utils():
         first is any usb connected or not
         second the exception or the directories of usb
         """
-        sub_usb_dir = subprocess.Popen(['ls', BASE_PATH], stdout=subprocess.PIPE).communicate()[0]
+        sub_usb_dir = subprocess.Popen(
+            ['ls', BASE_PATH], stdout=subprocess.PIPE).communicate()[0]
         sub_usb_dir = sub_usb_dir[:-1]
         if sub_usb_dir == '':
             return None
@@ -899,6 +931,7 @@ class Time:
     use Time.read() to read the elapsed time from the start time 
     at the end use Time.stop() to stop the timer and read the hole time elapsed 
     """
+
     def __init__(self):
         self.start_time = time.time()
 
@@ -916,7 +949,7 @@ class Time:
         return int(elapsed_time)
 
 
-class RaspberryHardwareInfo: #new
+class RaspberryHardwareInfo:  # new
     pass
     # """
     # thanks to this repository
@@ -956,6 +989,7 @@ class RaspberryHardwareInfo: #new
     #     """ Return swap memory  usage using psutil """
     #     return psutil.swap_memory()[3]
 
+
 class ExtendedBoard:
     def __init__(self, board_port='/dev/ttyS0', board_baudrate=9600):
         self.filament_exist = True
@@ -964,7 +998,6 @@ class ExtendedBoard:
         self.board_port = board_port
         self.board_baudrate = board_baudrate
 
-        
         self.board_serial = serial.Serial(
             port=self.board_port,
             baudrate=self.board_baudrate,
@@ -976,15 +1009,15 @@ class ExtendedBoard:
         self.board_serial.open()
         time.sleep(2)
         self.board_serial.write(b'S')
-        timeout_time  = time.time()
+        timeout_time = time.time()
         check_number = 0
         while True:
 
             '''  check for time out time '''
             if time.time() - timeout_time > 0.2:
                 self.board_serial.write(b'S')
-                timeout_time  = time.time()
-                check_number += 1 
+                timeout_time = time.time()
+                check_number += 1
 
             if check_number > 3:
                 print ('!!! extended board not found !!!')
@@ -1012,16 +1045,16 @@ class ExtendedBoard:
                 self.filament_exist = False
                 return False
 
-            else :
+            else:
                 self.filament_exist = True
                 return True
 
         else:
             return None
 
-    def relay_status(self,relay_num,status):
+    def relay_status(self, relay_num, status):
         """
-        
+
         set the relay on or off 
         we have 2 relay 
 
@@ -1030,13 +1063,13 @@ class ExtendedBoard:
 
 
         """
-        if relay_num == 1 : 
+        if relay_num == 1:
             if status:
                 self.board_serial.write(b'O')
             else:
                 self.board_serial.write(b'P')
-        
-        elif relay_num == 2 :
+
+        elif relay_num == 2:
             if status:
                 self.board_serial.write(b'W')
             else:
