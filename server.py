@@ -57,11 +57,11 @@ def set_speed():
         field = req.get('field', 'print') # DEFAULTS TO BE SET
         value = req.get('value', 0) # DEFAULTS TO BE SET
         if field == 'print':
-            printer.set_travel_speed(value)
+            #printer.set_travel_speed(value)
             printer.set_feedrate_speed(value)
         elif field == 'flow':
-            print('we are in the flow!')
-            printer.set_feedrate_speed(value)
+            printer.set_flow_speed(value)
+            #printer.set_feedrate_speed(value)
         else:
             return Response(status=404)
         return Response(status=200)

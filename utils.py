@@ -393,25 +393,25 @@ class Machine:
 
                 elif command.find('G1') == 0:
 
-                    '''                find and repalce F in Gcode file        '''
-                    Travel_speed = command.find('F')
+                    # '''                find and repalce F in Gcode file        '''
+                    # Travel_speed = command.find('F')
 
-                    if Travel_speed != -1:
+                    # if Travel_speed != -1:
 
-                        # find the number in front of 'F' character
-                        if command.find(' ', Travel_speed) != -1:
-                            end = command.find(' ', Travel_speed)
-                        elif command.find('\n', Travel_speed) != -1:
-                            end = command.find('\n')
-                        else:
-                            end = len(command)
+                    #     # find the number in front of 'F' character
+                    #     if command.find(' ', Travel_speed) != -1:
+                    #         end = command.find(' ', Travel_speed)
+                    #     elif command.find('\n', Travel_speed) != -1:
+                    #         end = command.find('\n')
+                    #     else:
+                    #         end = len(command)
 
-                        last_travel_speed = float(
-                            command[Travel_speed + 1: end])
-                        new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
-                        command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(
-                            command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:]
-                        end = None
+                    #     last_travel_speed = float(
+                    #         command[Travel_speed + 1: end])
+                    #     new_travel_speed = last_travel_speed * self.__Travel_speed_percentage / 100
+                    #     command = command[0:Travel_speed + 1] + str(new_travel_speed) + command[len(
+                    #         command[0:Travel_speed]) + len(str(last_travel_speed)) - 1:]
+                    #     end = None
 
                     '''                  find and replace E in Gcode              '''
                     Eresulte = command.find('E')
@@ -458,26 +458,26 @@ class Machine:
                         command = command[:-(len(command) -
                                              (Zresulte + 1))] + str(z_pos)
 
-                    '''                find and repalce F in Gcode file        '''
-                    Feedrate_speed = command.find('F')
+                    # '''                find and repalce F in Gcode file        '''
+                    # Feedrate_speed = command.find('F')
 
-                    if Feedrate_speed != -1:
+                    # if Feedrate_speed != -1:
 
-                        # find the number in front of 'F' character
-                        if command.find(' ', Feedrate_speed) != -1:
-                            end = command.find(' ', Feedrate_speed)
-                        elif command.find('\n', Feedrate_speed) != -1:
-                            end = command.find('\n')
-                        else:
-                            end = len(command)
+                    #     # find the number in front of 'F' character
+                    #     if command.find(' ', Feedrate_speed) != -1:
+                    #         end = command.find(' ', Feedrate_speed)
+                    #     elif command.find('\n', Feedrate_speed) != -1:
+                    #         end = command.find('\n')
+                    #     else:
+                    #         end = len(command)
 
-                        last_feedrate = float(command[Feedrate_speed + 1: end])
-                        new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
-                        command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(
-                            command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:]
-                        end = None
+                    #     last_feedrate = float(command[Feedrate_speed + 1: end])
+                    #     new_feedrate = last_feedrate * self.__Feedrate_speed_percentage / 100
+                    #     command = command[0:Feedrate_speed + 1] + str(new_feedrate) + command[len(
+                    #         command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:]
+                    #     end = None
 
-                    self.append_gcode(command)
+                    # self.append_gcode(command)
 
                 else:
                     self.append_gcode(command)
@@ -741,11 +741,15 @@ class Machine:
     def get_percentage(self):
         return self.print_percentage
 
+    """ Feedrate means changes speed on X, Y,Z and E axis """
     def set_feedrate_speed(self, percentage):
-        self.__Feedrate_speed_percentage = percentage
+        #self.__Feedrate_speed_percentage = percentage
+        self.append_gcode(gcode='M220 S%d'%(percentage))
 
-    def set_travel_speed(self, percentage):
-        self.__Travel_speed_percentage = percentage
+    """ Flow means changes speed on only E axis """
+    def set_flow_speed(self, percentage):
+        #self.__Travel_speed_percentage = percentage
+        self.append_gcode(gcode='M221 S%d'%(percentage))
 
     def get_current_Z_position(self):
         """
