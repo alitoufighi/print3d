@@ -492,7 +492,7 @@ class Machine:
                     #         command[0:Feedrate_speed]) + len(str(last_feedrate)) - 1:]
                     #     end = None
 
-                    # self.append_gcode(command)
+                    self.append_gcode(command)
 
                 else:
                     self.append_gcode(command)
@@ -500,13 +500,6 @@ class Machine:
 
             self.print_percentage = int(float(x + 1) / float(len(lines)) * 100)
 
-            ''' stop printing '''
-            if self.__stop_flag:
-
-                # maybe here is the problem of the stop hanging **
-                self.__Gcodes_to_run = []
-                self.__Gcodes_return = []
-                break
 
             ''' pause and resume the printing '''
             if self.__pause_flag:
@@ -518,12 +511,22 @@ class Machine:
                 self.append_gcode('G90')
 
                 while self.__pause_flag:
-                    pass
+                    if self.__stop_flag:
+                        break
 
                 self.append_gcode('G91')
                 self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
                                                    self.machine_settings['pause_Z_move_feedrate']))
                 self.append_gcode('G90')
+
+
+            ''' stop printing '''
+            if self.__stop_flag:
+
+                # maybe here is the problem of the stop hanging **
+                self.__Gcodes_to_run = []
+                self.__Gcodes_return = []
+                break
 
             """  print done """
 
@@ -752,6 +755,7 @@ class Machine:
         self.__pause_flag = False
         self.__filament_pause_flag = False
         self.ext_board.flush_input_buffer()
+        self.ext_board.off_A_flag()
 
     def get_percentage(self):
         return self.print_percentage
@@ -1101,3 +1105,9 @@ class ExtendedBoard:
 
     def flush_input_buffer(self):
         self.board_serial.flushInput()
+
+    def off_A_flag(self):
+        self.board_serial.write(b'M')
+
+    def off_B_flag(self):
+        self.board_serial.write(b'N')
