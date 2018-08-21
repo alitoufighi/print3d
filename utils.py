@@ -69,13 +69,13 @@ class Machine:
         bedleveling_Z_move_feedrate real, hibernate_Z_offset real,
         hibernate_Z_move_feedrate real, pause_Z_offset real,
         pause_Z_move_feedrate real, printing_buffer real,
-        ABS boolean, pin real)''')
+        ABS TEXT, pin real)''')
 
         self.dbcursor.execute('SELECT * FROM Settings LIMIT 1')
         settings = self.dbcursor.fetchone()
         if settings is None:
             settings = (50, 180, 50, 180, 3000, 10, 1500,
-                        5, 1500, 10, 1500, 15, False, None,)
+                        5, 1500, 10, 1500, 15, "yes", None,)
             self.dbcursor.execute("""INSERT INTO Settings
                                   (bedleveling_X1, bedleveling_X2,
                                   bedleveling_Y1, bedleveling_Y2,
@@ -96,7 +96,7 @@ class Machine:
             'pause_Z_offset': settings[9], 'pause_Z_move_feedrate': settings[10],
             # printing buffer
             'printing_buffer': settings[11],
-            # Ask Before Starting print after hibernate
+            # Should the system ask to start previous print after hibernate ("yes") or not ("no")
             'ABS': settings[12],
         }
 
@@ -500,7 +500,6 @@ class Machine:
 
             self.print_percentage = int(float(x + 1) / float(len(lines)) * 100)
 
-
             ''' pause and resume the printing '''
             if self.__pause_flag:
 
@@ -518,7 +517,6 @@ class Machine:
                 self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
                                                    self.machine_settings['pause_Z_move_feedrate']))
                 self.append_gcode('G90')
-
 
             ''' stop printing '''
             if self.__stop_flag:
@@ -761,14 +759,16 @@ class Machine:
         return self.print_percentage
 
     """ Feedrate means changes speed on X, Y,Z and E axis """
+
     def set_feedrate_speed(self, percentage):
         #self.__Feedrate_speed_percentage = percentage
-        self.append_gcode(gcode='M220 S%d'%(percentage))
+        self.append_gcode(gcode='M220 S%d' % (percentage))
 
     """ Flow means changes speed on only E axis """
+
     def set_flow_speed(self, percentage):
         #self.__Travel_speed_percentage = percentage
-        self.append_gcode(gcode='M221 S%d'%(percentage))
+        self.append_gcode(gcode='M221 S%d' % (percentage))
 
     def get_current_Z_position(self):
         """
