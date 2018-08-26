@@ -8,3 +8,4 @@ backup_print_path.bc
 database.db
 *.map
 *.html
+*.gcode
