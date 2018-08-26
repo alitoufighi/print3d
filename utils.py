@@ -612,8 +612,7 @@ class Machine:
         self.__Gcodes_return.append(gcode_return)
         print('Gcodes to Run:', self.__Gcodes_to_run)
 
-# Methods to control printer
-
+    ''' Methods to control the printer '''
     def Home_machine(self, axis='All'):
         """
 
