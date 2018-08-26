@@ -572,7 +572,7 @@ def print_it():
 
             if action == 'print':
                 ''' refresh the  ext board buffer to able get the filament error ''' 
-                printer..ext_board.flush_input_buffer()
+                printer.ext_board.flush_input_buffer()
                 printer.ext_board.off_A_flag()
                 ''' delete last printed back up files '''
                 printer.delete_last_print_files()
