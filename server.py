@@ -571,6 +571,10 @@ def print_it():
             percentage = 0
 
             if action == 'print':
+                ''' refresh the  ext board buffer to able get the filament error ''' 
+                printer.ext_board.flush_input_buffer()
+                printer.ext_board.off_A_flag()
+                ''' delete last printed back up files '''
                 printer.delete_last_print_files()
                 # try:
                 gcode_file_address = req['cd']
@@ -588,10 +592,12 @@ def print_it():
             elif action == 'stop':
                 printer.stop_printing()
                 printer.delete_last_print_files()
+                ''' wait until the buffer been free '''
                 time.sleep(1)
                 printer.release_motors()
                 printer.cooldown_hotend()
                 printer.cooldown_bed()
+                printer.stop_move_up()
             elif action == 'resume':
                 printer.resume_printing()
             elif action == 'pause':
