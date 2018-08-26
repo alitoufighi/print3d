@@ -1,7 +1,6 @@
 .idea/
 __pycache__/
 dist/
-static/
 *.pyc
 backup_print.bc
 backup_print_path.bc
