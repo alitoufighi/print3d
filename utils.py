@@ -329,18 +329,34 @@ class Machine:
             '''get the bed temp from the gcode'''
             for line in lines:
                 if line.find('M190') == 0:
+                    Mfound = 0
+                    if command.find(' ', Mfound) != -1:
+                        end = command.find(' ', Mfound)
+                    elif command.find('\n', Mfound) != -1:
+                        end = command.find('\n')
+                    else:
+                        end = len(command)
                     self.bed_temp['point'] = int(
-                        float(line[line.find('S') + 1:]))
+                        float(line[line.find('S') + 1: end ]))
                     self.append_gcode('M190 S%f' % (self.bed_temp['point']), 2)
+                    end = None 
                     break
 
             '''get the extruder temp from the gcode'''
             for line in lines:
                 if line.find('M109') == 0:
+                    Mfound = 0
+                    if command.find(' ', Mfound) != -1:
+                        end = command.find(' ', Mfound)
+                    elif command.find('\n', Mfound) != -1:
+                        end = command.find('\n')
+                    else:
+                        end = len(command)
                     self.extruder_temp['point'] = int(
-                        float(line[line.find('S') + 1:]))
+                        float(line[line.find('S') + 1: end ]))
                     self.append_gcode('M109 S%f' %
                                       (self.extruder_temp['point']), 3)
+                    end = None 
                     break
 
             '''find the layer that had been printed'''
@@ -393,15 +409,31 @@ class Machine:
                 ''' use command '''
 
                 if command.find('M190') == 0:
+                    Mfound = 0
+                    if command.find(' ', Mfound) != -1:
+                        end = command.find(' ', Mfound)
+                    elif command.find('\n', Mfound) != -1:
+                        end = command.find('\n')
+                    else:
+                        end = len(command)
                     self.bed_temp['point'] = int(
-                        float(command[command.find('S') + 1:]))
+                        float(command[command.find('S') + 1: end ]))
                     self.append_gcode('M190 S%f' % (self.bed_temp['point']), 2)
+                    end = None 
 
                 elif command.find('M109') == 0:
+                    Mfound = 0
+                    if command.find(' ', Mfound) != -1:
+                        end = command.find(' ', Mfound)
+                    elif command.find('\n', Mfound) != -1:
+                        end = command.find('\n')
+                    else:
+                        end = len(command)
                     self.extruder_temp['point'] = int(
-                        float(command[command.find('S') + 1:]))
+                        float(command[command.find('S') + 1: end ]))
                     self.append_gcode('M109 S%f' %
                                       (self.extruder_temp['point']), 3)
+                    end = None 
 
                 elif command.find('M0') == 0:
                     pass
