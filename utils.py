@@ -520,8 +520,7 @@ class Machine:
 
             ''' stop printing '''
             if self.__stop_flag:
-
-                # maybe here is the problem of the stop hanging **
+                
                 self.__Gcodes_to_run = []
                 self.__Gcodes_return = []
                 break
@@ -802,7 +801,14 @@ class Machine:
             os.remove('backup_print_path.bc')
         except:
             print("file not removed !")
-           # pass
+            
+
+    def stop_move_up(self):
+        self.append_gcode('G91')
+        self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
+            self.machine_settings['pause_Z_move_feedrate']))
+        self.append_gcode('G90')
+
 
     ''' recent activites '''
 
