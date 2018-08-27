@@ -301,7 +301,7 @@ class Machine:
         command = None
         z_pos_offset = 0
         e_pos_offset = 0
-        self.__current_Z_position = None
+        self.__current_Z_position = 0
         gcode_file = codecs.open(gcode_file_path, 'r')
         lines = []
 
@@ -329,13 +329,13 @@ class Machine:
             '''get the bed temp from the gcode'''
             for line in lines:
                 if line.find('M190') == 0:
-                    Mfound = 0
-                    if command.find(' ', Mfound) != -1:
-                        end = command.find(' ', Mfound)
-                    elif command.find('\n', Mfound) != -1:
-                        end = command.find('\n')
+                    Sfound = line.find('S')
+                    if line.find(' ', Sfound) != -1:
+                        end = line.find(' ', Sfound)
+                    elif line.find('\n', Sfound) != -1:
+                        end = line.find('\n')
                     else:
-                        end = len(command)
+                        end = len(line)
                     self.bed_temp['point'] = int(
                         float(line[line.find('S') + 1: end ]))
                     self.append_gcode('M190 S%f' % (self.bed_temp['point']), 2)
@@ -345,13 +345,13 @@ class Machine:
             '''get the extruder temp from the gcode'''
             for line in lines:
                 if line.find('M109') == 0:
-                    Mfound = 0
-                    if command.find(' ', Mfound) != -1:
-                        end = command.find(' ', Mfound)
-                    elif command.find('\n', Mfound) != -1:
-                        end = command.find('\n')
+                    Sfound = line.find('S')
+                    if line.find(' ', Sfound) != -1:
+                        end = line.find(' ', Sfound)
+                    elif line.find('\n', Sfound) != -1:
+                        end = line.find('\n')
                     else:
-                        end = len(command)
+                        end = len(line)
                     self.extruder_temp['point'] = int(
                         float(line[line.find('S') + 1: end ]))
                     self.append_gcode('M109 S%f' %
@@ -361,10 +361,17 @@ class Machine:
 
             '''find the layer that had been printed'''
             for i in range(len(lines)):
-                if lines[i].find(';LAYER:') == 0:
-                    if line_to_go == int(lines[i][7:]):
-                        '''get the direct gcode line (the past value was the layer that has been printed)'''
-                        line_to_go = i
+                try:
+                    if lines[i].find(';LAYER:') == 0:
+                        if line_to_go == int(lines[i][7:]):
+                            '''get the direct gcode line (the past value was the layer that has been printed)'''
+                            line_to_go = i
+                    elif lines[i].find('; layer') == 0:
+                        if line_to_go == int(lines[i][8:lines[i].find(',')]):
+                            '''get the direct gcode line (the past value was the layer that has been printed)'''
+                            line_to_go = i
+                except Exception as e:print('error in find line :',e)
+
 
             '''send the nozzle to the correct position to start printing'''
             self.append_gcode('G91')
@@ -394,12 +401,21 @@ class Machine:
             elif signnum == -1:
                 command = lines[x]
             elif signnum == 0:
-                layer_sign_num = lines[x].find(';LAYER:')
-                if layer_sign_num == 0:
+
+                cura_layer = lines[x].find(';LAYER:')
+                if cura_layer == 0:
                     layer = lines[x][7:]
                     backup_print = open('backup_print.bc', 'w')
                     backup_print.write(layer)
                     backup_print.close()
+                
+                simplify_layer = lines[x].find('; layer')
+                if simplify_layer == 0:
+                    layer = lines[x][8:lines[x].find(',')]
+                    backup_print = open('backup_print.bc', 'w')
+                    backup_print.write(layer)
+                    backup_print.close()
+
             else:
                 command = lines[x][:-(len(lines[x]) - signnum)]
 
@@ -409,10 +425,10 @@ class Machine:
                 ''' use command '''
 
                 if command.find('M190') == 0:
-                    Mfound = 0
-                    if command.find(' ', Mfound) != -1:
-                        end = command.find(' ', Mfound)
-                    elif command.find('\n', Mfound) != -1:
+                    Sfound = command.find('S')
+                    if command.find(' ', Sfound) != -1:
+                        end = command.find(' ', Sfound)
+                    elif command.find('\n', Sfound) != -1:
                         end = command.find('\n')
                     else:
                         end = len(command)
@@ -422,10 +438,10 @@ class Machine:
                     end = None 
 
                 elif command.find('M109') == 0:
-                    Mfound = 0
-                    if command.find(' ', Mfound) != -1:
-                        end = command.find(' ', Mfound)
-                    elif command.find('\n', Mfound) != -1:
+                    Sfound = command.find('S')
+                    if command.find(' ', Sfound) != -1:
+                        end = command.find(' ', Sfound)
+                    elif command.find('\n', Sfound) != -1:
                         end = command.find('\n')
                     else:
                         end = len(command)
@@ -486,6 +502,64 @@ class Machine:
                             command[0: Eresulte + 1]) + len(str(last_e_pos)) + 1:]
                         end = None
 
+                    '''         find and replace Z in Gcode               '''
+                    '''         this added just for simplify              '''
+                    Zresulte = command.find('Z')
+
+                    if Zresulte != -1:
+                        
+                        if command.find(' ', Zresulte) != -1:
+                            end = command.find(' ', Zresulte)
+                        elif command.find('\n', Zresulte) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
+
+                        '''get the last z before the machine trun off'''
+                        if z_pos_offset == 0 and line_to_go != 0:
+                            z_pos_offset = float(command[Zresulte + 1: end])
+                        '''get the current z position of file'''
+                        z_pos = float(command[Zresulte + 1: end ])
+                        if line_to_go != 0:
+                            z_pos = z_pos - z_pos_offset
+                        self.__current_Z_position = z_pos
+                        command = command[0: Zresulte + 1] + str(z_pos) + ' ' + command[end + 1:]
+
+                        end = None
+
+                    '''         get x position            '''
+                    Xresulte = command.find('X')
+
+                    if Xresulte != -1:
+                        
+                        if command.find(' ', Xresulte) != -1:
+                            end = command.find(' ', Xresulte)
+                        elif command.find('\n', Xresulte) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
+
+                        X_pos = float(command[Xresulte + 1: end ])
+
+                        end = None
+                        
+                    '''         get Y position            '''
+                    Yresulte = command.find('Y')
+
+                    if Yresulte != -1:
+                        
+                        if command.find(' ', Yresulte) != -1:
+                            end = command.find(' ', Yresulte)
+                        elif command.find('\n', Yresulte) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
+
+                        Y_pos = float(command[Yresulte + 1: end ])
+
+                        end = None
+
+
                     self.append_gcode(command)
 
                 elif command.find('G0') == 0:
@@ -494,16 +568,25 @@ class Machine:
                     Zresulte = command.find('Z')
 
                     if Zresulte != -1:
+                        
+                        if command.find(' ', Zresulte) != -1:
+                            end = command.find(' ', Zresulte)
+                        elif command.find('\n', Zresulte) != -1:
+                            end = command.find('\n')
+                        else:
+                            end = len(command)
+
                         '''get the last z before the machine trun off'''
                         if z_pos_offset == 0 and line_to_go != 0:
-                            z_pos_offset = float(command[Zresulte + 1:])
+                            z_pos_offset = float(command[Zresulte + 1: end])
                         '''get the current z position of file'''
-                        z_pos = float(command[Zresulte + 1:])
+                        z_pos = float(command[Zresulte + 1: end ])
                         if line_to_go != 0:
                             z_pos = z_pos - z_pos_offset
                         self.__current_Z_position = z_pos
-                        command = command[:-(len(command) -
-                                             (Zresulte + 1))] + str(z_pos)
+                        command = command[0: Zresulte + 1] + str(z_pos) + ' ' + command[end + 1:]
+
+                        end = None 
 
                     # '''                find and repalce F in Gcode file        '''
                     # Feedrate_speed = command.find('F')
@@ -528,6 +611,7 @@ class Machine:
 
                 else:
                     self.append_gcode(command)
+                # if not 
                 command = None
 
             self.print_percentage = int(float(x + 1) / float(len(lines)) * 100)
@@ -544,6 +628,9 @@ class Machine:
                 while self.__pause_flag:
                     if self.__stop_flag:
                         break
+
+                '''  go to the last position and then resume printing  '''
+                self.append_gcode('G1 X%f Y%f'%(X_pos,Y_pos))
 
                 self.append_gcode('G91')
                 self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
@@ -769,6 +856,9 @@ class Machine:
         gcode_dir = self.base_path + '/' + gcode_dir
         read_file_gcode_lines_thread = threading.Thread(
             target=self.__read_file_gcode_lines, args=(gcode_dir, line,))
+        if self.use_ext_board:
+            self.ext_board.flush_input_buffer()
+            self.ext_board.off_A_flag()
         read_file_gcode_lines_thread.start()
         print ('started')
 
@@ -836,7 +926,7 @@ class Machine:
 
     def stop_move_up(self):
         self.append_gcode('G91')
-        self.append_gcode('G1 Z-%f F%f' % (self.machine_settings['pause_Z_offset'],
+        self.append_gcode('G1 Z%f F%f' % (self.machine_settings['pause_Z_offset'],
             self.machine_settings['pause_Z_move_feedrate']))
         self.append_gcode('G90')
 
