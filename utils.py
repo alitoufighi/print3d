@@ -955,13 +955,29 @@ class Utils():
     is_first_time = 0
 
     @staticmethod
-    def get_client_ip_address(request):
+    def get_client_ip_django_only(request):
         return request.META.get('REMOTE_ADDR') or request.META.get('HTTP_X_FORWARDED_FOR', '')
 
     @staticmethod
-    def get_server_ip_address(request):
+    def get_server_ip_django_only(request):
         ip = request.get_host().split(':')[0]
         return '127.0.0.1' if ip == '0.0.0.0' else ip
+
+    @staticmethod
+    def get_client_ip(request):
+        return request.remote_addr
+
+    @staticmethod
+    def get_server_ip(request):
+        '''
+        Only these are possible!
+            'localhost'
+            '127.0.0.1'
+            '192.168.X.X' -> local device ip from that network
+        '''
+        const_local = '127.0.0.1'
+        ip = request.headers.get('Host')
+        return const_local if ip == 'localhost' else ip
 
     @staticmethod
     def get_ip_list():

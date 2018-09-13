@@ -665,8 +665,11 @@ def ip_list():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def hello(path):
-    return render_template('index.html')
-
+    client, server = Utils.get_client_ip(request), Utils.get_server_ip(request)
+    if (client == server):
+        return render_template('index.html')
+    else:
+        return render_template('oondex.html')
 
 if __name__ == '__main__':
     print('let\'s go')
